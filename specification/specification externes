@@ -1,58 +1,28 @@
-Notre application web permettra à tout utilisateur de regrouper ses différents espaces
-de stockage en ligne de manière à ce qu’il puisse retrouver plus facilement ses données.
-L’utilisateur aura la possibilité de regrouper dans une même arborescence ses différents
-espaces cloud, FTP et NAS au sein d’une seule et unique interface, de laquelle il sera
-beaucoup plus aisé de voir chacune de ses données.
-Cela permettra donc à l’utilisateur de n’utiliser qu’une seule et unique application pour
-accéder à l’ensemble de ses données.
-Techniquement, l’application consistera en une vue, regroupant les différents
-espaces de stockage de l’utilisateur. Il lui sera alors aisé de partager ses données à d’autres
-utilisateurs utilisant eux aussi l’application, peu importe où est stockée la donnée.
+Problème algorithmique :
+Le problème identifié est de savoir où placer le fichier lorsqu’il est déposé sur notre site. Si plusieurs espaces de stockage sont reliés à notre application,
+elle devra savoir dans quel espace de stockage le fichier doit être rangé. Pour cela on se basera sur la capacité restante de tous les espaces de stockage en favorisant le moins plein, afin de pouvoir unifier le poids sur tous les espaces de stockage.
+Il est possible que l’algorithme trouve que la meilleure place pour un fichier/dossier se trouve sur un espace de stockage,
+mais il est déjà trop lourd. L’algorithme va donc déplacer des fichier/dossier déjà présents sur cette espace de stockage dans un autre pour équilibrer la charge.
+Nous regarderons pour cela si l’espace a été défini comme “restructurable” par l’utilisateur. Pour placer les fichiers/dossiers,
+on utilisera aussi le type de fichier pour stocker dans des espace de stockage comportant seulement un type de fichier précis par exemple. 
 
-
-Problème n°1 :
-Le problème identifié est qu’il faudra alors organiser dans un seul et unique arbre les
-différents fichiers provenant des différents stockages, et cela de façon automatique.
-Pour cela nous utiliserons un dictionnaire de synonyme afin de classer chaque fichier au bon
-endroit même s'ils ont des noms un peu différents. De plus, nous allons devoir regarder les
-différents noms des fichiers pour pouvoir l’ai séparer, par exemple projet1, projet2, projetA1,
-projetB. Pour finir, nous devons intégrer dans les fichiers mère les fichiers fille, si besoins
-créer des fichiers mère des fichiers fille pour mieux organiser les fichiers, par exemple dans
-le fichier mère projetA on y retrouve un rapport_de_projetA1, rapport_de_projetA2,
-rapport_de_projetA3 on va donc créer un fichier mère rapport_de_projet et on va y intégrer
-dans l'arborescence tous les fichiers rapport_de_projet
-Pour les fichiers qui ne peuvent pas être traité il vont être déposé dans un fichier à part puis
-les fichier vont être classés selon leur type. S’il reste des fichiers qui ne peuvent pas être
-traité il vont être déposés dans un autre fichier.
-Un dictionnaire de proposition va être créé à partir des noms des fichiers et de leurs
-synonymes afin de faciliter la création de fichier mère et la disposition des fichiers fille.
-
-donnée entrante:
-- nom fichier
-- type de fichier
-
-donnée sortante:
-- une arborescence de la vue selon les critères
-- Dictionnaire de proposition ?
-
-
-Problème n°2 :
-Le problème identifié est de savoir où placer le fichier lorsqu’il est déposé sur notre site. Si
-plusieurs espaces de stockage sont reliés à notre application, elle devra savoir dans quel
-espace de stockage le fichier doit être rangé. Pour cela on se basera sur la capacité
-restante de tous les disques, et on favorisera le moins plein. On se basera également sur le
-type de fichier. Par exemple, si nous avons pour habitude de ranger toutes nos photos dans
-un disque, l’algorithme placera les photos sur l’espace ou sont habituellement rangés les
-photos. Tous ces critères de placement seront pondérés dans l’ordre cité.
+condition:
+Nom des fichier/dossier,
+Taille disponible des espaces de stockage et taille du fichier/dossier,
+Type de fichier s’il existe des dossiers contenant déjà seulement le même type de fichier,
+chemin de l’espace de stockage s’ils sont souvent utilisés on va le préférer,
+déclencher une réorganisation d’un fichier moins utiliser pour le déplacer dans un autre espace de stockage et optimiser la taille des différent fichier,
+savoir si il existe déjà un dossier portant le même nom que le fichier/dossier transféré dans les différents espaces de stockage.
 
 Données entrantes :
-- nom fichier
-- type fichier
-- taille fichier
-- type de l’espace de stockage (pas stockable dans les drives)
-- taille de l’espace de stockage
-- chemin de l’espace de stockage
-- fréquence d’utilisation de l’espace
+nom fichier
+nom dossier
+type fichier
+taille fichier
+taille dossier
+type de l’espace de stockage (pas stockable dans les drives)
+taille de l’espace de stockage
+chemin de l’espace de stockage
+Données sortantes : 
 
-Données sortantes :
-- aucune donnée sortante identifié
+aucune donnée sortante identifié
