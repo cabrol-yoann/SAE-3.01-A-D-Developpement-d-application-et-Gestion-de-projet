@@ -1,6 +1,7 @@
 Problème algorithmique :
 Le problème identifié est de savoir où placer le fichier lorsqu’il est déposé sur notre site. Si plusieurs espaces de stockage sont reliés à notre application,
-elle devra savoir dans quel espace de stockage le fichier doit être rangé. Pour cela on se basera sur la capacité restante de tous les espaces de stockage en favorisant le moins plein, afin de pouvoir unifier le poids sur tous les espaces de stockage.
+elle devra savoir dans quel espace de stockage le fichier doit être rangé. Pour cela on se basera sur la capacité restante de tous les espaces de stockage,
+en favorisant le moins plein, afin de pouvoir unifier le poids sur tous les espaces de stockage.
 Il est possible que l’algorithme trouve que la meilleure place pour un fichier/dossier se trouve sur un espace de stockage,
 mais il est déjà trop lourd. L’algorithme va donc déplacer des fichier/dossier déjà présents sur cette espace de stockage dans un autre pour équilibrer la charge.
 Nous regarderons pour cela si l’espace a été défini comme “restructurable” par l’utilisateur. Pour placer les fichiers/dossiers,
