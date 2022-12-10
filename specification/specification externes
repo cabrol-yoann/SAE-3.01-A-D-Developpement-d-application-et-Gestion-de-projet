@@ -1,29 +1,66 @@
-Problème algorithmique :
-Le problème identifié est de savoir où placer le fichier lorsqu’il est déposé sur notre site. Si plusieurs espaces de stockage sont reliés à notre application,
-elle devra savoir dans quel espace de stockage le fichier doit être rangé. Pour cela on se basera sur la capacité restante de tous les espaces de stockage,
-en favorisant le moins plein, afin de pouvoir unifier le poids sur tous les espaces de stockage.
-Il est possible que l’algorithme trouve que la meilleure place pour un fichier/dossier se trouve sur un espace de stockage,
-mais il est déjà trop lourd. L’algorithme va donc déplacer des fichier/dossier déjà présents sur cette espace de stockage dans un autre pour équilibrer la charge.
-Nous regarderons pour cela si l’espace a été défini comme “restructurable” par l’utilisateur. Pour placer les fichiers/dossiers,
-on utilisera aussi le type de fichier pour stocker dans des espace de stockage comportant seulement un type de fichier précis par exemple. 
+1 Expression du problème algorithmique
 
-condition:
-Nom des fichier/dossier,
-Taille disponible des espaces de stockage et taille du fichier/dossier,
-Type de fichier s’il existe des dossiers contenant déjà seulement le même type de fichier,
-chemin de l’espace de stockage s’ils sont souvent utilisés on va le préférer,
-déclencher une réorganisation d’un fichier moins utiliser pour le déplacer dans un autre espace de stockage et optimiser la taille des différent fichier,
-savoir si il existe déjà un dossier portant le même nom que le fichier/dossier transféré dans les différents espaces de stockage.
+Le problème identifié est de savoir où placer le fichier lorsqu’il est déposé sur notre site. Si plusieurs espaces de stockage sont reliés à notre application, elle devra savoir dans quel espace de stockage le fichier doit être rangé. Pour cela, on se basera sur la capacité restante de tous les espaces de stockage en favorisant le moins plein, afin de pouvoir unifier le poids sur tous les espaces de stockage. Il est possible que l’algorithme trouve que la meilleure place pour un fichier/dossier se trouve sur un espace de stockage, mais qu’il soit déjà trop rempli. L’algorithme va donc déplacer des fichier/dossier déjà présents sur cet espace de stockage dans un autre pour équilibrer la charge. Nous regarderons pour cela si l’espace a été défini comme “restructurabse” par l’utilisateur. Pour placer les fichiers/dossiers, on utilisera aussi le type de fichier pour stocker dans des espaces de stockage comportant seulement un type de fichier précis par exemple.
 
-Données entrantes :
-nom fichier
-nom dossier
-type fichier
-taille fichier
-taille dossier
-type de l’espace de stockage (pas stockable dans les drives)
-taille de l’espace de stockage
-chemin de l’espace de stockage
-Données sortantes : 
+2 Scénarios du problème algorithmique
+2.1 Scénario nominal
 
-aucune donnée sortante identifié
+nominal 1: Le fichier est suffisamment léger pour être inclus dans un espace de stockage marqué non restructurable et est identifié comme devant y être placé.
+
+2.2 Scénarios alternatifs
+
+Alternatif 1 : Le fichier est trop lourd pour être inclus dans un espace de stockage marqué non restructurable. Il sera alors placé dans un emplacement identifié dans un espace restructurable.
+
+Alternatif 2 : Le fichier est trop lourd pour être inclus dans un espace restructurable bien que l’emplacement approprié pour ce fichier se trouve sur cet espace. Il sera nécessaire de déplacer des dossiers sur d'autres espaces restructurables.
+
+Alternatif 3 : L’emplacement identifié pour déposer le fichier est de taille suffisante pour recevoir le fichier. Il faudra ensuite réorganiser les fichiers pour équilibrer les charges.
+
+2.3 Scénario d'exception 
+
+Erreur 1 : le fichier dépasse la taille totale restante des espaces disponible (même avec une restructuration, le fichier reste trop lourd) 
+
+Erreur 2 : Pas d’espaces de stockages
+
+2.4 Processus identifiés : 
+- Identifier le meilleur emplacement
+- Restructurer les espaces
+- Identifier les fichiers qui peuvent être déplacés en conservant la cohérence
+- Ecrire le fichier sur l’espace de stockage au bon emplacement et mettre à jour la bd ainsi que les objets
+
+
+3 Solution proposer
+
+Pour répondre à notre problématique, nous avons développé une stratégie en 4 parties :
+
+Partie 1 : Nous allons regarder ou l’on peut stocker le fichier ou dossier que l’on nous donne à partir de ces attributs, soit le tag, le type et le nom. Nous effectuerons cette recherche dans tous les espaces qui sont à notre disposition.
+L’espace identifié, s’il est restructurable ou non, influera sur la suite.
+S’il est trop lourd pour s’intégrer à un espace non restructurable, nous n’avons pas besoin de regarder ces derniers. Sinon, nous passerons directement à l’étape 4.
+
+Partie 2 : Si le fichier est identifié comme à déposer dans un espace réorganisable, nous le stockerons virtuellement peu importe si cela dépasse la taille maximale ou non de cet espace de stockage.
+  
+Partie 3 : Nous allons faire une réorganisation de nos espaces de stockage à partir de ces nouvelles tailles virtuelles. Pour cela, nous regarderons quelle taille doit être répartie sur chaque espace afin de répartir au mieux la charge de chaque espace. 
+Nous identifierons dans cette partie quels fichiers sont potentiellement déplaçables pour ne pas trop affecter la cohérence.
+
+Partie 4 : Nous allons stocker le fichier ou le dossier dans l’espace choisi par l’algorithme.
+Données entrantes : Fichier à déposer, ensemble des espaces de stockages de l’utilisateur et son contenu (requête SQL de la vue simplifiée des espaces de stockages)
+Données sortantes : ensemble des espaces de stockages de l’utilisateur et son contenu modifié (requête SQL de la vue simplifiée des espaces de stockages)
+
+
+4 Développement des idées
+4.1 Partie 1 :
+Pour effectuer la recherche du fichier ou du dossier nous allons utiliser les objets des classes Fichier et Dossier. On regarde en premier lieux les dossiers pour voir s'il possède un tag si cela est le cas, on regarde si dans ce dossier il existe un fichier possédant déjà le nom de notre fichier à déposer pour le modifier. Sinon nous regarderons dans le dossier si tous les fichiers qui y figurent possèdent le même type de fichier que le fichier que l’on veut stocker. Si cela est le cas, on regarde si dans ce dossier il existe un fichier possédant déjà le nom de notre fichier à déposer pour le modifier. Sinon on regarde s’il existe un fichier qui possède le même nom que le fichier que l’on veut déposer, afin de modifier son nom et de le stocker dans le dossier choisi. Si avec la condition d'attribuer aucun espace de stockage sont trouvés nous placerons notre fichier dans l’espace le plus vide.
+
+Si l’espace de stockage identifié est un espace restructurable, il ne sera pas nécessaire de restructurer les espaces. Nous passerons donc directement à l’étape 4.
+
+4.2 Partie 2 :
+Pour respecter la condition de structuration, nous stockerons virtuellement le fichier : c'est-à-dire que nous n'écrivons pas le fichier, mais nous ajoutons uniquement le poids de ce dernier dans le poids total de l’espace de stockage. 
+
+4.3 Partie 3 :
+Pour faire cette partie, si nous ne pouvons pas stocker le fichier ou le dossier dans l’espace de stockage. Nous allons chercher un fichier ou dossier qui a une taille supérieure à la taille du fichier ou dossier que l’on veut stocker afin de libérer de l’espace dans cet espace de stockage. Si un fichier ne suffit pas on en prendra plusieurs. Puis, nous allons déposer notre ou nos fichiers ou dossiers dans l’espace de stockage le plus vide si c'est possible. Sinon, on fait une restructuration de nos espaces de stockage automatique à partir d’une moyenne des espaces de stockage calculés en pourcentage pour équilibrer les charges. Pour cela, nous allons déplacer des fichiers d’un espace de stockage à un autre.
+
+Nous allons dans cette partie restructurer les espaces de façon à répartir au mieux la charge.
+Pour cela, nous aurons besoin d’identifier en faisant un calcul, quelle doit être la taille de chaque espace pour que chacun ait un pourcentage d’occupation équivalent.
+Nous identifierons alors quel espace est trop plein, et quelle quantité est à déplacer sur chacun des autres espaces. Nous identifierons alors quels fichiers peuvent être déplacés en affectant le moins possible la cohérence des espaces.
+
+4.4 Partie 4 :
+Nous allons, pour finir, réécrire chaque fichier à déplacer et le fichier final. Nous ferons également dans cette partie, la mise à jour de chaque objet, puis la mise à jour correspondante en base de données.
