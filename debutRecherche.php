@@ -1,5 +1,5 @@
 <?php
-
+function debutRecherche ($stockage){
 //Meilleur Emplacement
     //initialisation
     $score = 0;
@@ -37,4 +37,5 @@
             $nomEspaceStockageTrouver = $stockage[$nomStockage];
         }
     }
+}
 ?>

@@ -3,6 +3,7 @@ function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objet
     //Parcour puis recherche
         //initialisation des points
         $point = 0;
+        $compteur = 0;
 
         //Recherche et attribution des points
             //Recherche pour les fichiers
@@ -15,9 +16,9 @@ function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objet
                     }
                     //Recherche du type
                     if ($dossierParent->getlisteEnfantFichier[$enfantFichier]->getType() == $objectAPlacer->getType()) {
-                        $conteur++;
+                        $compteur++;
                     }
-                    if ($conteur == $nbEnfant) {
+                    if ($compteur == $nbEnfant) {
                         $point++;
                     }
                     //recherche du nom
