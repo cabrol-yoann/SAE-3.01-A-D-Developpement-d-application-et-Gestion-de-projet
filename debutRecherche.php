@@ -1,5 +1,6 @@
 <?php
-function debutRecherche ($stockage){
+
+function debutRecherche ($stockage, $objetAPlacer){
 //Meilleur Emplacement
     //initialisation
     $score = 0;
@@ -13,7 +14,7 @@ function debutRecherche ($stockage){
         //Calcul de la taille de l'espace de stockage avec le dossier à placer
         $tailleCalculer = $nomStockage->getTaille() + $objetAPlacer->getTaille();
 
-        //Regarde si on peut stocker le dossier dans un espace puis enregistre la valeur dans une liste
+        //On regarde si on peut stocker le dossier dans un espace puis enregistre la valeur dans une liste
         if ($tailleCalculer > $nomStockage->getTailleMax()) {
             $restructurationEnCour = false;
             if ($nomStockage->getRestructurable() == true) {
