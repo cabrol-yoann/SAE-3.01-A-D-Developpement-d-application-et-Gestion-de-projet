@@ -22,7 +22,7 @@ class Dossier extends Archive {
    *
    * @var int
    */
-  public int $nbFichier;
+  public $nbFichier;
   /**
    * Représentation de la liste de dossier enfant présent dans l'objet
    *

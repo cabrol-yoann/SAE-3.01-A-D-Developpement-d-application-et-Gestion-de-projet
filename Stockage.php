@@ -19,31 +19,31 @@ class Stockage{
   *
   * @var string
   */
- public String $nom;
+ public $nom;
  /**
   * Représentation de la taille que va posséder l'objet
   *
   * @var int
   */
-  public int $taille;
+  public $taille;
  /**
   * Représentation de la tailleMax que va posséder l'objet
   *
   * @var int
   */
- public int $tailleMax;
+ public $tailleMax;
  /**
   * Représentation du chemin que va posséder l'objet
   *
   * @var string
   */
-  public String $chemin;
+  public $chemin;
  /**
   * Représentation de la restructuration que va posséder l'objet
   *
   * @var bool
   */
-  public bool $restructurable;
+  public $restructurable;
  /**
   * Représentaion de l'enfant de l'objet
   *
