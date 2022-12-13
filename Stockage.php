@@ -160,12 +160,7 @@ class Stockage{
   public function setMaRacine($racine){$this->maRacine = $racine;}
   
  // MÉTHODE USUELLES
-  public function __toString()
-  {
-    $enfant = $this->getMaRacine();
-    $msg = "je suis l'espace ".$this->getNom()." et je possède l'enfant ".$enfant." qui possaide les enfant ".$enfant->__toString()."";
-    return $msg;
-  }
+
  // MÉTHODE SPÉCIFIQUE : NON
   
   

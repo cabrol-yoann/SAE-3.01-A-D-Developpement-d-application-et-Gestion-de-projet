@@ -131,27 +131,6 @@ class Dossier extends Archive {
     $this->mesTags->detach($tag);
   }
 
-  public function __toString()
-  {
-    $enfantFic = $this->getListeEnfantFichier();
-    $enfantFic->rewind();
-    $msg = "Je suis le dossier ".$this->getNom()." et je possède les enfant (";
-    if($enfantFic->valid()) {
-      $var = $enfantFic->current();
-      $msg += $var ->__toString();
-      $enfantFic->next();
-    }
-    $enfantDos = $this->getListeEnfantDossier();
-    $enfantDos->rewind();
-    if ($enfantDos->valid()) {
-      $test = $enfantDos->curent();
-      $msg += $test->__toString();
-      $enfantDos->next();
-    }
-    $msg += ")";
-    return $msg;
-  }
-
 
   // MÉTHODE SPÉCIFIQUE : NON
 

@@ -94,10 +94,6 @@ public function supprimerTags($tag){
   $this->mesTags->detach($tag);
 }
 
-public function __toString()
-{
-  
-}
 
 // MÉTHODE SPÉCIFIQUE : NON
  
