@@ -1,6 +1,8 @@
 <?php
 
-require "Stockage.php";
+include "Stockage.php";
+include "Dossier.php";
+include "Fichier.php";
 
 // ESPACE DE STOCKAGE
 $drive = new Stockage("SAE",5,"/",500000000,false);
@@ -35,9 +37,9 @@ $tag2 = new Tag("cour");
 $tag3 = new Tag("travail");
 
 // AJOUT DES ENFANTS
-$drive->setMaRacine($dossier);
-$cloud->setMaRacine($dossier1);
-$FTP->setMaRacine($dossier2);
+$drive->setMaRacine($dossier1);
+$cloud->setMaRacine($dossier2);
+$FTP->setMaRacine($dossier3);
 
 $dossier1->ajouterEnfantDossier($dossier6);
 

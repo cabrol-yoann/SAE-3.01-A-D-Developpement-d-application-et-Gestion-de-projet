@@ -1,4 +1,8 @@
 <?php
+
+include_once('Archive.php');
+include_once("Tag.php");
+
 /**
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
  * @version 0.1
@@ -11,8 +15,7 @@
 /**
  * répresentation d'un dossier physique la forme d'une classe
  */
-class Dossier extends Archive{
- 
+class Dossier extends Archive {
   // ATTRIBUTS
   /**
    * Représentation du nombre de Fichier que possède l'objet
@@ -85,7 +88,7 @@ class Dossier extends Archive{
   /**
    * Fonction de récupération de l'attribut listeEnfantDossier
    *
-   * @return Dossier
+   * @return liste
    */
   public function getListeEnfantDossier() {
     return  $this->listeEnfantDossier;
@@ -131,13 +134,19 @@ class Dossier extends Archive{
   public function __toString()
   {
     $enfantFic = $this->getListeEnfantFichier();
+    $enfantFic->rewind();
     $msg = "Je suis le dossier ".$this->getNom()." et je possède les enfant (";
-    if(isset($enfantFic)) {
-      $msg += $enfantFic->__toString();
+    if($enfantFic->valid()) {
+      $var = $enfantFic->current();
+      $msg += $var ->__toString();
+      $enfantFic->next();
     }
     $enfantDos = $this->getListeEnfantDossier();
-    if (isset($enfantDos)) {
-      $msg += $enfantDos->__toString();
+    $enfantDos->rewind();
+    if ($enfantDos->valid()) {
+      $test = $enfantDos->curent();
+      $msg += $test->__toString();
+      $enfantDos->next();
     }
     $msg += ")";
     return $msg;

@@ -11,7 +11,7 @@
 /**
  * Super classe de l'archivage qui vas gérer le nom, la taille, et le chemin de la classe dossier et fichier
  */
-class Archive{
+class Archive {
  
     // ATTRIBUTS
     /**
