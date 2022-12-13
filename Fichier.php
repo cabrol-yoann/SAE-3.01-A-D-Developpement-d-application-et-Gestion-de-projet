@@ -1,7 +1,7 @@
 <?php
 
-require "Archive.php";
-require "Tag.php";
+include_once('Archive.php');
+include_once("Tag.php");
 
 /**
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
