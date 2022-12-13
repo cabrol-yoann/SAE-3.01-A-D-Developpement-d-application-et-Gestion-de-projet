@@ -76,4 +76,9 @@ $dossier7->ajouterTags($tag2);
 $dossier8->ajouterTags($tag);
 
 
+// Object a ajouter
+
+$objetAPlacer = new Fichier("sapin",25,"","png");
+$objetAPlacer->ajouterTags($tag1);
+
 ?>

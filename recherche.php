@@ -90,4 +90,5 @@ function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objet
         }
     }
 }
+Recherche($score = 0,$trouver = false,$nomDossierTrouver="",$dossier1,$objetAPlacer);
 ?>
