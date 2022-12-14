@@ -85,6 +85,7 @@ function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objet
     $listEnfantDossier->rewind();
     if (isset($listEnfantDossier)) {
         while ($listEnfantDossier->valid()) {
+            $dossierParent = $listEnfantDossier->current();
             Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objetAPlacer);
             $listEnfantDossier->next();
         }
