@@ -6,26 +6,23 @@ include_once "Fichier.php";
 
 function trierList($ObjectStockage){
 
-    //Declaration variable
-    $incrementeur;
-
+    var_dump($ObjectStockage);
     //Initialisation des variables
-    $incrementeur = $ObjectStockage->first();
-    $petit = $incrementeur;
+    $petit = new Dossier("",-1,);
 
     //Trie
-    for ($foyer=0; $foyer < $listeStockage->size()-1; $foyer++) { 
+    for ($foyer=0; $foyer < $ObjectStockage->count()-1; $foyer++) { 
         //Recherche de la valeur la plus petite
-        for ($pivot=0; $pivot < $listeStockage->size()-1; $pivot++) { 
-            $incrementeur++;
+        for ($pivot=0; $pivot < $ObjectStockage->count()-1; $pivot++) { 
+            
 
             //Test de la valeur la plus petite de la liste
-            if ($incrementeur->getTaille() < $petit->getTaille()) {
-                $petit = $incrementeur;
+            if ($ObjectStockage->current()->getTaille() < $petit->getTaille()) {
+                $petit = $ObjectStockage->current();
             }
 
             //Test fin de liste
-            if ($incrementeur == $ObjectStockage->end()) {
+            if ($ObjectStockage->valid()) {
                 break;
             }
         }
