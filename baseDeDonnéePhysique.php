@@ -1,8 +1,8 @@
 <?php
 
-include "Stockage.php";
-include "Dossier.php";
-include "Fichier.php";
+include_once "Stockage.php";
+include_once "Dossier.php";
+include_once "Fichier.php";
 
 // ESPACE DE STOCKAGE
 $drive = new Stockage("SAE",5,"/",500000000,false);
@@ -75,5 +75,10 @@ $dossier6->ajouterTags($tag3);
 $dossier7->ajouterTags($tag2);
 $dossier8->ajouterTags($tag);
 
+
+// Object a ajouter
+
+$objetAPlacer = new Fichier("sapin",25,"","png");
+$objetAPlacer->ajouterTags($tag1);
 
 ?>

@@ -1,60 +1,95 @@
 <?php
+include_once "Fichier.php";
+include_once "Dossier.php";
+include_once "baseDeDonnéePhysique.php";
+
 function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objetAPlacer){
-    //Parcour puis recherche
-        //initialisation des points
-        $point = 0;
+    // Recherche de l'emplacement le plus favorable à partir d'un parcour
+    // Initialisation des points et du conteur
+    $point = 0;
+    $conteur = 0;
 
-        //Recherche et attribution des points
-            //Recherche pour les fichiers
-            if ($dossierParent->getListeEnfantFichier() != NULL) {
-                $nbEnfant = sizeof($dossierParent->getListeEnfantFichier());
-                for ($enfantFichier=0; $enfantFichier < $nbEnfant-1; $enfantFichier++) { 
-                    //Recherche Tag
-                    if ($dossierParent->getlisteEnfantFichier[$enfantFichier]->getTag() == $objectAPlacer->getTag()) {
+    // Recherche et attribution des points
+    // Récupération de la liste des enfants Fichier.
+    $listEnfantFichier = $dossierParent->getListeEnfantFichier();
+    // Recherche pour les fichiers
+    //Vérification si la liste des enfants n'est pas vide
+    if (isset($listEnfantFichier)) {
+        $nbEnfant = $dossierParent->getListeEnfantFichier()->count();
+        while ($listEnfantFichier->valid()) { 
+            // Recherche à partir du Tag
+            if($objetAPlacer->getMesTags()->valid() && $listEnfantFichier->current()->getMesTags()->valid()) {
+                $listTag = $objetAPlacer->getMesTags();
+                $listTagEnfant = $listEnfantFichier->current()->getMesTags();
+                while ($listTag->valid()) {
+                    if ($listTag->current() == $listTagEnfant->current()) {
                         $point++;
                     }
-                    //Recherche du type
-                    if ($dossierParent->getlisteEnfantFichier[$enfantFichier]->getType() == $objectAPlacer->getType()) {
-                        $conteur++;
-                    }
-                    if ($conteur == $nbEnfant) {
-                        $point++;
-                    }
-                    //recherche du nom
-                    if ($dossierParent->getlisteEnfantFichier[$enfantFichier]->getNom() == $objectAPlacer->getNom()) {
-                        $point++;
-                    }
+                    $listTag->next();
+                    $listTagEnfant->next();
                 }
             }
-            //Recherche pour les dossiers
-            if ($dossierParent->getListeEnfantDossier() != NULL) {
-                $nbEnfant = sizeof($dossierParent->getListeEnfantDossier());
-                for ($enfantDossier=0; $enfantDossier < $nbEnfant-1; $enfantDossier++) { 
-                    //Recherche du tag
-                    if ($dossierParent->getlisteEnfantFichier[$enfantDossier].getTag() == $objectAPlacer->getTag()) {
+            // Recherche à partir du type
+            if ($listEnfantFichier->current()->getType() == $objetAPlacer->getType()) {
+                $conteur++;
+            }
+            if ($conteur == $nbEnfant) {
+                $point++;
+            }
+            // Recherche à partir du nom
+            if ($listEnfantFichier->current()->getNom() == $objetAPlacer->getNom()) {
+                $point++;
+            }
+            $listEnfantFichier->next();
+        }
+    }
+    // Récupération de la liste des enfants Dossier 
+    $listEnfantDossier = $dossierParent->getListeEnfantDossier();
+    //Recherche pour les dossiers
+    if (isset($listEnfantDossier)) {
+        $nbEnfant = $listEnfantDossier->count();
+        while ($listEnfantDossier->valid()) { 
+            //Recherche du tag
+            if($objetAPlacer->getMesTags()->valid() && $listEnfantDossier->current()->getMesTags()->valid()) {
+                $listTag = $objetAPlacer->getMesTags();
+                $listTagEnfant = $listEnfantDossier->current()->getMesTags();
+                while ($listTag->valid()) {
+                    if ($listTag->current() == $listTagEnfant->current()) {
                         $point++;
+
                     }
-                    if ($dossierParent->getlisteEnfantFichier[$enfantDossier].getNom() == $objectAPlacer->getNom()) {
-                        $point++;
-                    }
+                    $listTag->next();
+                    $listTagEnfant->next();
                 }
             }
-
-        //Enregistre les points si score est egale à 0 ou si aucun fichier ou dossier a était trouver
-        if ($score == 0) {
-            $score = $point;
+            if ($listEnfantDossier->current()->getNom() == $objetAPlacer->getNom()) {
+                $point++;
+            }
+            $listEnfantDossier->next();
         }
+    }
 
-        //Enregistrement de valeur trouver
-        if ($points > $score) {
-            $score = $point;
-            $nomDossierTrouver = $dossierParent.getNom();
-            $trouver = true ;
-        }
+    //Enregistrement des points si le score est égale à 0 ou si aucun fichier ou dossier n'a était trouver
+    if ($score == 0) {
+        $score = $point;
+    }
 
-        //Regarde les enfants
-        for ($enfantDossier=0; $enfantDossier < $nbEnfant-1; $enfantDossier++) { 
+    //Enregistrement de valeur trouver
+    if ($point > $score) {
+        $score = $point;
+        $nomDossierTrouver = $dossierParent->getNom();
+        $trouver = true ;
+    }
+
+    //Regarde les enfants
+    $listEnfantDossier->rewind();
+    if (isset($listEnfantDossier)) {
+        while ($listEnfantDossier->valid()) {
+            $dossierParent = $listEnfantDossier->current();
             Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objetAPlacer);
+            $listEnfantDossier->next();
         }
+    }
 }
+Recherche($score = 0,$trouver = false,$nomDossierTrouver="",$dossier1,$objetAPlacer);
 ?>
