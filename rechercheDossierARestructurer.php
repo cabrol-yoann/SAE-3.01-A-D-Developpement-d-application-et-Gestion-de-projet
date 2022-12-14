@@ -1,13 +1,13 @@
 <?php
 
-function RechercheFichierARestructurer($somme,$dossierParent,$listeObject,$trouver,$objectAPlacer){
+function RechercheDossierARestructurer($somme,$dossierParent,$listeObject,$trouver,$objetAPlacer){
 
     if ($trouver == true) {
         //Fin procedure
         return;
-    }elseif ($dossier->getListeEnfantFichier()!= NULL) {
+    }elseif ($dossierParent->getListeEnfantFichier()!= NULL) {
         //Debut de la recherche 
-        $nbEnfant = sizeof($dossierParent.getListeEnfantFichier());
+        $nbEnfant = sizeof($dossierParent->getListeEnfantFichier());
 
         for ($enfant=0; $enfant < $nbEnfant-1; $enfant++) { 
             $somme = $somme + $dossierParent->getListeEnfantFichier()[$enfant]->getTaille();
@@ -20,12 +20,15 @@ function RechercheFichierARestructurer($somme,$dossierParent,$listeObject,$trouv
         }
 
         //Initialisation du/des fichier(s) a restructurer et mise a jour du pointeur
-        $listeObject = insertValue($dossierParent->getListeEnfantFichier()[$enfant]);
+        $listeObject->attach($dossierParent->getListeEnfantFichier()[$enfant]);
         $dossierParent->supprimerEnfant($enfant);
 
         //Recherche avec les enfants
-        RechercheFichierARestructurer($somme,$dossierParent,$listeObject,$trouver,$objectAPlacer);
+        RechercheDossierARestructurer($somme,$dossierParent,$listeObject,$trouver,$objetAPlacer);
     }
 }
 
+
+
+RechercheDossierARestructurer(0,$dossier1, ,false,$objetAPlacer);
 ?>
