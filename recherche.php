@@ -1,7 +1,7 @@
 <?php
 include_once "Fichier.php";
 include_once "Dossier.php";
-include_once "baseDeDonnéePhysique.php";
+include_once "baseDeDonneePhysique.php";
 
 function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objetAPlacer){
     // Recherche de l'emplacement le plus favorable à partir d'un parcour

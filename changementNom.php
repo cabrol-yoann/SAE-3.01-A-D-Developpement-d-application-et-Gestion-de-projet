@@ -1,6 +1,6 @@
 <?php
 
-include_once "baseDeDonnéePhysique.php";
+include_once "baseDeDonneePhysique.php";
 include_once "Fichier.php";
 include_once "Dossier.php";
 
