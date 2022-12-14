@@ -8,7 +8,7 @@ function trierList($ObjectStockage){
 
     var_dump($ObjectStockage);
     //Initialisation des variables
-    $petit = new Dossier("",-1,);
+    $petit = new Dossier("",-1,"");
 
     //Trie
     for ($foyer=0; $foyer < $ObjectStockage->count()-1; $foyer++) { 
@@ -28,11 +28,10 @@ function trierList($ObjectStockage){
         }
 
         //Mise a jour des variables
-        $incrementeur = $ObjectStockage->first() + $foyer;
-        $petit = $incrementeur;
+        $petit = $ObjectStockage->count() + $foyer;
 
         //Remplacement des données
-        $ObjectStockage->swap($incrementeur,$petit);
+        $ObjectStockage->current()($petit);
     }
 }
 trierList($listTest);
