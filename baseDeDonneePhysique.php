@@ -81,4 +81,14 @@ $dossier8->ajouterTags($tag);
 $objetAPlacer = new Fichier("sapin",25,"","png");
 $objetAPlacer->ajouterTags($tag1);
 
+//object de test
+
+$listTest = new \SplObjectStorage();
+$listTest->attach($dossier1);
+$listTest->attach($dossier2);
+$listTest->attach($dossier3);
+$listTest->attach($dossier4);
+
+
+
 ?>

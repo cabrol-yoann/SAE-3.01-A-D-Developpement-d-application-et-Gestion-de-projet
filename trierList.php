@@ -1,4 +1,9 @@
 <?php
+
+include_once "baseDeDonneePhysique.php";
+include_once "Dossier.php";
+include_once "Fichier.php";
+
 function trierList($ObjectStockage){
 
     //Declaration variable
@@ -32,7 +37,7 @@ function trierList($ObjectStockage){
         //Remplacement des données
         $ObjectStockage->swap($incrementeur,$petit);
     }
-
 }
-
+trierList($listTest);
+echo 'fin';
 ?>
