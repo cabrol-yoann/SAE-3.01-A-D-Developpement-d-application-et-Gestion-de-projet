@@ -1,8 +1,28 @@
 <?php
 
-
 include_once "Dossier.php";
 include_once "trierList.php";
+include_once "changementNom.php";
+include_once "recherche.php";
+
+
+// test de la fonction recherche
+echo 'test de la fonction recherche';echo '<br>';echo '<br>';
+Recherche($score = 0,$trouver = false,$nomDossierTrouver="",$dossier8,$objetAPlacer);
+print($nomDossierTrouver);echo ' nom du dossier trouver';echo '<br>';
+print($score);echo ' score';echo '<br>';
+echo '<br> fin du test recherche';
+
+echo '<br><br><br><br><br><br>';
+
+// test de la fonction changementNom
+print('test de la fonction changementNom');echo '<br>';echo '<br>';
+print($objetAPlacer->getNom());echo ' ancient nom';echo '<br>';
+ChangementNomDossier($dossier4,$objetAPlacer);
+print($objetAPlacer->getNom());echo ' nouveau nom';echo '<br>';
+echo '<br> fin du test changementNom';
+
+echo '<br><br><br><br><br><br>';
 
 // test de la fonction trierList
 echo 'test de la fonction trierList';echo '<br>';echo '<br>';
@@ -37,4 +57,4 @@ while ($listTest->valid()) {
     echo '<br>';
 }
 echo '<br> fin du test trierList';
-?> 
+?>
