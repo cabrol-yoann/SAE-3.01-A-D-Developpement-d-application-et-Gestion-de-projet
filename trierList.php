@@ -2,70 +2,69 @@
 
 include_once "baseDeDonneePhysique.php";
 include_once "Dossier.php";
-include_once "Fichier.php";
 
-function trierList($ObjectStockage){
 
+function trierList(&$ObjectStockage){
     //Initialisation des variables
-    $petit = new Dossier("",-1,"");
-    print_r($ObjectStockage);
-        while ($ObjectStockage->valid()) {
-            print_r($ObjectStockage->current()->getNom());echo '<br>';
-            print_r($ObjectStockage->current()->getTaille());
-            $ObjectStockage->next();
-        }
-        echo '<br>';echo '<br>';
-        $ObjectStockage->rewind();
-        $petit->setNom($ObjectStockage->current()->getNom());
-        $petit->setTaille($ObjectStockage->current()->getTaille());
-        $petit->setChemin($ObjectStockage->current()->getChemin());
-        echo'1<br>';echo '<br>';
+    $petit = new Dossier("petit",0,"");
+    $sauvegarde = new Dossier("sauvegarde",0,"");
+    $key=0;  
+
     //Trie
-    for ($foyer=0; $foyer < $ObjectStockage->count()-1; $foyer++) { 
-        //Recherche de la valeur la plus petite
-        for ($pivot=0; $pivot < $ObjectStockage->count()-1; $pivot++) { 
-            print_r($ObjectStockage->current()->getNom());echo '<br>';
-            print_r($ObjectStockage->current()->getTaille());echo '<br>';
-            print_r($petit->getTaille());echo '<br>';
-            echo'2<br>';echo '<br>';
-
-            //Test de la valeur la plus petite de la liste
-            print_r($ObjectStockage->current()->getTaille()); echo '<br>';
-            print_r($petit->getTaille());
-            if ($ObjectStockage->current()->getTaille() < $petit->getTaille()) {
-                echo'3<br>';
-                $petit->setNom($ObjectStockage->current()->getNom());
-                $petit->setTaille($ObjectStockage->current()->getTaille());
-                $petit->setChemin($ObjectStockage->current()->getChemin());
-                print_r($ObjectStockage->current()->getNom());
-                print_r($ObjectStockage->current()->getTaille());echo '<br>';
-                print_r($petit->getTaille());echo '<br>';
-                echo'4<br>';
-            }
-        
-            //Test fin de liste
-            if ($ObjectStockage->valid()) {
-                break;
-            }
+    for ($foyer = 0; $foyer < $ObjectStockage->count()-1; $foyer++) { 
+        //retour au début de la liste pour chaque foyer
+        $ObjectStockage->rewind();
+        $modifier=false;
+        //Initialisation de la variable de comparaison
+        for($i=0; $i != $foyer; $i++){
             $ObjectStockage->next();
         }
-
-        //Remplacement des données
+        // enregistrement du premier objet
+        $petit->setTaille($ObjectStockage->current()->getTaille());
+        $petit->setNom($ObjectStockage->current()->getNom());
+        $petit->setChemin($ObjectStockage->current()->getChemin());
+        //sauvegarde de l'objet en cours de comparaison
+        $sauvegarde->setTaille($ObjectStockage->current()->getTaille());
+        $sauvegarde->setNom($ObjectStockage->current()->getNom());
+        $sauvegarde->setChemin($ObjectStockage->current()->getChemin());
         
-        $echange = $ObjectStockage->current();
-        $ObjectStockage->detach($ObjectStockage);
-        $ObjectStockage->attach($petit);
-        $petit = $echange;echo '<br>';echo '<br>';
+        //Recherche de la valeur la plus petite de la liste
+        for ($pivot=0; $pivot < $ObjectStockage->count()-$foyer; $pivot++) { 
+            //Test de la valeur la plus petite de la liste
+            if ($ObjectStockage->current()->getTaille() < $petit->getTaille()) {
+                //sauvegarde de l'objet le plus petit
+                $petit->setTaille($ObjectStockage->current()->getTaille());
+                $petit->setNom($ObjectStockage->current()->getNom());
+                $petit->setChemin($ObjectStockage->current()->getChemin());
+                //recuperation de la clé de l'objet le plus petit
+                $key=$ObjectStockage->key();
+                // validation de la possibilité de modification
+                $modifier=true;
+            }
+            //passage à l'objet suivant
+            $ObjectStockage->next();
+        }
+        //remplacement de l'objet le plus petit par l'objet en cours de comparaison
+        if ($modifier == true) {
+            $ObjectStockage->rewind();
+            while ($ObjectStockage->key() < $key) { 
+                $ObjectStockage->next();
+            }
+            // sauvegarde de l'objet en cours de comparaison
+            $ObjectStockage->current()->setNom($sauvegarde->getNom());
+            $ObjectStockage->current()->setTaille($sauvegarde->getTaille());
+            $ObjectStockage->current()->setChemin($sauvegarde->getChemin());
+            // retour au foyer de comparaison
+            $ObjectStockage->rewind();
+            for($i=0; $i != $foyer; $i++){
+                $ObjectStockage->next();
+            }
+            //remplacement de l'objet en cours de comparaison par l'objet le plus petit
+            $ObjectStockage->current()->setNom($petit->getNom());
+            $ObjectStockage->current()->setTaille($petit->getTaille());
+            $ObjectStockage->current()->setChemin($petit->getChemin());
 
-    }
-    $ObjectStockage->rewind();
-    while ($ObjectStockage->valid()) {
-        print_r($ObjectStockage->current()->getNom());echo '<br>';
-        print_r($ObjectStockage->current()->getTaille());
-        $ObjectStockage->next();
-        echo '<br>';
+            $key=0;
+        } 
     }
 }
-trierList($listTest);
-echo '<br> fin';
-?> 
