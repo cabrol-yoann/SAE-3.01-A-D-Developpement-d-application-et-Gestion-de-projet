@@ -1,8 +1,8 @@
 <?php
 
-include_once "Stockage.php";
-include_once "Dossier.php";
-include_once "Fichier.php";
+include_once "../classe/Stockage.php";
+include_once "../classe/Dossier.php";
+include_once "../classe/Fichier.php";
 
 // ESPACE DE STOCKAGE
 $drive = new Stockage("SAE",5,"/",500000000,false);

@@ -13,107 +13,107 @@
  */
 class Stockage{
  
- // Attributs
- /**
-  * Représentation du nom que va posséder l'objet
-  *
-  * @var string
-  */
- public $nom;
- /**
-  * Représentation de la taille que va posséder l'objet
-  *
-  * @var int
-  */
+  // Attributs
+  /**
+   * Représentation du nom que va posséder l'objet
+   *
+   * @var string
+   */
+  public $nom;
+  /**
+   * Représentation de la taille que va posséder l'objet
+   *
+   * @var int
+   */
   public $taille;
- /**
-  * Représentation de la tailleMax que va posséder l'objet
-  *
-  * @var int
-  */
- public $tailleMax;
- /**
-  * Représentation du chemin que va posséder l'objet
-  *
-  * @var string
-  */
+  /**
+   * Représentation de la tailleMax que va posséder l'objet
+   *
+   * @var int
+   */
+  public $tailleMax;
+  /**
+   * Représentation du chemin que va posséder l'objet
+   *
+   * @var string
+   */
   public $chemin;
- /**
-  * Représentation de la restructuration que va posséder l'objet
-  *
-  * @var bool
-  */
+  /**
+   * Représentation de la restructuration que va posséder l'objet
+   *
+   * @var bool
+   */
   public $restructurable;
- /**
-  * Représentaion de l'enfant de l'objet
-  *
-  * @var Dossier
-  */
+  /**
+   * Représentaion de l'enfant de l'objet
+   *
+   * @var Dossier
+   */
   public $maRacine;
   
   
- // CONSTRUCTEUR
- /**
-  * Constructeur de la classe
-  *
-  * @param string $nom    Représentation du nom que va posséder l'objet
-  * @param int $taille       Représentation de la taille que va posséder l'objet
-  * @param int $tailleMax      Représentation de la tailleMax que va posséder l'objet
-  * @param string $chemin    Représentation du chemin que va posséder l'objet
-  * @param bool $restructurable      Représentation de la restructuration que va posséder l'objet
-  */
- public function __construct($nom, $taille, $chemin, $tailleMax ,$restructurable)
- {
-   $this->restructurable = $restructurable;
-   $this->nom = $nom;
-   $this->taille = $taille;
-   $this->chemin = $chemin;
-   $this->tailleMax = $tailleMax;    
- }
+  // CONSTRUCTEUR
+  /**
+   * Constructeur de la classe
+   *
+   * @param string $nom    Représentation du nom que va posséder l'objet
+   * @param int $taille       Représentation de la taille que va posséder l'objet
+   * @param int $tailleMax      Représentation de la tailleMax que va posséder l'objet
+   * @param string $chemin    Représentation du chemin que va posséder l'objet
+   * @param bool $restructurable      Représentation de la restructuration que va posséder l'objet
+   */
+  public function __construct($nom, $taille, $chemin, $tailleMax ,$restructurable)
+  {
+    $this->restructurable = $restructurable;
+    $this->nom = $nom;
+    $this->taille = $taille;
+    $this->chemin = $chemin;
+    $this->tailleMax = $tailleMax;    
+  }
   
- // DESTRUCTEUR
- /**
-  * Destructeur de la classe
-  */
- public function __destuct(){
-     echo 'Destroying: ', $this->restructurable;
-     echo 'Destroying: ', $this->nom;
-     echo 'Destroying: ', $this->taille;
-     echo 'Destroying: ', $this->chemin;
-     echo 'Destroying: ', $this->tailleMax;
- }
+  // DESTRUCTEUR
+  /**
+   * Destructeur de la classe
+   */
+  public function __destuct(){
+   echo 'Destroying: ', $this->restructurable;
+   echo 'Destroying: ', $this->nom;
+   echo 'Destroying: ', $this->taille;
+   echo 'Destroying: ', $this->chemin;
+   echo 'Destroying: ', $this->tailleMax;
+  }
   
- // ENCAPSULATION
- //public
- /**
-  * Fonction de récupération de l'attribut nom
-  *
-  * @return string
-  */
+  // ENCAPSULATION
+  //public
+  /**
+   * Fonction de récupération de l'attribut nom
+   *
+   * @return string
+   */
   public function getNom(){return $this->nom;}
   /**
-  * Fonction de récupération de l'attribut taille
-  *
-  * @return int
-  */
+   * Fonction de récupération de l'attribut taille
+   *
+   * @return int
+   */
   public function getTaille(){return $this->taille;}
   /**
-  * Fonction de récupération de l'attribut tailleMax
-  *
-  * @return int
-  */
+   * Fonction de récupération de l'attribut tailleMax
+   *
+   * @return int
+   */
   public function getTailleMax(){return $this->tailleMax;}
   /**
-  * Fonction de récupération de l'attribut chemin
-  *
-  * @return string
-  */
+   * Fonction de récupération de l'attribut chemin
+   *
+   * @return string
+   */
   public function getChemin(){return $this->chemin;}
   /**
-  * Fonction de récupération de l'attribut restructuration
-  *
-  * @return bool
-  */
+   * Fonction de récupération de l'attribut restructuration
+   *
+   * @return bool
+   */
   public function getRestructurable(){return $this->restructurable;}
   /**
    * Fonction de récupération de l'attribut maRacine
@@ -159,11 +159,8 @@ class Stockage{
    */
   public function setMaRacine($racine){$this->maRacine = $racine;}
   
- // MÉTHODE USUELLES
+  // MÉTHODE USUELLES
 
- // MÉTHODE SPÉCIFIQUE : NON
-  
-  
- }
-  
- ?>
+  // MÉTHODE SPÉCIFIQUE : NON
+}
+?>

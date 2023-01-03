@@ -1,7 +1,7 @@
 <?php
 
-include_once('Archive.php');
-include_once("Tag.php");
+include_once "Archive.php";
+include_once "Tag.php";
 
 /**
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
@@ -35,7 +35,11 @@ class Dossier extends Archive {
    * @var liste de Fichier
    */
   public $listEnfantFichier;
-
+  /**
+   * Lien avec la classe tag
+   *
+   * @var ObjectStorage
+   */
   public $mesTags;
 
   // CONSTRUCTEUR

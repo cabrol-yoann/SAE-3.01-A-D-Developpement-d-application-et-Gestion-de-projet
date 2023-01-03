@@ -1,7 +1,7 @@
 <?php
 
 include_once "baseDeDonneePhysique.php";
-include_once "Dossier.php";
+include_once "../classe/Dossier.php";
 
 
 function trierList(&$ObjectStockage){

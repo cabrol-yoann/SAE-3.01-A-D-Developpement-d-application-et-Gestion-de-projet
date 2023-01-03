@@ -1,6 +1,7 @@
 <?php
 
-include_once "Dossier.php";
+include_once "../classe/Dossier.php";
+include_once "../classe/Fichier.php";
 include_once "trierList.php";
 include_once "changementNom.php";
 include_once "recherche.php";

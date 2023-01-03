@@ -1,6 +1,6 @@
 <?php
-include_once "Fichier.php";
-include_once "Dossier.php";
+include_once "../classe/Fichier.php";
+include_once "../classe/Dossier.php";
 include_once "baseDeDonneePhysique.php";
 
 function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $objetAPlacer){

@@ -1,8 +1,8 @@
 <?php
 
 include_once "baseDeDonneePhysique.php";
-include_once "Fichier.php";
-include_once "Dossier.php";
+include_once "../classe/Fichier.php";
+include_once "../classe/Dossier.php";
 
 function ChangementNomDossier($nomDossierTrouver, $ObjetAPlacer){
 
