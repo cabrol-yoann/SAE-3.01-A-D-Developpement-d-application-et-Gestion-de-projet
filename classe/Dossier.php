@@ -6,8 +6,8 @@ include_once "Tag.php";
 /**
  * @file Dossier.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
- * @brief Fichier contenant la classe Fichier
- * @details Classe représentant un dossier physique à partir de son type et de ses tags héritant de la classe Archive lui donnant un nom, une taille et un chemin
+ * @brief fichier contenant la classe Fichier
+ * @detais Classe représentant un dossier physique à partir de son type et de ses tags héritant de la classe Archive lui donnant un nom, une taille et un chemin
  * @version 2
  * @date 2021-03-31
  * 

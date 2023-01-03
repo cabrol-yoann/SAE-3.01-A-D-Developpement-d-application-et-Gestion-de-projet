@@ -2,8 +2,8 @@
 /**
  * @file Stockage.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
- * @brief Fichier contenant la classe Tag
- * @details Classe représentent un espace de stockage physique à partir d'un nom, d'une taille, d'une tailleMax, d'un chemin et d'une restructuration
+ * @brief fichier contenant la classe Tag
+ * @detais Classe représentent un espace de stockage physique à partir d'un nom, d'une taille, d'une tailleMax, d'un chemin et d'une restructuration
  * @version 2
  * @date 2021-03-31
  * 

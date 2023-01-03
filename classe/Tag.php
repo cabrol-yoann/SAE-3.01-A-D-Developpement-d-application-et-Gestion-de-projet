@@ -2,7 +2,7 @@
 /**
  * @file Tag.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
- * @brief Fichier contenant la classe Tag
+ * @brief fichier contenant la classe Tag
  * @detail Classe représentant un tag que l'on donne a des object pour les spécifier
  * @version 2
  * @date 2021-03-31

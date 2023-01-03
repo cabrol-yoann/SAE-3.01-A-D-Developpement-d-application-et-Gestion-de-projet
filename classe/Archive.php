@@ -2,7 +2,7 @@
 /**
  * @file Archive.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
- * @brief Fichier contenant la classe Archive
+ * @brief fichier contenant la classe Archive
  * @detais Super classe de l'archivage qui vas gérer le nom, la taille, et le chemin de la classe dossier et fichier
  * @version 2
  * 
