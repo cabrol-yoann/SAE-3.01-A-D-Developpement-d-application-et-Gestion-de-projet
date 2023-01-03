@@ -1,8 +1,11 @@
 <?php
 /**
+ * @file Tag.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
- * @version 0.1
- * 
+ * @brief Fichier contenant la classe Tag
+ * @detail Classe représentant un tag que l'on donne a des object pour les spécifier
+ * @version 2
+ * @date 2021-03-31
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -10,7 +13,7 @@
 
  
 /**
- * Représentation d'un tag grâce à son titre
+ * Classe représentant un tag que l'on donne a des object pour les spécifier
  */
 class Tag{ 
   // ATTRIBUTS
@@ -43,13 +46,14 @@ class Tag{
   // ENCAPSULATION
   //public
   /**
-   * Fonction de récupération de l'attribut titre
+   * Retourne le titre de l'object Tag
    *
    * @return string
    */
   public function getTitre(){return  $this->titre;}
+  
   /**
-   * Fonction de modification de l'attribut titre
+   * Modifie le titre de l'object Tag
    *
    * @param string $titre Représentation du titre(nom) que possède un tag
    */

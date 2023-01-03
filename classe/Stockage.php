@@ -1,8 +1,11 @@
 <?php
 /**
+ * @file Stockage.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
- * @version 0.1
- * 
+ * @brief Fichier contenant la classe Tag
+ * @details Classe représentent un espace de stockage physique à partir d'un nom, d'une taille, d'une tailleMax, d'un chemin et d'une restructuration
+ * @version 2
+ * @date 2021-03-31
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -20,30 +23,35 @@ class Stockage{
    * @var string
    */
   public $nom;
+  
   /**
    * Représentation de la taille que va posséder l'objet
    *
-   * @var int
+   * @var integer
    */
   public $taille;
+  
   /**
    * Représentation de la tailleMax que va posséder l'objet
    *
-   * @var int
+   * @var integer
    */
   public $tailleMax;
+  
   /**
    * Représentation du chemin que va posséder l'objet
    *
    * @var string
    */
   public $chemin;
+  
   /**
    * Représentation de la restructuration que va posséder l'objet
    *
    * @var bool
    */
   public $restructurable;
+  
   /**
    * Représentaion de l'enfant de l'objet
    *
@@ -54,13 +62,13 @@ class Stockage{
   
   // CONSTRUCTEUR
   /**
-   * Constructeur de la classe
+   * Constructeur de la classe Stockage demandant en paramètre le nom, la taille, la tailleMax, le chemin et si le stockage est restructurable
    *
-   * @param string $nom    Représentation du nom que va posséder l'objet
-   * @param int $taille       Représentation de la taille que va posséder l'objet
-   * @param int $tailleMax      Représentation de la tailleMax que va posséder l'objet
-   * @param string $chemin    Représentation du chemin que va posséder l'objet
-   * @param bool $restructurable      Représentation de la restructuration que va posséder l'objet
+   * @param string $nom           Représentation du nom que va posséder l'objet
+   * @param integer $taille       Représentation de la taille que va posséder l'objet
+   * @param integer $tailleMax    Représentation de la tailleMax que va posséder l'objet
+   * @param string $chemin        Représentation du chemin que va posséder l'objet
+   * @param bool $restructurable  Représentation de la restructuration que va posséder l'objet
    */
   public function __construct($nom, $taille, $chemin, $tailleMax ,$restructurable)
   {
@@ -86,74 +94,85 @@ class Stockage{
   // ENCAPSULATION
   //public
   /**
-   * Fonction de récupération de l'attribut nom
+   * Retourne le nom de l'object Stockage
    *
    * @return string
    */
   public function getNom(){return $this->nom;}
+  
   /**
-   * Fonction de récupération de l'attribut taille
+   * Retourne la taille de l'object Stockage
    *
-   * @return int
+   * @return integer
    */
   public function getTaille(){return $this->taille;}
+  
   /**
-   * Fonction de récupération de l'attribut tailleMax
+   * Retourne la tailleMax de l'object Stockage
    *
-   * @return int
+   * @return integer
    */
   public function getTailleMax(){return $this->tailleMax;}
+  
   /**
-   * Fonction de récupération de l'attribut chemin
+   * Retourne le chemin de l'object Stockage
    *
    * @return string
    */
   public function getChemin(){return $this->chemin;}
+ 
   /**
-   * Fonction de récupération de l'attribut restructuration
+   * Retourne true si l'object Sctockage est restructuration
+   * false sinon
    *
    * @return bool
    */
   public function getRestructurable(){return $this->restructurable;}
+  
   /**
-   * Fonction de récupération de l'attribut maRacine
+   * Retourne la racine de l'object Stockage
    *
    * @return Dossier
    */
   public function getMaRacine(){return $this->maRacine;}
  
   /**
-   * Fonction de modification de l'attribut nom
+   * Modifie le nom de l'object Stockage
    *
    * @param string $nom Représentation du nom que va posséder l'objet
    */
   public function setNom($nom){$this->nom = $nom;}
+  
   /**
-   * Fonction de modification de l'attribut taille
+   * Modifie la taille de l'object Stockage
    *
-   * @param int $taille Représentation de la taille que va posséder l'objet
+   * @param integer $taille Représentation de la taille que va posséder l'objet
    */
   public function setTaille($taille){$this->taille = $taille;}
+  
   /**
-   * Fonction de modification de l'attribut tailleMax
+   * Modifie la tailleMax de l'object Stockage
    *
-   * @param int $tailleMax Représentation de la tailleMax que va posséder l'objet
+   * @param integer $tailleMax Représentation de la tailleMax que va posséder l'objet
    */
   public function setTailleMax($tailleMax){$this->tailleMax = $tailleMax;}
+  
   /**
-   * Fonction de modification de l'attribut chemin
+   * Modifie le chemin de l'object Stockage
    *
    * @param string $chemin Représentation du chemin que va posséder l'objet
    */
   public function setChemin($chemin){$this->chemin = $chemin;}
+  
   /**
-   * Fonction de modification de l'attribut restructurable
+   * Modifie l'attribue restructurable de l'object Stockage
    *
    * @param bool $restructurable Représentation de la restructuration que va posséder l'objet
    */
   public function setRestructurable($restructurable){$this->restructurable = $restructurable;}
+  
   /**
-   * Fonction de modification de l'attribut maRacine
+   * Modifie la racine de l'object Stockage
    *
    * @param Dossier $racine Représentaion de l'enfant de l'objet
    */
