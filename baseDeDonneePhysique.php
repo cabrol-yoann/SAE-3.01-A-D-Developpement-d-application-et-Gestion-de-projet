@@ -80,5 +80,4 @@ $dossier8->ajouterTags($tag);
 
 $objetAPlacer = new Fichier("sapin",25,"","png");
 $objetAPlacer->ajouterTags($tag1);
-
 ?>

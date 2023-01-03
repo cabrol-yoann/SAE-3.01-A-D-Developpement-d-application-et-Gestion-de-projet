@@ -38,14 +38,10 @@ function ChangementNomDossier($nomDossierTrouver, $ObjetAPlacer){
                 $ObjetAPlacer->setNom($nouveauNom);
                 $compteur++;
                 $listeEnfantFichier->rewind();
-                print($nouveauNom);
             }
             $listeEnfantFichier->next();
         }
     }
 }
-
-ChangementNomDossier($dossier4,$objetAPlacer);
-echo 'fin';
 
 ?>

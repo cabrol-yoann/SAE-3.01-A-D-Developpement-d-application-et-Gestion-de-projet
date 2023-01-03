@@ -3,7 +3,7 @@ include_once "Fichier.php";
 include_once "Dossier.php";
 include_once "baseDeDonneePhysique.php";
 
-function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objetAPlacer){
+function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $objetAPlacer){
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du conteur
     $point = 0;
@@ -15,6 +15,7 @@ function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objet
     // Recherche pour les fichiers
     //Vérification si la liste des enfants n'est pas vide
     if (isset($listEnfantFichier)) {
+        echo "Liste enfant fichier";echo '<br>';
         $nbEnfant = $dossierParent->getListeEnfantFichier()->count();
         while ($listEnfantFichier->valid()) { 
             // Recherche à partir du Tag
@@ -24,6 +25,7 @@ function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objet
                 while ($listTag->valid()) {
                     if ($listTag->current() == $listTagEnfant->current()) {
                         $point++;
+                        echo "Tag trouvé";echo '<br>';
                     }
                     $listTag->next();
                     $listTagEnfant->next();
@@ -35,10 +37,12 @@ function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objet
             }
             if ($conteur == $nbEnfant) {
                 $point++;
+                echo "Type trouvé";echo '<br>';
             }
             // Recherche à partir du nom
             if ($listEnfantFichier->current()->getNom() == $objetAPlacer->getNom()) {
                 $point++;
+                echo "Nom trouvé";echo '<br>';
             }
             $listEnfantFichier->next();
         }
@@ -47,6 +51,7 @@ function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objet
     $listEnfantDossier = $dossierParent->getListeEnfantDossier();
     //Recherche pour les dossiers
     if (isset($listEnfantDossier)) {
+        echo "Liste enfant dossier";echo '<br>';
         $nbEnfant = $listEnfantDossier->count();
         while ($listEnfantDossier->valid()) { 
             //Recherche du tag
@@ -56,6 +61,7 @@ function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objet
                 while ($listTag->valid()) {
                     if ($listTag->current() == $listTagEnfant->current()) {
                         $point++;
+                        echo "Tag trouvé";echo '<br>';
 
                     }
                     $listTag->next();
@@ -64,6 +70,7 @@ function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objet
             }
             if ($listEnfantDossier->current()->getNom() == $objetAPlacer->getNom()) {
                 $point++;
+                echo "Nom trouvé";echo '<br>';
             }
             $listEnfantDossier->next();
         }
@@ -75,7 +82,7 @@ function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objet
     }
 
     //Enregistrement de valeur trouver
-    if ($point > $score) {
+    if ($point >= $score) {
         $score = $point;
         $nomDossierTrouver = $dossierParent->getNom();
         $trouver = true ;
@@ -91,5 +98,4 @@ function Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objet
         }
     }
 }
-Recherche($score = 0,$trouver = false,$nomDossierTrouver="",$dossier1,$objetAPlacer);
 ?>
