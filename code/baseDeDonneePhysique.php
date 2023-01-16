@@ -8,6 +8,10 @@ include_once "../classe/Fichier.php";
 $drive = new Stockage("SAE",5,"/",500000000,false);
 $cloud = new Stockage("SAE",5,"/",666690420,true);
 $FTP = new Stockage("Stockage",5,"/",987654321,true);
+$Stockage = new \SplObjectStorage();
+$Stockage->attach($drive);
+$Stockage->attach($cloud);
+$Stockage->attach($FTP);
 
 //DOSSIER
 $dossier1 = new Dossier("TD",1120970,"/TD");
