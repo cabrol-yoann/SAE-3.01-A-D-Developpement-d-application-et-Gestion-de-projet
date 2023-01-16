@@ -30,13 +30,11 @@ function debutRecherche ($stockage, $objetAPlacer){
             if ($nomStockage->getRestructurable() == true) {                // Mais restructurable (donc peut potentiellement être intégré)
                 if($objetAPlacer->getTaille() < $nomStockage->getTaille()){   // Et que le poids du fichier < taille totale du stockage
                     $listStockage->attach($nomStockage); 
-                    echo "Dossier dans lequel on peut stocker (avec restructuration) : ".$nomStockage->getNom()."<br>";
                 }
             }
         }  
         else{ // Sinon, restructurable ou non, mais place suffisante pour l'intégrer
             $listStockage->attach($nomStockage); 
-            echo "Dossier dans lequel on peut stocker (sans restructuration) :".$nomStockage->getNom()."  <br>";
         }
     
         $stockage->next();
@@ -57,7 +55,6 @@ function debutRecherche ($stockage, $objetAPlacer){
 
         if ($trouver == true) {
             $nomDossierTrouver = $listStockage->current();
-            echo "trouvé".$nomDossierTrouver->getNom();
         }
     
         $listStockage->next(); // A chaque itération de la boucle for, on passe à l'objet suivant de listStockage
