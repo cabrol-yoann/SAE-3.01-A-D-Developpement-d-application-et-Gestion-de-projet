@@ -1,8 +1,8 @@
 <?php
 
-include "Stockage.php";
-include "Dossier.php";
-include "Fichier.php";
+include_once "../classe/Stockage.php";
+include_once "../classe/Dossier.php";
+include_once "../classe/Fichier.php";
 
 // ESPACE DE STOCKAGE
 $drive = new Stockage("SAE",5,"/",500000000,false);
@@ -12,7 +12,7 @@ $FTP = new Stockage("Stockage",5,"/",987654321,true);
 //DOSSIER
 $dossier1 = new Dossier("TD",1120970,"/TD");
 $dossier2 = new Dossier("photo",1841000,"/photo");
-$dossier3 = new Dossier("cour",351085,"/cour");
+$dossier3 = new Dossier("cour",3085,"/cour");
 $dossier4 = new Dossier("noël",1183000,"/photo/noël");
 $dossier5 = new Dossier("vacance",683000,"/photo/vacance");
 $dossier6 = new Dossier("dev",351085,"/TD/dev");
@@ -76,4 +76,8 @@ $dossier7->ajouterTags($tag2);
 $dossier8->ajouterTags($tag);
 
 
+// Object a ajouter
+
+$objetAPlacer = new Fichier("sapin",25,"","png");
+$objetAPlacer->ajouterTags($tag1);
 ?>

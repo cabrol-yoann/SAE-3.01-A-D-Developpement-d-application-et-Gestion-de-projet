@@ -1,41 +1,52 @@
 <?php
 
-include_once('Archive.php');
-include_once("Tag.php");
+include_once "Archive.php";
+include_once "Tag.php";
 
 /**
+ * @file Dossier.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
- * @version 0.1
- * 
+ * @brief fichier contenant la classe Fichier
+ * @detais Classe représentant un dossier physique à partir de son type et de ses tags héritant de la classe Archive lui donnant un nom, une taille et un chemin
+ * @version 2
+ * @date 2021-03-31
  * 
  * @copyright Copyright (c) 2022
  * 
  */
 
 /**
- * répresentation d'un dossier physique la forme d'une classe
+ * Classe représentant d'un dossier physique la forme d'une classe
  */
 class Dossier extends Archive {
+  
   // ATTRIBUTS
   /**
    * Représentation du nombre de Fichier que possède l'objet
    *
-   * @var int
+   * @var integer
    */
-  public int $nbFichier;
+  public $nbFichier;
+  
   /**
    * Représentation de la liste de dossier enfant présent dans l'objet
    *
-   * @var liste de Dossier
+   * @var ObjectStorage liste d'enfant Dossier
    */
   public $listeEnfantDossier;
+  
   /**
    * Représentation de la liste de fichier enfant présent dans l'objet
    *
-   * @var liste de Fichier
+   * @var ObjectStorage liste d'enfant Fichier
    */
   public $listEnfantFichier;
-
+  
+  /**
+   * Lien avec la classe tag
+   *
+   * @var ObjectStorage liste de tag
+   */
   public $mesTags;
 
   // CONSTRUCTEUR
@@ -43,8 +54,8 @@ class Dossier extends Archive {
    * Constructeur de la classe
    *
    * @param string $nom        Représentation du nom que va posséder l'objet
-   * @param int $taille           Représentation de la taille que va avoir l'objet
-   * @param string $chemin        Représentaton du chemin que va posséder l'objet
+   * @param integer $taille    Représentation de la taille que va avoir l'objet
+   * @param string $chemin     Représentaton du chemin que va posséder l'objet
    */
   public function __construct($nom, $taille, $chemin)
   {
@@ -54,7 +65,6 @@ class Dossier extends Archive {
     parent::__construct($nom, $taille, $chemin);        
   }
 
-  
   // DESTRUCTEUR
   /**
    * Destructeur de la classe
@@ -65,93 +75,111 @@ class Dossier extends Archive {
     echo 'Destroying: ', $this->listEnfantFichier;
   }
 
-  
   // ENCASPULATION
   //public
   // MÉTHODE USUELLE
   /**
-   * Fonction de récupération de l'attribut nbFichier
+   * retourne le nombre de Fichier du Dossier
    *
    * @return int
    */
   public function getNbFichier() {
     return $this->nbFichier;
   }
+  
   /**
-   * Fonction de modification de l'attribut nbFichier
+   * Modifie l'attribut nbFichier de l'object Dossier
    *
    * @param int $nbFic Représentation du nombre de Fichier que possède l'objet
   */
   public function setNbFichier() {
     $this->nbFichier = $this->listeEnfantDossier->count() + $this->listEnfantFichier->count();
   }
+  
   /**
-   * Fonction de récupération de l'attribut listeEnfantDossier
+   * retourne la liste des enfants dossier de l'object Dossier
    *
-   * @return liste
+   * @return SplObjectStorage liste d'enfant Dossier
    */
   public function getListeEnfantDossier() {
     return  $this->listeEnfantDossier;
   }
+  
   /**
-   * Fonction de récupération de l'attribut listeEnfnatFichier
+   * retourne la liste des enfants fichier de l'object Dossier
    *
-   * @return Ficheir
+   * @return SplObjectStorage liste d'enfant Fichier
    */
   public function getListeEnfantFichier() {
     return $this->listEnfantFichier;
   }
 
+  /**
+   * retourne la liste des tags de l'object Dossier
+   *
+   * @return SplObjectStorage liste de Tag
+   */
   public function getMesTags() {
     return $this->mesTags;
   }
 
+  /**
+   * Ajoute un Fochier à la liste de fichier de l'object Dossier
+   *
+   * @param Fichier $fichier object de la classe Fichier
+   */
   public function ajouterEnfantFichier($fichier){
     $this->listEnfantFichier->attach($fichier);
     $this->setNbFichier();
   }
+
+  /**
+   * Supprime un Fichier de la liste des enfants fichier de l'object Dossier
+   *
+   * @param Fichier $fichier object de la classe Fichier
+   */
   public function supprimerEnfantFichier($fichier) {
     $this->listEnfantFichier->detach($fichier);
     $this->setNbFichier();
   }
+
+  /**
+   * Ajoute un Dossier à la liste des enfants dossier de l'object Dossier
+   *
+   * @param Dossier $dossier object de la Dossier
+   */
   public function ajouterEnfantDossier($dossier){
     $this->listeEnfantDossier->attach($dossier);
     $this->setNbFichier();
   }
 
+  /**
+   * Supprime un Dossier de la liste des enfants dossier de l'object Dossier
+   *
+   * @param Dossier $dossier object de la classe Dossier
+   */
   public function supprimerEnfantDossier($dossier) {
     $this->listeEnfantDossier->detach($dossier);
     $this->setNbFichier();
   }
 
+  /**
+   * Ajoute un Tag à la liste des tags de l'object Dossier
+   *
+   * @param Tag $tag object de la classe Tag
+   */
   public function ajouterTags($tag){
     $this->mesTags->attach($tag);
   }
+
+  /**
+   * Supprime un Tag de la liste des tags de l'object Dossier
+   *
+   * @param Tag $tag object de la classe Tag
+   */
   public function supprimerTags($tag){
     $this->mesTags->detach($tag);
   }
-
-  public function __toString()
-  {
-    $enfantFic = $this->getListeEnfantFichier();
-    $enfantFic->rewind();
-    $msg = "Je suis le dossier ".$this->getNom()." et je possède les enfant (";
-    if($enfantFic->valid()) {
-      $var = $enfantFic->current();
-      $msg += $var ->__toString();
-      $enfantFic->next();
-    }
-    $enfantDos = $this->getListeEnfantDossier();
-    $enfantDos->rewind();
-    if ($enfantDos->valid()) {
-      $test = $enfantDos->curent();
-      $msg += $test->__toString();
-      $enfantDos->next();
-    }
-    $msg += ")";
-    return $msg;
-  }
-
 
   // MÉTHODE SPÉCIFIQUE : NON
 
