@@ -1,11 +1,12 @@
 <?php
 
-include_once "baseDeDonneePhysique.php";
 include_once "trierList.php";
+include_once "recherche.php";
 
 
 
 function debutRecherche ($stockage, $objetAPlacer){
+
 //Meilleur Emplacement
     //initialisation
     $score = 0;
@@ -14,26 +15,31 @@ function debutRecherche ($stockage, $objetAPlacer){
     $trouver = false;
     $tailleCalculer = 0;
 
+    
+
     //Recherche de taille
     $stockage->rewind(); // placement de l'itérateur au début de la structure
 
-    while($listStockage->valid()){
+    while($stockage->valid()){
         $nomStockage = $stockage->current();
 
         $tailleCalculer = $nomStockage->getTaille() + $objetAPlacer->getTaille();
 
         //On regarde si on peut stocker le dossier dans un espace puis on enregistre la valeur dans une liste
-        if ($tailleCalculer > $nomStockage->getTailleMax()) { // Non restructurable
-            if ($nomStockage->getRestructurable() == true) {  // Mais taille restante suffisante
-                $nomStockage = $stockageTravailler[$iterateur]; 
-                $listStockage->insertValues($nomStockage); 
+        if ($tailleCalculer > $nomStockage->getTailleMax()) {               // Fichier trop volumineux pour être stocké dans le stockage
+            if ($nomStockage->getRestructurable() == true) {                // Mais restructurable (donc peut potentiellement être intégré)
+                if($objetAPlacer->getTaille() < $nomStockage->getTaille()){   // Et que le poids du fichier < taille totale du stockage
+                    $listStockage->attach($nomStockage); 
+                    echo "Dossier dans lequel on peut stocker (avec restructuration) : ".$nomStockage->getNom()."<br>";
+                }
             }
-        } 
-        elseif ($nomStockage->getNom() != $nomStockage->getNom()) { // Sinon (restructurable ou non, mais taille restante déjà suffisante)
-            $listStockage->insertValues($nomStockage); 
+        }  
+        else{ // Sinon, restructurable ou non, mais place suffisante pour l'intégrer
+            $listStockage->attach($nomStockage); 
+            echo "Dossier dans lequel on peut stocker (sans restructuration) :".$nomStockage->getNom()."  <br>";
         }
-
-        $listStockage->next();
+    
+        $stockage->next();
     }
 
     //tri de la list
@@ -41,19 +47,24 @@ function debutRecherche ($stockage, $objetAPlacer){
 
 
     //Recherche dans tous les espaces de stockage
-    for ($nomStockage=0; $nomStockage < $longueurListeStockage-1; $nomStockage++) { 
-        $listStockage->next(); // A chaque itération de la boucle for, on passe à l'objet suivant de listStockage
+    $listStockage -> rewind();
 
-        recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objetAPlacer);
+    while($listStockage->valid()) { 
+
+
+        recherche($score, $trouver, $nomDossierTrouver, $listStockage->current()->getMaRacine(), $objetAPlacer);
         //Recupération du nom de l'espace de stockage comportent la meilleur position
 
         if ($trouver == true) {
             $nomDossierTrouver = $listStockage->current();
+            echo "trouvé".$nomDossierTrouver->getNom();
         }
+    
+        $listStockage->next(); // A chaque itération de la boucle for, on passe à l'objet suivant de listStockage
     }
 }
 
-debutRecherche($stockage,$fichier);
+
 
 
 ?>
