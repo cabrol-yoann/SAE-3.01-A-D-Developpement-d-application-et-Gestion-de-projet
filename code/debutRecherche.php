@@ -1,6 +1,7 @@
 <?php
 
-include "baseDeDonnéePhysique.php";
+include_once "baseDeDonneePhysique.php";
+include_once "trierList.php";
 
 
 
@@ -14,8 +15,11 @@ function debutRecherche ($stockage, $objetAPlacer){
     $tailleCalculer = 0;
 
     //Recherche de taille
-    for ($nomStockage=$stockage->first(); $nomStockage < $stockage->end(); $nomStockage++) { 
-        //Calcul de la taille de l'espace de stockage avec le dossier à placer
+    $stockage->rewind(); // placement de l'itérateur au début de la structure
+
+    while($listStockage->valid()){
+        $nomStockage = $stockage->current();
+
         $tailleCalculer = $nomStockage->getTaille() + $objetAPlacer->getTaille();
 
         //On regarde si on peut stocker le dossier dans un espace puis on enregistre la valeur dans une liste
@@ -28,6 +32,8 @@ function debutRecherche ($stockage, $objetAPlacer){
         elseif ($nomStockage->getNom() != $nomStockage->getNom()) { // Sinon (restructurable ou non, mais taille restante déjà suffisante)
             $listStockage->insertValues($nomStockage); 
         }
+
+        $listStockage->next();
     }
 
     //tri de la list
@@ -47,7 +53,7 @@ function debutRecherche ($stockage, $objetAPlacer){
     }
 }
 
-debutRecherche($drive,$fichier);
+debutRecherche($stockage,$fichier);
 
 
 ?>
