@@ -5,14 +5,14 @@ include_once "../classe/Fichier.php";
 include_once "trierList.php";
 include_once "changementNom.php";
 include_once "recherche.php";
-
+include_once "restructuration.php";
 
 // test de la fonction recherche
 echo 'test de la fonction recherche';echo '<br>';echo '<br>';
 $score=0;
 $trouver=false;
 $nomDossierTrouver="";
-Recherche($score,$trouver,$nomDossierTrouver,$dossier8,$objetAPlacer);
+Recherche($score,$trouver,$nomDossierTrouver,$drive,$objetAPlacer);
 print($nomDossierTrouver);echo ' nom du dossier trouver';echo '<br>';   
 print($score);echo ' score';echo '<br>';
 echo '<br> fin du test recherche';
@@ -62,4 +62,20 @@ while ($listTest->valid()) {
     echo '<br>';
 }
 echo '<br> fin du test trierList';
+
+echo '<br><br><br><br><br><br>';
+
+// test de la fonction restructuration
+print('test de la fonction changementNom');echo '<br>';echo '<br>';
+$nomEspaceStockageTrouver = $cloud;
+$ObjetAPlacer = $objetAPlacer;
+$nomDossierTrouver = $dossier6;
+Restructuration($nomEspaceStockageTrouver,$ObjetAPlacer,$nomDossierTrouver,$Stockage);
+echo '<br> fin du test restructuration';
+
+echo '<br><br><br><br><br><br>';
+
+//test de la fonction rechercheDossierARestructurer
+
+
 ?>
