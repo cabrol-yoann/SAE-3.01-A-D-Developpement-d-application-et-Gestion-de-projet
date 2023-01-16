@@ -148,7 +148,7 @@ class Stockage{
    *
    * @param integer $taille Représentation de la taille que va posséder l'objet
    */
-  public function setTaille($taille){$this->taille = $taille;}
+  public function setTaille($taille){$this->taille += $taille;}
   
   /**
    * Modifie la tailleMax de l'object Stockage

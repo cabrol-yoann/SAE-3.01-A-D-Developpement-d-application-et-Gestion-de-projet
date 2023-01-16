@@ -21,6 +21,14 @@ include_once "Tag.php";
 class Dossier extends Archive {
   
   // ATTRIBUTS
+
+  /**
+   * Représentation le père du dossier
+   *
+   * @var Stockage
+   */
+  private $parent;
+
   /**
    * Représentation du nombre de Fichier que possède l'objet
    *
@@ -78,6 +86,17 @@ class Dossier extends Archive {
   // ENCASPULATION
   //public
   // MÉTHODE USUELLE
+
+  /**
+   * retourne le nombre de Fichier du Dossier
+   *
+   * @return int
+   */
+  public function getParent() {
+    return $this->parent->getNom();
+  }
+  
+
   /**
    * retourne le nombre de Fichier du Dossier
    *
@@ -94,6 +113,15 @@ class Dossier extends Archive {
   */
   public function setNbFichier() {
     $this->nbFichier = $this->listeEnfantDossier->count() + $this->listEnfantFichier->count();
+  }
+
+    /**
+   * Modifie l'attribut nbFichier de l'object Dossier
+   *
+   * @param int $nbFic Représentation du nombre de Fichier que possède l'objet
+  */
+  public function setParent($parent) {
+    $this->parent = $parent;
   }
   
   /**
@@ -130,6 +158,7 @@ class Dossier extends Archive {
    */
   public function ajouterEnfantFichier($fichier){
     $this->listEnfantFichier->attach($fichier);
+    $this->taille += $fichier->taille;
     $this->setNbFichier();
   }
 
@@ -181,7 +210,13 @@ class Dossier extends Archive {
     $this->mesTags->detach($tag);
   }
 
-  // MÉTHODE SPÉCIFIQUE : NON
+  // MÉTHODE SPÉCIFIQUE : 
+
+  public function updateParentPoids() {
+    if ($this->parent) {
+        $this->parent->setTaille($this->taille);
+    }
+}
 
 }
 ?>

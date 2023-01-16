@@ -1,24 +1,29 @@
 <?php
+include_once "baseDeDonneePhysique.php";
+include_once "changementNom.php";
 
-function Restructuration($nomEspaceStockageTrouver,$dossierAPlacer){
+function Restructuration($nomEspaceStockageTrouver,$objetAPlacer,$dossierTrouver){
     //Test taille
-    $tailleCalculer = $nomEspaceStockageTrouver->getTaille() + $dossierAPlacer->getTaille();
+    $tailleCalculer = $nomEspaceStockageTrouver->getTaille() + $objetAPlacer->getTaille();
     if ($nomEspaceStockageTrouver->getTailleMax() > $tailleCalculer) {
         //fonction de modification (pour plus tard)
-        majFichier();
+        majFichier($dossierTrouver, $objetAPlacer);
     }
     //Changement de nom si nécéssaire
-    ChangementNomDossier($nomDossierTrouver,$ObjetAPlacer);
-    ChangementNomFichier($nomDossierTrouver,$ObjetAPlacer);
+    $objetAPlacer->setChemin($dossierTrouver->getNom+= '/'. $objetAPlacer->getNom());
+    $dossierTrouver->ajouterEnfantFichier($objetAPlacer);
+    //ChangementNomFichier($nomDossierTrouver,$ObjetAPlacer);
 
     //Recherche nouvelle emplacement pour les fichiers
-    for ($j=0; $j < $listeObject->size()-1; $j++) { 
+    while ($dossierAPlacer->getListeEnfantFichier()->valid()){ 
         //Initialisation de variable
         $restructurationEnCour = true;
         $espacePlein = $nomEspaceStockageTrouver;
-        $fichierAPlacer = $listeObject->first() + $j;
 
-        meilleurEmplacement($stockage,$fichierAPlacer,$restructurationEnCour,$espacePlein);
+        //stockage vien de debut recherhce la liste des espace de stockage qui sont compatible avec l'object a placer
+        debutRecherche($stockage,$dossierAPlacer->getListeEnfantFichier()->current(),$restructurationEnCour,$espacePlein);
+
+        $dossierAPlacer->getListeEnfantFichier()->next();
     }
 }
 
