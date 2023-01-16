@@ -6,8 +6,8 @@ include_once "../classe/Dossier.php";
 
 function trierList(&$ObjectStockage){
     //Initialisation des variables
-    $petit = new Dossier("petit",0,"");
-    $sauvegarde = new Dossier("sauvegarde",0,"");
+    $petit = new Stockage("petit",0,"","",true);
+    $sauvegarde = new Stockage("sauvegarde",0,"","",true);
     $key=0;  
 
     //Trie
@@ -20,22 +20,16 @@ function trierList(&$ObjectStockage){
             $ObjectStockage->next();
         }
         // enregistrement du premier objet
-        $petit->setTaille($ObjectStockage->current()->getTaille());
-        $petit->setNom($ObjectStockage->current()->getNom());
-        $petit->setChemin($ObjectStockage->current()->getChemin());
+        $petit->clone($ObjectStockage->current());
         //sauvegarde de l'objet en cours de comparaison
-        $sauvegarde->setTaille($ObjectStockage->current()->getTaille());
-        $sauvegarde->setNom($ObjectStockage->current()->getNom());
-        $sauvegarde->setChemin($ObjectStockage->current()->getChemin());
+        $sauvegarde->clone($ObjectStockage->current());
         
         //Recherche de la valeur la plus petite de la liste
         for ($pivot=0; $pivot < $ObjectStockage->count()-$foyer; $pivot++) { 
             //Test de la valeur la plus petite de la liste
             if ($ObjectStockage->current()->getTaille() < $petit->getTaille()) {
                 //sauvegarde de l'objet le plus petit
-                $petit->setTaille($ObjectStockage->current()->getTaille());
-                $petit->setNom($ObjectStockage->current()->getNom());
-                $petit->setChemin($ObjectStockage->current()->getChemin());
+                $petit->clone($ObjectStockage->current());
                 //recuperation de la clé de l'objet le plus petit
                 $key=$ObjectStockage->key();
                 // validation de la possibilité de modification
@@ -51,18 +45,14 @@ function trierList(&$ObjectStockage){
                 $ObjectStockage->next();
             }
             // sauvegarde de l'objet en cours de comparaison
-            $ObjectStockage->current()->setNom($sauvegarde->getNom());
-            $ObjectStockage->current()->setTaille($sauvegarde->getTaille());
-            $ObjectStockage->current()->setChemin($sauvegarde->getChemin());
+            $ObjectStockage->current()->clone($sauvegarde);
             // retour au foyer de comparaison
             $ObjectStockage->rewind();
             for($i=0; $i != $foyer; $i++){
                 $ObjectStockage->next();
             }
             //remplacement de l'objet en cours de comparaison par l'objet le plus petit
-            $ObjectStockage->current()->setNom($petit->getNom());
-            $ObjectStockage->current()->setTaille($petit->getTaille());
-            $ObjectStockage->current()->setChemin($petit->getChemin());
+            $ObjectStockage->current()->clone($petit);
 
             $key=0;
         } 

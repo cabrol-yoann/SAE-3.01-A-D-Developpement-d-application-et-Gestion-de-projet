@@ -79,6 +79,20 @@ class Stockage{
     $this->tailleMax = $tailleMax;    
   }
   
+  /**
+   * Fonction de clonage de l'objet Stockage
+   *
+   * @param Stockage $Stockage objet à cloner
+   */
+  public function Clone($Stockage)
+  {
+    $this->restructurable = $Stockage->restructurable;
+    $this->nom = $Stockage->nom;
+    $this->taille = $Stockage->taille;
+    $this->chemin = $Stockage->chemin;
+    $this->tailleMax = $Stockage->tailleMax;
+  }
+
   // DESTRUCTEUR
   /**
    * Destructeur de la classe

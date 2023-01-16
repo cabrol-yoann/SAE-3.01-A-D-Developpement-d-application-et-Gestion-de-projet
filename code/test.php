@@ -31,10 +31,10 @@ echo '<br><br><br><br><br><br>';
 
 // test de la fonction trierList
 echo 'test de la fonction trierList';echo '<br>';echo '<br>';
-$test1 = new Dossier("test1",1,"");
-$test2 = new Dossier("test2",2,"");
-$test3 = new Dossier("test3",3,"");
-$test4 = new Dossier("test4",4,"");
+$test1 = new Stockage("test1",1,"","",true);
+$test2 = new Stockage("test2",2,"","",false);
+$test3 = new Stockage("test3",3,"","",false);
+$test4 = new Stockage("test4",4,"","",true);
 
 $listTest = new \SplObjectStorage();
 $listTest->attach($test4);
