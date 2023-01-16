@@ -5,7 +5,9 @@ include_once "../classe/Fichier.php";
 include_once "trierList.php";
 include_once "changementNom.php";
 include_once "recherche.php";
+include_once "debutRecherche.php";
 
+debutRecherche($stockage, $objetAPlacer);
 
 // test de la fonction recherche
 echo 'test de la fonction recherche';echo '<br>';echo '<br>';
@@ -61,5 +63,13 @@ while ($listTest->valid()) {
     $listTest->next();
     echo '<br>';
 }
-echo '<br> fin du test trierList';
+echo '<br> fin du test trierList <br> <br>';
+
+
+echo 'debut test de debutRecherche<br>';
+
+debutRecherche($stockage,$dossier2);
+
+echo 'fin de recherche';
+
 ?>
