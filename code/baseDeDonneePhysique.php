@@ -5,20 +5,20 @@ include_once "../classe/Dossier.php";
 include_once "../classe/Fichier.php";
 
 // ESPACE DE STOCKAGE
-$drive = new Stockage("SAE",5,"/",500000000,false);
-$cloud = new Stockage("SAE",5,"/",666690420,true);
-$FTP = new Stockage("Stockage",5,"/",987654321,true);
+$drive = new Stockage("SAE","/",500000000,false);
+$cloud = new Stockage("SAE","/",666690420,true);
+$FTP = new Stockage("Stockage","/",987654321,true);
 
 //DOSSIER
-$dossier1 = new Dossier("TD",1120970,"/TD");
-$dossier2 = new Dossier("photo",1841000,"/photo");
-$dossier3 = new Dossier("cour",3085,"/cour");
-$dossier4 = new Dossier("noël",1183000,"/photo/noël");
-$dossier5 = new Dossier("vacance",683000,"/photo/vacance");
-$dossier6 = new Dossier("dev",351085,"/TD/dev");
-$dossier7 = new Dossier("gestion projet",1120970,"/cour/gestionprojet");
-$dossier8 = new Dossier("ski",658000,"/photo/vacance/ski");
-$dossier9 = new Dossier("TP",0,"/TP");
+$dossier1 = new Dossier("TD","/TD");
+$dossier2 = new Dossier("photo","/photo");
+$dossier3 = new Dossier("cour","/cour");
+$dossier4 = new Dossier("noël","/photo/noël");
+$dossier5 = new Dossier("vacance","/photo/vacance");
+$dossier6 = new Dossier("dev","/TD/dev");
+$dossier7 = new Dossier("gestion projet","/cour/gestionprojet");
+$dossier8 = new Dossier("ski","/photo/vacance/ski");
+$dossier9 = new Dossier("TP","/TP");
 
 // FICHIER
 $fichier = new Fichier("buche",300000,"/photo/noël/buche","png");

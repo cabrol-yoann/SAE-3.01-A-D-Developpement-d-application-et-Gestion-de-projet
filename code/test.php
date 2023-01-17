@@ -62,4 +62,46 @@ while ($listTest->valid()) {
     echo '<br>';
 }
 echo '<br> fin du test trierList';
+
+//Test du dynamisme des poids
+
+$stockageTest = new Stockage("SAE",0,"/",500000000,false);
+
+$dossTest1 = new Dossier("DossRacine", 0, "");
+$dossTest2 = new Dossier("Doss2", 0, "");
+$dossTest3 = new Dossier("Doss3", 0, "");
+$stockageTest->setMaRacine($dossTest1);
+
+$fichierTest1 = new Fichier("Fich1", 10, "", ".text");
+$fichierTest2 = new Fichier("Fich2", 15, "", ".odt");
+$fichierTest3 = new Fichier("Fich3", 27, "", ".odt");
+$fichierTest4 = new Fichier("",4568,"","");
+
+echo '<br>'.'<br>'.'<strong>Test du dynamisme des TAILLES</strong> : ';
+echo '<br>'.'<br>'.'Taille des fichiers : '.'<br>';
+echo $fichierTest1->getNom().' : '.$fichierTest1->getTaille().'<br>';
+echo $fichierTest2->getNom().' : '.$fichierTest2->getTaille().'<br>';
+echo $fichierTest3->getNom().' : '.$fichierTest3->getTaille().'<br>';
+echo $fichierTest4->getNom().' : '.$fichierTest4->getTaille().'<br>';
+
+
+// ajout des fichiers aux des dossiers
+$dossTest1->ajouterEnfantDossier($dossTest3);
+
+$dossTest1->ajouterEnfantDossier($dossTest2);
+
+$dossTest2->ajouterEnfantFichier($fichierTest1);
+$dossTest2->ajouterEnfantFichier($fichierTest2);
+
+$dossTest3->ajouterEnfantFichier($fichierTest3);
+$dossTest1->ajouterEnfantFichier($fichierTest4);
+
+
+echo '<br>'.'Taille des dossiers : '.'<br>';
+echo $dossTest1->getNom().' : '.$dossTest1->getTaille().'<br>';
+echo $dossTest2->getNom().' : '.$dossTest2->getTaille().'<br>';
+echo $dossTest3->getNom().' : '.$dossTest3->getTaille().'<br>';
+
+echo '<br>'.'Taille du stockage : '.'<br>';
+echo $stockageTest->getNom().' : '.$stockageTest->getTaille().'<br>';
 ?>

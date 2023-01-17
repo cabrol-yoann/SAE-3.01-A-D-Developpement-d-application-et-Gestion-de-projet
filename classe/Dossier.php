@@ -21,14 +21,7 @@ include_once "Tag.php";
 class Dossier extends Archive {
   
   // ATTRIBUTS
-
-  /**
-   * Représentation le père du dossier
-   *
-   * @var Stockage
-   */
-  private $parent;
-
+  
   /**
    * Représentation du nombre de Fichier que possède l'objet
    *
@@ -62,15 +55,14 @@ class Dossier extends Archive {
    * Constructeur de la classe
    *
    * @param string $nom        Représentation du nom que va posséder l'objet
-   * @param integer $taille    Représentation de la taille que va avoir l'objet
    * @param string $chemin     Représentaton du chemin que va posséder l'objet
    */
-  public function __construct($nom, $taille, $chemin)
+  public function __construct($nom, $chemin)
   {
     $this->listeEnfantDossier = new \SplObjectStorage();
     $this->listEnfantFichier = new \SplObjectStorage();
     $this->mesTags = new \SplObjectStorage();
-    parent::__construct($nom, $taille, $chemin);        
+    parent::__construct($nom, 0, $chemin);        
   }
 
   // DESTRUCTEUR
@@ -92,16 +84,6 @@ class Dossier extends Archive {
    *
    * @return int
    */
-  public function getParent() {
-    return $this->parent->getNom();
-  }
-  
-
-  /**
-   * retourne le nombre de Fichier du Dossier
-   *
-   * @return int
-   */
   public function getNbFichier() {
     return $this->nbFichier;
   }
@@ -113,15 +95,6 @@ class Dossier extends Archive {
   */
   public function setNbFichier() {
     $this->nbFichier = $this->listeEnfantDossier->count() + $this->listEnfantFichier->count();
-  }
-
-    /**
-   * Modifie l'attribut nbFichier de l'object Dossier
-   *
-   * @param int $nbFic Représentation du nombre de Fichier que possède l'objet
-  */
-  public function setParent($parent) {
-    $this->parent = $parent;
   }
   
   /**
@@ -152,43 +125,61 @@ class Dossier extends Archive {
   }
 
   /**
-   * Ajoute un Fochier à la liste de fichier de l'object Dossier
+   * Retourne la valeur de la taille de l'objet Dossier en mettant à jour sa taille
+   *
+   * @return integer $taille Représentation de la taille que va avoir l'objet
+   */
+  public function getTaille() {
+    $enfant = $this->getListeEnfantDossier();
+    $enfant->rewind();
+    while ($enfant->valid()) {
+      $this->taille += $enfant->current()->getTaille();
+      $enfant->next();
+    }
+    return $this->taille;
+  }
+
+  /**
+   * Ajoute un Fichier à la liste de fichier de l'object Dossier et met à jour sa taille
    *
    * @param Fichier $fichier object de la classe Fichier
    */
   public function ajouterEnfantFichier($fichier){
     $this->listEnfantFichier->attach($fichier);
-    $this->taille += $fichier->taille;
+    $this->taille = $this->taille + $fichier->getTaille();
     $this->setNbFichier();
   }
 
   /**
-   * Supprime un Fichier de la liste des enfants fichier de l'object Dossier
+   * Supprime un Fichier de la liste des enfants fichier de l'object Dossier et met à jour sa taille
    *
    * @param Fichier $fichier object de la classe Fichier
    */
   public function supprimerEnfantFichier($fichier) {
     $this->listEnfantFichier->detach($fichier);
     $this->setNbFichier();
+    $this->taille = $this->taille - $fichier->getTaille();
   }
 
   /**
-   * Ajoute un Dossier à la liste des enfants dossier de l'object Dossier
+   * Ajoute un Dossier à la liste des enfants dossier de l'object Dossier et met à jour sa taille
    *
    * @param Dossier $dossier object de la Dossier
    */
   public function ajouterEnfantDossier($dossier){
     $this->listeEnfantDossier->attach($dossier);
+    $this->taille = $this->taille + $dossier->getTaille();
     $this->setNbFichier();
   }
 
   /**
-   * Supprime un Dossier de la liste des enfants dossier de l'object Dossier
+   * Supprime un Dossier de la liste des enfants dossier de l'object Dossier et met à jour sa taille
    *
    * @param Dossier $dossier object de la classe Dossier
    */
   public function supprimerEnfantDossier($dossier) {
     $this->listeEnfantDossier->detach($dossier);
+    $this->taille = $this->taille - $dossier->getTaille();
     $this->setNbFichier();
   }
 
@@ -210,13 +201,6 @@ class Dossier extends Archive {
     $this->mesTags->detach($tag);
   }
 
-  // MÉTHODE SPÉCIFIQUE : 
-
-  public function updateParentPoids() {
-    if ($this->parent) {
-        $this->parent->setTaille($this->taille);
-    }
-}
-
+  // MÉTHODE SPÉCIFIQUE : NON 
 }
 ?>
