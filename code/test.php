@@ -5,9 +5,12 @@ include_once "../classe/Fichier.php";
 include_once "trierList.php";
 include_once "changementNom.php";
 include_once "recherche.php";
+
 include_once "restructuration.php";
+
 include_once "debutRecherche.php";
 
+debutRecherche($stockage, $objetAPlacer);
 
 // test de la fonction recherche
 echo 'test de la fonction recherche';echo '<br>';echo '<br>';
@@ -79,5 +82,11 @@ echo '<br><br><br><br><br><br>';
 
 //test de la fonction rechercheDossierARestructurer
 
+
+echo 'debut test de debutRecherche<br>';
+
+debutRecherche($stockage,$dossier2);
+
+echo 'fin de recherche';
 
 ?>
