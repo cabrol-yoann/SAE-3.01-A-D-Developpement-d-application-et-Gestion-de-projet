@@ -3,7 +3,7 @@ include_once "../classe/Fichier.php";
 include_once "../classe/Dossier.php";
 include_once "baseDeDonneePhysique.php";
 
-function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $objetAPlacer){
+function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $objetAPlacer, $restructuration){
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du conteur
     $point = 0;
@@ -15,9 +15,9 @@ function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $ob
     // Recherche pour les fichiers
     //Vérification si la liste des enfants n'est pas vide
     if (isset($listEnfantFichier)) {
-        echo "Liste enfant fichier";echo '<br>';
         $nbEnfant = $dossierParent->getListeEnfantFichier()->count();
-        while ($listEnfantFichier->valid()) { 
+        while ($listEnfantFichier->valid()) {
+            echo 'recherche de '.$objetAPlacer->getNom().' dans '.$listEnfantFichier->current()->getNom();echo '<br>';
             // Recherche à partir du Tag
             if($objetAPlacer->getMesTags()->valid() && $listEnfantFichier->current()->getMesTags()->valid()) {
                 $listTag = $objetAPlacer->getMesTags();
@@ -51,7 +51,6 @@ function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $ob
     $listEnfantDossier = $dossierParent->getListeEnfantDossier();
     //Recherche pour les dossiers
     if (isset($listEnfantDossier)) {
-        echo "Liste enfant dossier";echo '<br>';
         $nbEnfant = $listEnfantDossier->count();
         while ($listEnfantDossier->valid()) { 
             //Recherche du tag
@@ -84,7 +83,7 @@ function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $ob
     //Enregistrement de valeur trouver
     if ($point >= $score) {
         $score = $point;
-        $nomDossierTrouver = $dossierParent->getNom();
+        $nomDossierTrouver = $dossierParent;
         $trouver = true ;
     }
 
@@ -93,7 +92,7 @@ function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $ob
     if (isset($listEnfantDossier)) {
         while ($listEnfantDossier->valid()) {
             $dossierParent = $listEnfantDossier->current();
-            Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objetAPlacer);
+            Recherche($score, $trouver,  $nomDossierTrouver, $dossierParent, $objetAPlacer, $restructuration);
             $listEnfantDossier->next();
         }
     }

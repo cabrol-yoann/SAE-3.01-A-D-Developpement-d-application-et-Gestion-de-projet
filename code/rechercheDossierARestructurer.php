@@ -1,14 +1,16 @@
 <?php
 
 function RechercheDossierARestructurer(&$somme,$dossierParent,&$listeFichierARestructurer,&$trouver,$objetAPlacer){
+    $listeEnfantFichier = $dossierParent->getListeEnfantFichier();
+    $listeEnfantFichier->rewind();
     if ($trouver == true) {
         //Fin procedure
         return;
     }
-    elseif ($dossierParent->getListeEnfantFichier()->valid()) {
+    elseif ($listeEnfantFichier->valid()) {
         //Debut de la recherche
-        $listeEnfantFichier = $dossierParent->getListeEnfantFichier();
-        while ($listeEnfantFichier->valid()) { 
+        $listeEnfantFichier->rewind();
+        while ($listeEnfantFichier->valid()) {
             $somme = $somme + $listeEnfantFichier->current()->getTaille();
             $listeFichierARestructurer->attach($listeEnfantFichier->current());
             
@@ -22,6 +24,7 @@ function RechercheDossierARestructurer(&$somme,$dossierParent,&$listeFichierARes
     }
     //Recherche avec les enfants
     $listeEnfantDossier = $dossierParent->getListeEnfantDossier();
+    $listeEnfantDossier->rewind();
     while ($listeEnfantDossier->valid()) { 
         RechercheDossierARestructurer($somme,$listeEnfantDossier->current(),$listeFichierARestructurer,$trouver,$objetAPlacer);
         $listeEnfantDossier->next();
