@@ -5,14 +5,24 @@ include_once "../classe/Fichier.php";
 include_once "trierList.php";
 include_once "changementNom.php";
 include_once "recherche.php";
+<<<<<<< HEAD
 include_once "restructuration.php";
+=======
+include_once "debutRecherche.php";
+
+debutRecherche($stockage, $objetAPlacer);
+>>>>>>> parent of c2d4151... vide
 
 // test de la fonction recherche
 echo 'test de la fonction recherche';echo '<br>';echo '<br>';
 $score=0;
 $trouver=false;
 $nomDossierTrouver="";
+<<<<<<< HEAD
 Recherche($score,$trouver,$nomDossierTrouver,$drive,$objetAPlacer);
+=======
+Recherche($score,$trouver,$nomDossierTrouver,$dossier8,$objetAPlacer);
+>>>>>>> parent of c2d4151... vide
 print($nomDossierTrouver);echo ' nom du dossier trouver';echo '<br>';   
 print($score);echo ' score';echo '<br>';
 echo '<br> fin du test recherche';
