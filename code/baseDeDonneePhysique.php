@@ -49,6 +49,8 @@ $tag3 = new Tag("travail");
 $drive->setMaRacine($dossier1);
 $cloud->setMaRacine($dossier2);
 $FTP->setMaRacine($dossier3);
+$petitStockage->setMaRacine($dossier9);
+$stockagePlein->setMaRacine($dossier8);
 
 $dossier1->ajouterEnfantDossier($dossier6);
 
