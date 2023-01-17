@@ -5,6 +5,9 @@ include_once "../classe/Fichier.php";
 include_once "trierList.php";
 include_once "changementNom.php";
 include_once "recherche.php";
+
+include_once "restructuration.php";
+
 include_once "debutRecherche.php";
 
 debutRecherche($stockage, $objetAPlacer);
@@ -63,7 +66,21 @@ while ($listTest->valid()) {
     $listTest->next();
     echo '<br>';
 }
-echo '<br> fin du test trierList <br> <br>';
+echo '<br> fin du test trierList';
+
+echo '<br><br><br><br><br><br>';
+
+// test de la fonction restructuration
+print('test de la fonction changementNom');echo '<br>';echo '<br>';
+$nomEspaceStockageTrouver = $cloud;
+$ObjetAPlacer = $objetAPlacer;
+$nomDossierTrouver = $dossier6;
+Restructuration($nomEspaceStockageTrouver,$ObjetAPlacer,$nomDossierTrouver,$Stockage);
+echo '<br> fin du test restructuration';
+
+echo '<br><br><br><br><br><br>';
+
+//test de la fonction rechercheDossierARestructurer
 
 
 echo 'debut test de debutRecherche<br>';

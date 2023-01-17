@@ -1,34 +1,30 @@
 <?php
 
-function RechercheDossierARestructurer($somme,$dossierParent,$listeObject,$trouver,$objetAPlacer){
-
+function RechercheDossierARestructurer(&$somme,$dossierParent,&$listeFichierARestructurer,&$trouver,$objetAPlacer){
     if ($trouver == true) {
         //Fin procedure
         return;
-    }elseif ($dossierParent->getListeEnfantFichier()!= NULL) {
-        //Debut de la recherche 
-        $nbEnfant = sizeof($dossierParent->getListeEnfantFichier());
-
-        for ($enfant=0; $enfant < $nbEnfant-1; $enfant++) { 
-            $somme = $somme + $dossierParent->getListeEnfantFichier()[$enfant]->getTaille();
+    }
+    elseif ($dossierParent->getListeEnfantFichier()->valid()) {
+        //Debut de la recherche
+        $listeEnfantFichier = $dossierParent->getListeEnfantFichier();
+        while ($listeEnfantFichier->valid()) { 
+            $somme = $somme + $listeEnfantFichier->current()->getTaille();
+            $listeFichierARestructurer->attach($listeEnfantFichier->current());
             
             //Test si on a trouver tout nos fichier
-            if ($somme > $objectAPlacer->getTaille()) {
+            if ($somme > $objetAPlacer->getTaille()) {
                 $trouver = true;
                 break;
             }
+            $listeEnfantFichier->next();
         }
-
-        //Initialisation du/des fichier(s) a restructurer et mise a jour du pointeur
-        $listeObject->attach($dossierParent->getListeEnfantFichier()[$enfant]);
-        $dossierParent->supprimerEnfant($enfant);
-
-        //Recherche avec les enfants
-        RechercheDossierARestructurer($somme,$dossierParent,$listeObject,$trouver,$objetAPlacer);
+    }
+    //Recherche avec les enfants
+    $listeEnfantDossier = $dossierParent->getListeEnfantDossier();
+    while ($listeEnfantDossier->valid()) { 
+        RechercheDossierARestructurer($somme,$listeEnfantDossier->current(),$listeFichierARestructurer,$trouver,$objetAPlacer);
+        $listeEnfantDossier->next();
     }
 }
-
-
-
-RechercheDossierARestructurer(0,$dossier1, ,false,$objetAPlacer);
 ?>
