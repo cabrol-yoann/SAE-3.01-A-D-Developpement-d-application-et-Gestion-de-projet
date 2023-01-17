@@ -47,17 +47,23 @@ echo '</body>
     </html>';
 
 
-function affichageContenu($racine) {
+function affichageContenu($racine, &$espace = 0) {
+    $espace += 1;
+    $espacement = "";
+    for ($i = 0; $i < $espace; $i++) {
+        $espacement = $espacement . "--";
+    }
+
     $enfantsDoss = $racine->getListeEnfantDossier();
     while($enfantsDoss->valid()){
-        echo"|".$enfantsDoss->current()->getNom();
-        affichageContenu($enfantsDoss->current());
+        echo$espacement."|".$enfantsDoss->current()->getNom().'<br>';
+        affichageContenu($enfantsDoss->current(), $espace);
         $enfantsDoss->next();
     }
 
     $enfantsFich = $racine->getListeEnfantFichier();
     while($enfantsFich->valid()){
-        echo"-".$enfantsFich->current()->getNom();
+        echo $espacement."-".$enfantsFich->current()->getNom()."<br>";
         $enfantsFich->next();
     }
 }
