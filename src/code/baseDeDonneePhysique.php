@@ -15,8 +15,8 @@ $stockage = new \SplObjectStorage();
 $stockage -> attach($drive);
 $stockage -> attach($cloud);
 $stockage -> attach($FTP);
-//$stockage -> attach($petitStockage);
-//$stockage -> attach($stockagePlein);
+$stockage -> attach($petitStockage);
+$stockage -> attach($stockagePlein);
 
 //DOSSIER
 $dossier1 = new Dossier("TD","/TD");
