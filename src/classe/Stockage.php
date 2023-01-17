@@ -57,24 +57,23 @@ class Stockage{
    *
    * @var Dossier
    */
-  public $maRacine;
+  protected $maRacine;
   
   
   // CONSTRUCTEUR
   /**
-   * Constructeur de la classe Stockage demandant en paramètre le nom, la taille, la tailleMax, le chemin et si le stockage est restructurable
+   * Constructeur de la classe Stockage demandant en paramètre le nom, la tailleMax, le chemin et si le stockage est restructurable
    *
    * @param string $nom           Représentation du nom que va posséder l'objet
-   * @param integer $taille       Représentation de la taille que va posséder l'objet
    * @param integer $tailleMax    Représentation de la tailleMax que va posséder l'objet
    * @param string $chemin        Représentation du chemin que va posséder l'objet
    * @param bool $restructurable  Représentation de la restructuration que va posséder l'objet
    */
-  public function __construct($nom, $taille, $chemin, $tailleMax ,$restructurable)
+  public function __construct($nom, $chemin, $tailleMax ,$restructurable)
   {
     $this->restructurable = $restructurable;
     $this->nom = $nom;
-    $this->taille = $taille;
+    $this->taille = 0;
     $this->chemin = $chemin;
     $this->tailleMax = $tailleMax;    
   }
@@ -119,7 +118,9 @@ class Stockage{
    *
    * @return integer
    */
-  public function getTaille(){return $this->taille;}
+  public function getTaille(){
+    $this->taille = $this->maRacine->taille;
+    return $this->taille;}
   
   /**
    * Retourne la tailleMax de l'object Stockage
