@@ -14,28 +14,10 @@ echo '<!DOCTYPE html>
     </head>
     <body>';
 
-    ajoutFichier($stockage); // Vérifier si un fichier a été ajouté, faire le nécessaire si c'est le cas
+    $ajout = ajoutFichier($stockage); // Vérifier si un fichier a été ajouté, faire le nécessaire si c'est le cas
 
     // Afficher les stockages et leurs arborésences -> Ici les stockages sont passé en paramètre depuis l'import d'un fichier
-    // En pratique ils seront récupérés depuis la base de données
-    // afficherStockage($stockage); 
-    
-    // formulaire du fichier à ajouter (possibilité de choisir un fichier .txt)
-    echo '<form action="#" method="post" enctype="multipart/form-data">
-        <label for="fichier">Fichier à ajouter :</label>
-        <input type="file" name="fichier" id="fichier"> <br>
-        <label for="tag">Tag :</label>
-        <input type="text" name="tag" id="tag" placeholder="Tag">
-        <input type="submit" value="Ajouter">
-    </form>';
-        
-echo '</body>
-    </html>';
-
-
-// AFFICHAGE DES STOCKAGES
-function afficherStockage($stockage){
-    $stockage -> rewind();
+    $stockage->rewind();
     while($stockage->valid()) {
         echo '<h1>'.$stockage->current()->getNom().'</h1>';
         echo '<h2>Caractéristiques</h2>';
@@ -54,15 +36,26 @@ function afficherStockage($stockage){
 
         echo "<h2>Contenu</h2>";
         // affichage de l'arborésence
-        affichageContenu($stockage->current()->getMaRacine());
+        affichageContenu($stockage->current()->getMaRacine(), $ajout);
 
         echo '<hr>';
         $stockage->next();
-    }
-}
+    } 
+    
+    // formulaire du fichier à ajouter (possibilité de choisir un fichier .txt)
+    echo '<form action="#" method="post" enctype="multipart/form-data">
+        <label for="fichier">Fichier à ajouter :</label>
+        <input type="file" name="fichier" id="fichier"> <br>
+        <label for="tag">Tag :</label>
+        <input type="text" name="tag" id="tag" placeholder="Tag">
+        <input type="submit" value="Ajouter">
+    </form>';
+        
+echo '</body>
+    </html>';
 
 // Affichage du contenu des stockages (arborésence)
-function affichageContenu($racine, &$espace = 0) {
+function affichageContenu($racine, $ajout, &$espace = 0) {
     // Gestion de l'espacement pour l'affichage de l'arborésence (décalage à droite des sous-dossiers / sous-fichiers)
     $espace += 1;
     $espacement = "";
@@ -72,16 +65,23 @@ function affichageContenu($racine, &$espace = 0) {
 
     // Affichage des sous-dossiers -> récursif : rappel de la fonction pour chaque sous dossier
     $enfantsDoss = $racine->getListeEnfantDossier();
+    $enfantsDoss->rewind();
     while($enfantsDoss->valid()){
-        echo$espacement."|".$enfantsDoss->current()->getNom().'<br>';
-        affichageContenu($enfantsDoss->current(), $espace);
+        echo "<p>".$espacement."|".$enfantsDoss->current()->getNom().'<p>';
+        affichageContenu($enfantsDoss->current(), $ajout, $espace);
         $enfantsDoss->next();
     }
 
     // Affichage des sous-fichiers  
     $enfantsFich = $racine->getListeEnfantFichier();
+    $enfantsFich->rewind();
     while($enfantsFich->valid()){
-        echo $espacement."-".$enfantsFich->current()->getNom()."<br>";
+        if($enfantsFich->current() == $ajout){
+            echo "<p style='color: red;'>".$espacement."-".$enfantsFich->current()->getNom()."<p>";
+        }
+        else{
+        echo "<p>".$espacement."-".$enfantsFich->current()->getNom()."<p>";
+        }
         $enfantsFich->next();
     }
 }
@@ -117,6 +117,8 @@ function ajoutFichier($stockage){
         debutRecherche($stockage, $ajout, $nomEspaceStockageTrouver, $nomDossierTrouver, $restructuration);
 
         $nomDossierTrouver->ajouterEnfantFichier($ajout);
+
+        return $ajout;
     }
 
     
