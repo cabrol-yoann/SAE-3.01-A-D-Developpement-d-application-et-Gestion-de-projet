@@ -76,7 +76,7 @@ function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $ob
     }
 
     //Enregistrement des points si le score est égale à 0 ou si aucun fichier ou dossier n'a était trouver
-    if ($score == 0) {
+    if ($point > 0) {
         $score = $point;
     }
 

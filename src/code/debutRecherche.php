@@ -10,7 +10,8 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomEspaceTrouver, &$nomDoss
 //Meilleur Emplacement
     //initialisation
     $score = 0;
-    $nomDossierTrouver = "";
+    if (!isset($nomDossierTrouver))
+        $nomDossierTrouver = "";
     $listStockage = new \SplObjectStorage();
     $trouver = false;
     $tailleCalculer = 0;
@@ -23,20 +24,14 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomEspaceTrouver, &$nomDoss
         $tailleCalculer = $nomStockage->getTaille() + $objetAPlacer->getTaille();
         //On regarde si on peut stocker le dossier dans un espace puis on enregistre la valeur dans une liste
         if ($tailleCalculer > $nomStockage->getTailleMax()) {               // Fichier trop volumineux pour être stocké dans le stockage
-            echo $tailleCalculer.$nomStockage->getNom(); echo '<br><br><br>';
-            if ($restructuration == false) {
+            if ($restructuration == false) {                                // Si on n'est pas en face de restructuration
                 if ($nomStockage->getRestructurable() == true) {                // Mais restructurable (donc peut potentiellement être intégré)
-                    if($objetAPlacer->getTaille() < $nomStockage->getTaille()){   // Et que le poids du fichier < taille totale du stockage
-                        $listStockage->attach($nomStockage);
-                    }
+                    $listStockage->attach($nomStockage);
                 }
             }
-            elseif ($nomStockage->getNom() == $nomEspaceTrouver->getNom()) { // Si on est en mode restructuration
-                echo $nomStockage->getNom(). $nomEspaceTrouver->getNom();
-                if ($nomStockage->getRestructurable() == true) {                // Mais restructurable (donc peut potentiellement être intégré)
-                    if($objetAPlacer->getTaille() < $nomStockage->getTaille()){   // Et que le poids du fichier < taille totale du stockage
-                        $listStockage->attach($nomStockage);
-                    }
+            elseif($restructuration == true && $nomStockage != $nomDossierTrouver) {    // Si on est en face de restructuration et que le stockage n'est pas celui du dossier à restructurer
+                if ($nomStockage->getRestructurable() == true) {                        // Et restructurable (donc peut potentiellement être intégré)
+                    $listStockage->attach($nomStockage);
                 }
             }
         }
@@ -46,12 +41,18 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomEspaceTrouver, &$nomDoss
 
         $stockage->next();
     }
+    if (!$listStockage->valid()) {
+        echo 'le fichier ne peut pas être stocké dans aucun espace de stockage';
+        exit();
+    }
+
     //tri de la list
     trierList($listStockage);
 
     //Recherche dans tous les espaces de stockage
     $listStockage -> rewind();
     while($listStockage->valid()) { 
+        echo $objetAPlacer->getNom() . ' recherche dans ' . $listStockage->current()->getNom() . ' ';echo '<br>';
         recherche($score, $trouver, $nomDossierTrouver, $listStockage->current()->getMaRacine(), $objetAPlacer, $restructuration);
         //Recupération du nom de l'espace de stockage comportent la meilleur position
         if ($trouver == true) {
@@ -60,6 +61,8 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomEspaceTrouver, &$nomDoss
     
         $listStockage->next(); // A chaque itération de la boucle for, on passe à l'objet suivant de listStockage
     }
+
+    Restructuration($nomEspaceTrouver,$objetAPlacer,$nomDossierTrouver,$stockage,$restructuration);
 }
 
 

@@ -24,10 +24,7 @@ echo 'test du code complet';echo '<br>';echo '<br>';
 $restructuration=false;
 
 debutRecherche($stockage, $objetAPlacer,$nomEspaceStockageTrouver,$nomDossierTrouver,$restructuration);
-echo $nomDossierTrouver->getNom();echo ' nom du dossier trouver';echo '<br>';
-echo $nomEspaceStockageTrouver->getNom();echo ' nom de l espace de stockage trouver';echo '<br>';
-
-//Restructuration($nomEspaceStockageTrouver,$objetAPlacer,$nomDossierTrouver,$stockage);
+echo 'fin du test de la fonction debutRecherche';echo '<br>';echo '<br>';
 
 
 // fin du test du code complet

@@ -2,16 +2,20 @@
 
 include_once 'rechercheDossierARestructurer.php';
 
-function Restructuration($nomEspaceStockageTrouver,$ObjetAPlacer,$nomDossierTrouver,$Stockage){
+function Restructuration($nomEspaceStockageTrouver,$ObjetAPlacer,$nomDossierTrouver,$Stockage,$restructuration){
     //Test taille
     $tailleCalculer = $nomEspaceStockageTrouver->getTaille() + $ObjetAPlacer->getTaille();
     echo $tailleCalculer ;echo ' taille calculer';echo '<br>';
     echo $nomEspaceStockageTrouver->getTailleMax() ;echo ' taille max';echo '<br>';
     if ($nomEspaceStockageTrouver->getTailleMax() > $tailleCalculer) {
         //Ajout du dossier dans le dossier
-        echo 'Ajout du dossier dans le dossier';echo '<br>';
+        echo 'Ajout du dossier '.$ObjetAPlacer->getNom().' dans le dossier '.$nomDossierTrouver->getNom().' dans l\'espace '.$nomEspaceStockageTrouver->getNom();echo '<br>';
         $nomDossierTrouver->ajouterEnfantFichier($ObjetAPlacer);
         return;
+    }
+    if ($restructuration == true) {
+        echo 'Restructuration impossible';echo '<br>';
+        exit();
     }
     //Changement de nom si nécéssaire
     ChangementNomDossier($nomDossierTrouver, $ObjetAPlacer);
