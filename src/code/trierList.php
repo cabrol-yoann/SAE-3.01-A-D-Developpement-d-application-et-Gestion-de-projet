@@ -16,6 +16,15 @@ include_once "../classe/Dossier.php";
  */
 function trierList(&$ObjectStockage){
     //Initialisation des variables
+    /**
+     * @var Stockage $petit Objet le plus petit de la liste
+     * @var Stockage $sauvegarde Objet en cours de comparaison
+     * @var int $key clé de l'objet le plus petit
+     * @var int $foyer variable d'échange (pointeur)
+     * @var int $pivot variable d'échange (tampon, pointeur)
+     * @var bool $modifier savoir si on a modifier la liste
+     * @var int $i itérateur de la boucle for
+     */
     $petit = new Stockage("petit","","",true);
     $sauvegarde = new Stockage("sauvegarde","","",true);
     $key=0;  

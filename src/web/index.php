@@ -70,6 +70,11 @@ echo '</body>
  */
 function affichageContenu($racine, $ajout, &$espace = 0) {
     // Gestion de l'espacement pour l'affichage de l'arborésence (décalage à droite des sous-dossiers / sous-fichiers)
+    /**
+     * @var int $i : compteur pour l'espacement
+     * @var string $espacement : espacement à afficher
+     * @var int $espace : nombre d'$espacement à ajouter
+     */
     $espace += 1;
     $espacement = "";
     for ($i = 0; $i < $espace; $i++) {
@@ -107,6 +112,14 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
  * @return null : si aucun fichier n'a été ajouté
  */
 function ajoutFichier($stockage, $tags){
+    /**
+     * @var Fichier $file : fichier ajouté récupéré depuis le formulaire
+     * @var SplObjectStorage $tag : tag récupéré depuis le formulaire
+     * @var SplObjectStorage $listeTag : liste des tags récupéré depuis la base de données
+     * @var SplObjectStorage $stockage : liste des stockages récupéré depuis la base de données
+     * @var bool $restructuration : initialise un booléen pour savoir si la restructuration a été effectuée
+     * @var FILES $ajout : fichier ajouté récupéré depuis le formulaire 
+     */
     if(isset($_FILES["fichier"])){
         // Lecture du fichier dans lequel sont situés ses informations
         $file = file($_FILES['fichier']['tmp_name']);
@@ -130,8 +143,6 @@ function ajoutFichier($stockage, $tags){
         $ajout = new Fichier($file[1], intval($file[2]), "", $file[3]);
 
         // choix du stockage dans lequel le fichier sera ajouté
-        // debutRecherche($stockage, $objetAPlacer,$nomEspaceStockageTrouver,$nomDossierTrouver,$restructuration);
-
         $restructuration = false;
         debutRecherche($stockage, $ajout, $nomEspaceStockageTrouver, $nomDossierTrouver, $restructuration);
 

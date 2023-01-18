@@ -22,9 +22,14 @@ include_once "baseDeDonneePhysique.php";
 
 function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $objetAPlacer, $restructuration){
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
-    // Initialisation des points et du conteur
+    // Initialisation des points et du compteur
+
+    /**
+     * @var int $point Nombre de point
+     * @var int $compteur Nombre de fois que l'on a trouvé le type
+     */
     $point = 0;
-    $conteur = 0;
+    $compteur = 0;
 
     // Recherche et attribution des points
     // Récupération de la liste des enfants Fichier.
@@ -50,9 +55,9 @@ function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $ob
             }
             // Recherche à partir du type
             if ($listEnfantFichier->current()->getType() == $objetAPlacer->getType()) {
-                $conteur++;
+                $compteur++;
             }
-            if ($conteur == $nbEnfant) {
+            if ($compteur == $nbEnfant) {
                 $point++;
                 echo "Type trouvé";echo '<br>';
             }

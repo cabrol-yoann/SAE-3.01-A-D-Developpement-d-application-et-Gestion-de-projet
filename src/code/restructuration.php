@@ -17,6 +17,13 @@ include_once 'rechercheDossierARestructurer.php';
  * @return void
  */
 function Restructuration($nomEspaceStockageTrouver,$ObjetAPlacer,$nomDossierTrouver,$Stockage){
+    /**
+     * @var int $tailleCalculer Taille du dossier calculé apres ajout de l'$ObjetAPlacer
+     * @var bool $trouver Booléen pour savoir si on a trouvé un dossier à restructurer
+     * @var int $somme Somme des tailles des fichiers
+     * @var SplObjectStorage $listeFichierARestructurer Liste des fichiers à restructurer 
+     */
+    
     //Test taille
     $tailleCalculer = $nomEspaceStockageTrouver->getTaille() + $ObjetAPlacer->getTaille();
     echo $tailleCalculer ;echo ' taille calculer';echo '<br>';

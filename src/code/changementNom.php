@@ -21,6 +21,11 @@ function ChangementNomDossier($nomDossierTrouver, $ObjetAPlacer){
 
     if (get_class($ObjetAPlacer) == get_class($testDossier = new Dossier("",0,""))) {
         //Variables
+        /**
+         * @var int $compteur Compteur pour le changement de nom
+         * @var string $nouveauNom Nouveau nom du dossier
+         * @var SplObjectStorage $listeEnfantDossier Liste des enfants du dossier
+         */
         $compteur=1;
         $nouveauNom = "";
         $listeEnfantDossier = $nomDossierTrouver->getListeEnfantDossier();

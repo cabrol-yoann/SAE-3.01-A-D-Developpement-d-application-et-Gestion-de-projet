@@ -16,6 +16,11 @@
  * @return void
 */
 function RechercheDossierARestructurer(&$somme,$dossierParent,&$listeFichierARestructurer,&$trouver,$objetAPlacer){
+    
+    /**
+     * @var SplObjectStorage $listeEnfantFichier Liste des enfants Fichier
+     * @var SplObjectStorage $listeEnfantDossier Liste des enfants Dossier
+     */
     $listeEnfantFichier = $dossierParent->getListeEnfantFichier();
     $listeEnfantFichier->rewind();
     if ($trouver == true) {

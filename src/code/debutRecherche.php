@@ -23,6 +23,13 @@ include_once "recherche.php";
 function debutRecherche ($stockage, $objetAPlacer, &$nomStockageTrouver, &$nomDossierTrouver, $restructuration){
 //Meilleur Emplacement
     //initialisation
+    /**
+     * @var int $score Score du dossier analysé
+     * @var string $nomDossierTrouver Nom du dossier que l'on a trouvé
+     * @var SplObjectStorage $listStockage Liste des stockages dans lesquels on peut stocker le dossier
+     * @var bool $trouver Pour savoir si on a trouvé un dossier
+     * @var int $tailleCalculer Taille total calculé du dossier avec le fichier à ajouter
+     */
     $score = 0;
     $nomDossierTrouver = "";
     $listStockage = new \SplObjectStorage();
