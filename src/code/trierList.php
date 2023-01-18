@@ -9,7 +9,11 @@
 include_once "baseDeDonneePhysique.php";
 include_once "../classe/Dossier.php";
 
-
+/**
+ * @brief Fonction permettant de trier une liste d'objet
+ * @param &$ObjectStockage liste d'objet à trier splObjectStorage
+ * @return void
+ */
 function trierList(&$ObjectStockage){
     //Initialisation des variables
     $petit = new Stockage("petit","","",true);

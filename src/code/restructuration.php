@@ -8,6 +8,14 @@
 
 include_once 'rechercheDossierARestructurer.php';
 
+/**
+ * @brief Fonction permettant de restructurer un dossier
+ * @param $nomEspaceStockageTrouver Espace de stockage dans lequel on va restructurer
+ * @param $ObjetAPlacer (objet de type Fichier)Objet à placer
+ * @param $nomDossierTrouver (objet de type Dossier) Dossier dans lequel on va restructurer
+ * @param $Stockage (objet de type Stockage) Stockage dans lequel on va restructurer 
+ * @return void
+ */
 function Restructuration($nomEspaceStockageTrouver,$ObjetAPlacer,$nomDossierTrouver,$Stockage){
     //Test taille
     $tailleCalculer = $nomEspaceStockageTrouver->getTaille() + $ObjetAPlacer->getTaille();

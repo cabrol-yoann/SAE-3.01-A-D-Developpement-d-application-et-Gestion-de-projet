@@ -1,7 +1,24 @@
 <?php
+/**
+ * @file recherche.php
+ * @author Cabrol Yoann
+ * @details Fonction permettant de restructurer un dossier
+ * @version 2.0
+ */
 include_once "../classe/Fichier.php";
 include_once "../classe/Dossier.php";
 include_once "baseDeDonneePhysique.php";
+
+
+/**
+ * @brief Fonction permettant de restructurer un dossier
+ * @param $somme (entier) Somme des tailles des fichiers
+ * @param $dossierParent (objet de type Dossier) dans lequel on va restructurer
+ * @param $listeFichierARestructurer (objet de type splObjectStorage)Liste des fichiers à restructurer
+ * @param $trouver (booléen) pour savoir si on a trouver tout nos fichier
+ * @param $objetAPlacer (objet de type Fichier) Objet à placer
+ * @return void
+ */
 
 function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $objetAPlacer, $restructuration){
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
