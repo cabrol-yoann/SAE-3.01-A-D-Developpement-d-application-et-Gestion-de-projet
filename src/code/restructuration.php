@@ -1,4 +1,10 @@
 <?php
+/**
+ * @file restructuration.php
+ * @author Cabrol Yoann
+ * @details Fonction permettant de restructurer un dossier
+ * @version 2.0
+ */
 
 include_once 'rechercheDossierARestructurer.php';
 
