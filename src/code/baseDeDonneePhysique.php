@@ -45,6 +45,13 @@ $tag1 = new Tag("noël");
 $tag2 = new Tag("cour");
 $tag3 = new Tag("travail");
 
+// CREATION DE LA LISTE DE TAGS (arraylist)
+$tags = new \SplObjectStorage();
+$tags -> attach($tag);
+$tags -> attach($tag1);
+$tags -> attach($tag2);
+$tags -> attach($tag3);
+
 // AJOUT DES ENFANTS
 $drive->setMaRacine($dossier1);
 $cloud->setMaRacine($dossier2);

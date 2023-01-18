@@ -14,7 +14,7 @@ echo '<!DOCTYPE html>
     </head>
     <body>';
 
-    $ajout = ajoutFichier($stockage); // Vérifier si un fichier a été ajouté, faire le nécessaire si c'est le cas
+    $ajout = ajoutFichier($stockage, $tags); // Vérifier si un fichier a été ajouté, faire le nécessaire si c'est le cas
 
     // Afficher les stockages et leurs arborésences -> Ici les stockages sont passé en paramètre depuis l'import d'un fichier
     $stockage->rewind();
@@ -87,7 +87,7 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
 }
 
 // Ajout d'un fichier 
-function ajoutFichier($stockage){
+function ajoutFichier($stockage, $tags){
     if(isset($_FILES["fichier"])){
         // Lecture du fichier dans lequel sont situés ses informations
         $file = file($_FILES['fichier']['tmp_name']);
@@ -117,6 +117,29 @@ function ajoutFichier($stockage){
         debutRecherche($stockage, $ajout, $nomEspaceStockageTrouver, $nomDossierTrouver, $restructuration);
 
         $nomDossierTrouver->ajouterEnfantFichier($ajout);
+        
+        // GESTION DS TAGS
+        if(isset($_POST["tag"])){
+            // Récupérer les différents tags séparés par des points-virgules dans un array
+            $tags_recuperes = explode(";", $_POST["tag"]);
+            foreach($tags_recuperes as $tag){
+                $newTag = new Tag($tag);
+                // Si le tag existe, l'ajouter
+                if($tags->contains($newTag)){
+                    $ajout->ajouterTags($tags->get($newTag));
+                }
+
+                // Sinon, le créer et l'ajouter
+                else{
+                    $ajout->ajouterTags($newTag);
+                }
+            }
+
+
+
+            
+            //
+        }
 
         return $ajout;
     }
