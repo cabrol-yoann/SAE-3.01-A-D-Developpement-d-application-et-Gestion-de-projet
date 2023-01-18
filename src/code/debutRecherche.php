@@ -1,12 +1,26 @@
 <?php
+/**
+ * @file debutRecherche.php
+ * @author Cabrol Yoann, Gouaud Romain
+ * @details Fonction permettant de restructurer un dossier
+ * @version 3.0
+ */
+
 
 include_once "trierList.php";
 include_once "recherche.php";
 
 
-
+/**
+ * @brief Fonction permettant de restructurer un dossier
+ * @param $stockage (objet de type SplObjectStorage) Stockage dans lequel on va restructurer
+ * @param $objetAPlacer (objet de type Fichier) Objet à placer
+ * @param $nomEspaceTrouver (objet de type Espace) Espace dans lequel on va restructurer
+ * @param $nomDossierTrouver (objet de type Dossier) Dossier dans lequel on va restructurer
+ * @param $restructuration (booléen) pour savoir si on est en mode restructuration
+ * @return void
+ */
 function debutRecherche ($stockage, $objetAPlacer, &$nomEspaceTrouver, &$nomDossierTrouver, $restructuration){
-
 //Meilleur Emplacement
     //initialisation
     $score = 0;
