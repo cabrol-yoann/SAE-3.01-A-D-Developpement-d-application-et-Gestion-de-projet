@@ -7,7 +7,7 @@ include_once "../classe/Fichier.php";
 // ESPACE DE STOCKAGE
 $drive = new Stockage("SAE","/",500000000,false);
 $cloud = new Stockage("TEST","/",666690420,true);
-$FTP = new Stockage("Stockage","/",987654321,true);
+$FTP = new Stockage("Stockage","/",98765432100,true);
 $petitStockage = new Stockage("petit", "/", 200000, true);
 $stockagePlein = new Stockage("plein", "/",50000000, true);
 
@@ -96,6 +96,6 @@ $dossier8->ajouterTags($tag);
 
 // Object a ajouter
 
-$objetAPlacer = new Fichier("sapin",1528,"","png");
+$objetAPlacer = new Fichier("sapin",6841000000,"","png");
 $objetAPlacer->ajouterTags($tag1);
 ?>
