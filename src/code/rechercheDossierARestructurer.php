@@ -7,7 +7,7 @@
  */
 
 /**
- * @brief Fonction permettant de restructurer un dossier
+ * @brief Fonction permettant de rechercher un dossier à restructurer
  * @param $somme (entier) Somme des tailles des fichiers
  * @param $dossierParent (objet de type Dossier) dans lequel on va restructurer
  * @param $listeFichierARestructurer (objet de type splObjectStorage)Liste des fichiers à restructurer

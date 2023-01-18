@@ -11,7 +11,7 @@ include_once "baseDeDonneePhysique.php";
 
 
 /**
- * @brief Fonction permettant de restructurer un dossier
+ * @brief Fonction permettant de rechercher le meilleur emplacement du fichier à ajouter dans des dossier passés en paramètres
  * @param $somme (entier) Somme des tailles des fichiers
  * @param $dossierParent (objet de type Dossier) dans lequel on va restructurer
  * @param $listeFichierARestructurer (objet de type splObjectStorage)Liste des fichiers à restructurer

@@ -12,7 +12,7 @@ include_once "recherche.php";
 
 
 /**
- * @brief Fonction permettant de restructurer un dossier
+ * @brief Fonction permettant d'initialiser la recherche. Elle s'occupe de chercher quels sont les stockages dans lesquel il est possible de stocker le fichier
  * @param $stockage (objet de type SplObjectStorage) Stockage dans lequel on va restructurer
  * @param $objetAPlacer (objet de type Fichier) Objet à placer
  * @param $nomEspaceTrouver (objet de type Espace) Espace dans lequel on va restructurer
