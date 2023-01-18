@@ -11,7 +11,7 @@ include_once "../classe/Dossier.php";
 
 /**
  * @brief Fonction permettant de trier une liste d'objet
- * @param &$ObjectStockage liste d'objet à trier splObjectStorage
+ * @param SplObjectStorage &$ObjectStockage liste d'objet à trier
  * @return void
  */
 function trierList(&$ObjectStockage){

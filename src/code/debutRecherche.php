@@ -13,14 +13,14 @@ include_once "recherche.php";
 
 /**
  * @brief Fonction permettant d'initialiser la recherche. Elle s'occupe de chercher quels sont les stockages dans lesquel il est possible de stocker le fichier
- * @param $stockage (objet de type SplObjectStorage) Stockage dans lequel on va restructurer
- * @param $objetAPlacer (objet de type Fichier) Objet à placer
- * @param $nomEspaceTrouver (objet de type Espace) Espace dans lequel on va restructurer
- * @param $nomDossierTrouver (objet de type Dossier) Dossier dans lequel on va restructurer
- * @param $restructuration (booléen) pour savoir si on est en mode restructuration
+ * @param SplObjectStorage $stockage Stockage dans lequel on va restructurer
+ * @param Fichier $objetAPlacer Objet à placer
+ * @param Stockage $nomStockageTrouver Espace dans lequel on va restructurer
+ * @param Dossier $nomDossierTrouver Dossier dans lequel on va restructurer
+ * @param bool $restructuration pour savoir si on est en mode restructuration
  * @return void
  */
-function debutRecherche ($stockage, $objetAPlacer, &$nomEspaceTrouver, &$nomDossierTrouver, $restructuration){
+function debutRecherche ($stockage, $objetAPlacer, &$nomStockageTrouver, &$nomDossierTrouver, $restructuration){
 //Meilleur Emplacement
     //initialisation
     $score = 0;
@@ -45,8 +45,8 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomEspaceTrouver, &$nomDoss
                     }
                 }
             }
-            elseif ($nomStockage->getNom() == $nomEspaceTrouver->getNom()) { // Si on est en mode restructuration
-                echo $nomStockage->getNom(). $nomEspaceTrouver->getNom();
+            elseif ($nomStockage->getNom() == $nomStockageTrouver->getNom()) { // Si on est en mode restructuration
+                echo $nomStockage->getNom(). $nomStockageTrouver->getNom();
                 if ($nomStockage->getRestructurable() == true) {                // Mais restructurable (donc peut potentiellement être intégré)
                     if($objetAPlacer->getTaille() < $nomStockage->getTaille()){   // Et que le poids du fichier < taille totale du stockage
                         $listStockage->attach($nomStockage);
@@ -69,7 +69,7 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomEspaceTrouver, &$nomDoss
         recherche($score, $trouver, $nomDossierTrouver, $listStockage->current()->getMaRacine(), $objetAPlacer, $restructuration);
         //Recupération du nom de l'espace de stockage comportent la meilleur position
         if ($trouver == true) {
-            $nomEspaceTrouver = $listStockage->current();
+            $nomStockageTrouver = $listStockage->current();
         }
     
         $listStockage->next(); // A chaque itération de la boucle for, on passe à l'objet suivant de listStockage

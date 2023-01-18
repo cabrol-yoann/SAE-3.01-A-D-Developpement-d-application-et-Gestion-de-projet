@@ -1,4 +1,11 @@
 <?php
+/**
+ * @file index.php
+ * @author Gouaud Romain
+ * @details Page affichant les stockages et leurs arborésences avec un formulaire pour tester les ajouts
+ * @version 4.0
+ */
+ 
 
 include_once "../code/baseDeDonneePhysique.php";
 include_once "../code/debutRecherche.php";
@@ -54,7 +61,13 @@ echo '<!DOCTYPE html>
 echo '</body>
     </html>';
 
-// Affichage du contenu des stockages (arborésence)
+/**
+ * @brief Affichage de l'arborésence d'un stockage
+ * @param Dossier $racine : dossier racine du stockage
+ * @param Fichier $ajout : fichier ajouté (si il y en a un)
+ * @param int $espace : espacement pour l'affichage de l'arborésence (0 par défaut, pas obligatoire)
+ * @return void
+ */
 function affichageContenu($racine, $ajout, &$espace = 0) {
     // Gestion de l'espacement pour l'affichage de l'arborésence (décalage à droite des sous-dossiers / sous-fichiers)
     $espace += 1;
@@ -86,7 +99,13 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
     }
 }
 
-// Ajout d'un fichier 
+/**
+ * @brief Ajout d'un fichier dans un stockage
+ * @param SplObjectStorage $stockage : stockage dans lequel on veut ajouter un fichier
+ * @param SplObjectStorage $tags : liste des tags
+ * @return Fichier $ajout : fichier ajouté
+ * @return null : si aucun fichier n'a été ajouté
+ */
 function ajoutFichier($stockage, $tags){
     if(isset($_FILES["fichier"])){
         // Lecture du fichier dans lequel sont situés ses informations
@@ -135,10 +154,6 @@ function ajoutFichier($stockage, $tags){
                 }
             }
 
-
-
-            
-            //
         }
 
         return $ajout;

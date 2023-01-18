@@ -12,11 +12,11 @@ include_once "baseDeDonneePhysique.php";
 
 /**
  * @brief Fonction permettant de rechercher le meilleur emplacement du fichier à ajouter dans des dossier passés en paramètres
- * @param $somme (entier) Somme des tailles des fichiers
- * @param $dossierParent (objet de type Dossier) dans lequel on va restructurer
- * @param $listeFichierARestructurer (objet de type splObjectStorage)Liste des fichiers à restructurer
- * @param $trouver (booléen) pour savoir si on a trouver tout nos fichier
- * @param $objetAPlacer (objet de type Fichier) Objet à placer
+ * @param int $somme Somme des tailles des fichiers
+ * @param Dossier $dossierParent dans lequel on va restructurer
+ * @param SplObjectStorage $listeFichierARestructure Liste des fichiers à restructurer
+ * @param bool $trouver pour savoir si on a trouver tout nos fichier
+ * @param Fichier $objetAPlacer Objet à placer
  * @return void
  */
 

@@ -8,11 +8,11 @@
 
 /**
  * @brief Fonction permettant de rechercher un dossier à restructurer
- * @param $somme (entier) Somme des tailles des fichiers
- * @param $dossierParent (objet de type Dossier) dans lequel on va restructurer
- * @param $listeFichierARestructurer (objet de type splObjectStorage)Liste des fichiers à restructurer
- * @param $trouver (booléen) pour savoir si on a trouver tout nos fichier
- * @param $objetAPlacer (objet de type Fichier) Objet à placer
+ * @param int $somme Somme des tailles des fichiers
+ * @param Dossier $dossierParent dans lequel on va restructurer
+ * @param SplObjectStorage $listeFichierARestructurer Liste des fichiers à restructurer
+ * @param bool $trouver pour savoir si on a trouver tout nos fichier
+ * @param Fichier $objetAPlacer Objet à placer
  * @return void
 */
 function RechercheDossierARestructurer(&$somme,$dossierParent,&$listeFichierARestructurer,&$trouver,$objetAPlacer){

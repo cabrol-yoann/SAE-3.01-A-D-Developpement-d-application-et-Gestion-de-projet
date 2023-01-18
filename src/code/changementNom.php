@@ -13,8 +13,8 @@ include_once "../classe/Dossier.php";
 
 /**
  * @brief Fonction permettant de changer le fichier ajouter de nom en cas de doublon
- * @param $nomDossierTrouver (objet de type Dossier) Dossier dans lequel on va restructurer
- * @param $ObjetAPlacer (objet de type Fichier ou Dossier) Objet à placer
+ * @param Dossier $nomDossierTrouver Dossier dans lequel on va restructurer
+ * @param Fichier $ObjetAPlacer Objet à placer
  * @return void
  */
 function ChangementNomDossier($nomDossierTrouver, $ObjetAPlacer){
