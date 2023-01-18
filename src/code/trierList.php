@@ -6,8 +6,8 @@ include_once "../classe/Dossier.php";
 
 function trierList(&$ObjectStockage){
     //Initialisation des variables
-    $petit = new Stockage("petit",0,"","",true);
-    $sauvegarde = new Stockage("sauvegarde",0,"","",true);
+    $petit = new Stockage("petit","","",true);
+    $sauvegarde = new Stockage("sauvegarde","","",true);
     $key=0;  
 
     //Trie

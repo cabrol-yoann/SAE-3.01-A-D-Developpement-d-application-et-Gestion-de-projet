@@ -90,6 +90,7 @@ class Stockage{
     $this->taille = $Stockage->taille;
     $this->chemin = $Stockage->chemin;
     $this->tailleMax = $Stockage->tailleMax;
+    $this->maRacine = $Stockage->maRacine;
   }
 
   // DESTRUCTEUR
@@ -119,7 +120,7 @@ class Stockage{
    * @return integer
    */
   public function getTaille(){
-    $this->taille = $this->maRacine->taille;
+    $this->taille = $this->maRacine->getTaille();
     return $this->taille;}
   
   /**

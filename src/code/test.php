@@ -27,11 +27,11 @@ debutRecherche($stockage, $objetAPlacer,$nomEspaceStockageTrouver,$nomDossierTro
 echo $nomDossierTrouver->getNom();echo ' nom du dossier trouver';echo '<br>';
 echo $nomEspaceStockageTrouver->getNom();echo ' nom de l espace de stockage trouver';echo '<br>';
 
-Restructuration($nomEspaceStockageTrouver,$objetAPlacer,$nomDossierTrouver,$stockage);
+//Restructuration($nomEspaceStockageTrouver,$objetAPlacer,$nomDossierTrouver,$stockage);
 
 
 // fin du test du code complet
-echo 'fin du test du code complet';echo '<br>';echo '<br>';
+echo '<br>';echo '<br>';echo 'fin du test du code complet';echo '<br>';echo '<br>';
 
 // test de la fonction recherche
 echo 'test de la fonction recherche';echo '<br>';echo '<br>';
@@ -57,10 +57,14 @@ echo '<br><br><br><br><br><br>';
 
 // test de la fonction trierList
 echo 'test de la fonction trierList';echo '<br>';echo '<br>';
-$test1 = new Stockage("test1",1,"","",true);
-$test2 = new Stockage("test2",2,"","",false);
-$test3 = new Stockage("test3",3,"","",false);
-$test4 = new Stockage("test4",4,"","",true);
+$test1 = new Stockage("test1","","",true);
+$test2 = new Stockage("test2","","",false);
+$test3 = new Stockage("test3","","",false);
+$test4 = new Stockage("test4","","",true);
+$test1->setMaRacine($dossier1);
+$test2->setMaRacine($dossier2);
+$test3->setMaRacine($dossier3);
+$test4->setMaRacine($dossier4);
 
 $listTest = new \SplObjectStorage();
 $listTest->attach($test4);

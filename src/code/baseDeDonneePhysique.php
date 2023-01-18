@@ -15,8 +15,8 @@ $stockage = new \SplObjectStorage();
 $stockage -> attach($drive);
 $stockage -> attach($cloud);
 $stockage -> attach($FTP);
-$stockage -> attach($petitStockage);
-$stockage -> attach($stockagePlein);
+//$stockage -> attach($petitStockage);
+//$stockage -> attach($stockagePlein);
 
 //DOSSIER
 $dossier1 = new Dossier("TD","/TD");
@@ -49,8 +49,8 @@ $tag3 = new Tag("travail");
 $drive->setMaRacine($dossier1);
 $cloud->setMaRacine($dossier2);
 $FTP->setMaRacine($dossier3);
-$petitStockage->setMaRacine($dossier9);
-$stockagePlein->setMaRacine($dossier8);
+//$petitStockage->setMaRacine($dossier9);
+//$stockagePlein->setMaRacine($dossier8);
 
 $dossier1->ajouterEnfantDossier($dossier6);
 
