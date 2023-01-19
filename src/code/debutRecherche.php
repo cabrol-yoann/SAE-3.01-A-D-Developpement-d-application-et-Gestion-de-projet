@@ -45,22 +45,23 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomStockageTrouver, &$nomDo
         $nomStockage = $stockage->current();
         $tailleCalculer = $nomStockage->getTaille() + $objetAPlacer->getTaille();
         //On regarde si on peut stocker le dossier dans un espace puis on enregistre la valeur dans une liste
-        if ($tailleCalculer > $nomStockage->getTailleMax()) {               // Fichier trop volumineux pour être stocké dans le stockage
-            if ($restructuration == false) {                                // Si on n'est pas en face de restructuration
-                if ($nomStockage->getRestructurable() == true) {                // Mais restructurable (donc peut potentiellement être intégré)
-                    $listStockage->attach($nomStockage);
+        if ($objetAPlacer->getTaille() < $nomStockage->getTailleMax()) {
+            if ($tailleCalculer > $nomStockage->getTailleMax()) {               // Fichier trop volumineux pour être stocké dans le stockage
+                if ($restructuration == false) {                                // Si on n'est pas en face de restructuration
+                    if ($nomStockage->getRestructurable() == true) {                // Mais restructurable (donc peut potentiellement être intégré)
+                        $listStockage->attach($nomStockage);
+                    }
+                }
+                elseif($restructuration == true && $nomStockage != $nomDossierTrouver) {    // Si on est en face de restructuration et que le stockage n'est pas celui du dossier à restructurer
+                    if ($nomStockage->getRestructurable() == true) {                        // Et restructurable (donc peut potentiellement être intégré)
+                        $listStockage->attach($nomStockage);
+                    }
                 }
             }
-            elseif($restructuration == true && $nomStockage != $nomDossierTrouver) {    // Si on est en face de restructuration et que le stockage n'est pas celui du dossier à restructurer
-                if ($nomStockage->getRestructurable() == true) {                        // Et restructurable (donc peut potentiellement être intégré)
-                    $listStockage->attach($nomStockage);
-                }
+            else{ // Sinon, restructurable ou non, mais place suffisante pour l'intégrer
+                $listStockage->attach($nomStockage);
             }
         }
-        else{ // Sinon, restructurable ou non, mais place suffisante pour l'intégrer
-            $listStockage->attach($nomStockage);
-        }
-
         $stockage->next();
     }
     if (!$listStockage->valid()) {
