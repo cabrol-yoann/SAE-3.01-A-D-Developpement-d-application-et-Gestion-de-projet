@@ -14,25 +14,29 @@ include_once 'rechercheDossierARestructurer.php';
  * @param Fichier $ObjetAPlacer Objet à placer
  * @param Dossier $nomDossierTrouver Dossier dans lequel on va restructurer
  * @param Stockage $Stockage Stockage dans lequel on va restructurer 
+ * @param bool $restructuration Booléen pour savoir si on est en cour de restructuration
  * @return void
  */
-function Restructuration($nomEspaceStockageTrouver,$ObjetAPlacer,$nomDossierTrouver,$Stockage){
+function Restructuration($nomEspaceStockageTrouver,$ObjetAPlacer,$nomDossierTrouver,$Stockage,$restructuration){
     /**
      * @var int $tailleCalculer Taille du dossier calculé apres ajout de l'$ObjetAPlacer
      * @var bool $trouver Booléen pour savoir si on a trouvé un dossier à restructurer
      * @var int $somme Somme des tailles des fichiers
      * @var SplObjectStorage $listeFichierARestructurer Liste des fichiers à restructurer 
      */
-    
     //Test taille
     $tailleCalculer = $nomEspaceStockageTrouver->getTaille() + $ObjetAPlacer->getTaille();
     echo $tailleCalculer ;echo ' taille calculer';echo '<br>';
     echo $nomEspaceStockageTrouver->getTailleMax() ;echo ' taille max';echo '<br>';
     if ($nomEspaceStockageTrouver->getTailleMax() > $tailleCalculer) {
         //Ajout du dossier dans le dossier
-        echo 'Ajout du dossier dans le dossier';echo '<br>';
+        echo 'Ajout du dossier '.$ObjetAPlacer->getNom().' dans le dossier '.$nomDossierTrouver->getNom().' dans l\'espace '.$nomEspaceStockageTrouver->getNom();echo '<br>';
         $nomDossierTrouver->ajouterEnfantFichier($ObjetAPlacer);
         return;
+    }
+    if ($restructuration == true) {
+        echo 'Restructuration impossible';echo '<br>';
+        exit();
     }
     //Changement de nom si nécéssaire
     ChangementNomDossier($nomDossierTrouver, $ObjetAPlacer);
