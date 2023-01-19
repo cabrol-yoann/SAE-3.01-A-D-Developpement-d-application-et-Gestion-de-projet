@@ -79,12 +79,13 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomStockageTrouver, &$nomDo
         //Recupération du nom de l'espace de stockage comportent la meilleur position
         if ($trouver == true) {
             $nomStockageTrouver = $listStockage->current();
+            $trouver = false;
             echo 'le fichier peut être stocké dans le dossier '.$nomDossierTrouver->getNom().' de l\'espace de stockage ' . $nomStockageTrouver->getNom().' avec un score de '.$score;echo '<br>';echo '<br>';
         }
     
         $listStockage->next(); // A chaque itération de la boucle for, on passe à l'objet suivant de listStockage
     }
-    if ($trouver == false) {
+    if ($nomDossierTrouver == new Dossier("","")) {
         echo 'le fichier ne peut pas être stocké dans aucun espace de stockage';
         exit();
     }

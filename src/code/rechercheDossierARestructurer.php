@@ -33,7 +33,7 @@ function RechercheDossierARestructurer(&$somme,$dossierParent,&$listeFichierARes
         while ($listeEnfantFichier->valid()) {
             $somme = $somme + $listeEnfantFichier->current()->getTaille();
             $listeFichierARestructurer->attach($listeEnfantFichier->current());
-
+            $dossierParent->supprimerEnfantFichier($listeEnfantFichier->current());
             //Test si on a trouver tout nos fichier
             if ($somme > $objetAPlacer->getTaille()) {
                 $trouver = true;

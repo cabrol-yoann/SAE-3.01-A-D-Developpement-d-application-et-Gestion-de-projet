@@ -41,6 +41,19 @@ echo '<!DOCTYPE html>
         echo '<br></p><hr>';
 
         echo "<h2>Contenu</h2>";
+
+        // Affichage de la racine
+        echo "<p> <strong>".$stockage->current()->getMaRacine()->getNom().'</strong>';
+        if ($stockage->current()->getMaRacine()->getMesTags() != null) {
+            echo ' | Tag : ';
+            $racineTag = $stockage->current()->getMaRacine()->getMesTags();
+            while($racineTag->valid()){
+                echo '  '.$racineTag->current()->getTitre();
+                $racineTag->next();
+            }
+        }
+        echo '</p>';
+
         // affichage de l'arborésence
         affichageContenu($stockage->current()->getMaRacine(), $ajout);
 
@@ -88,6 +101,7 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
     if ($enfantsDoss->current()->getMesTags() != null) {
         echo ' | Tag : ';
         $DossTag = $enfantsDoss->current()->getMesTags();
+        $DossTag->rewind();
         while($DossTag->valid()){
             echo '  '.$DossTag->current()->getTitre();
             $DossTag->next();
@@ -106,6 +120,7 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
             if ($enfantsFich->current()->getMesTags() != null) {
                 echo ' | Tag : ';
                 $FichTag = $enfantsFich->current()->getMesTags();
+                $FichTag->rewind();
                 while($FichTag->valid()){
                     echo '  '.$FichTag->current()->getTitre();
                     $FichTag->next();
@@ -155,14 +170,8 @@ function ajoutFichier($stockage, $tags){
         //     $ajout = new Dossier($file[1], intval($file[2]), "", $file[3]);
         // }
 
-        $ajout = new Fichier($file[1], intval($file[2]), "", $file[3]);
+        $ajout = new Fichier(trim($file[1]), intval($file[2]), "", $file[3]);
 
-        // choix du stockage dans lequel le fichier sera ajouté
-        $restructuration = false;
-        debutRecherche($stockage, $ajout, $nomEspaceStockageTrouver, $nomDossierTrouver, $restructuration);
-
-        $nomDossierTrouver->ajouterEnfantFichier($ajout);
-        
         // GESTION DS TAGS
         if(isset($_POST["tag"])){
             // Récupérer les différents tags séparés par des points-virgules dans un array
@@ -184,6 +193,13 @@ function ajoutFichier($stockage, $tags){
                 }
             }
         }
+
+        // choix du stockage dans lequel le fichier sera ajouté
+        $restructuration = false;
+        debutRecherche($stockage, $ajout, $nomEspaceStockageTrouver, $nomDossierTrouver, $restructuration);
+
+        $nomDossierTrouver->ajouterEnfantFichier($ajout);
+
         return $ajout;
     }
 

@@ -7,6 +7,7 @@
  */
 
 include_once 'rechercheDossierARestructurer.php';
+include_once 'changementNom.php';
 
 /**
  * @brief Fonction permettant de restructurer un dossier
@@ -24,8 +25,15 @@ function Restructuration($nomEspaceStockageTrouver,$ObjetAPlacer,$nomDossierTrou
      * @var int $somme Somme des tailles des fichiers
      * @var SplObjectStorage $listeFichierARestructurer Liste des fichiers à restructurer 
      */
+    //Changement de nom si nécéssaire
+    ChangementNomDossier($nomDossierTrouver, $ObjetAPlacer);
+
     //Test taille
     $tailleCalculer = $nomEspaceStockageTrouver->getTaille() + $ObjetAPlacer->getTaille();
+    echo $nomEspaceStockageTrouver->getNom().' : nom de l\'espace de stockage';echo '<br>';
+    echo $nomDossierTrouver->getNom().' : nom du dossier';echo '<br>';
+    echo $ObjetAPlacer->getNom().' : nom de l\'objet à placer';echo '<br>';
+    echo 'Taille calculer : '.$tailleCalculer.' Taille max : '.$nomEspaceStockageTrouver->getTailleMax();echo '<br>';
     if ($nomEspaceStockageTrouver->getTailleMax() > $tailleCalculer) {
         //Ajout du dossier dans le dossier
         echo 'Ajout du fichier '.$ObjetAPlacer->getNom().' dans le dossier '.$nomDossierTrouver->getNom().' dans l\'espace '.$nomEspaceStockageTrouver->getNom();echo '<br>';
@@ -36,22 +44,16 @@ function Restructuration($nomEspaceStockageTrouver,$ObjetAPlacer,$nomDossierTrou
         echo 'Restructuration impossible';echo '<br>';
         exit();
     }
-    //Changement de nom si nécéssaire
-    ChangementNomDossier($nomDossierTrouver, $ObjetAPlacer);
     //recherche fichier à restructurer
     $trouver = false;
     $somme = 0;
     $listeFichierARestructurer = new \SplObjectStorage();
 
-    $Stockage->rewind();
-    while($Stockage->valid()) {
-        if ($Stockage->current()->getNom() != $nomEspaceStockageTrouver->getNom()) {
-            RechercheDossierARestructurer($somme,$Stockage->current()->getMaRacine(),$listeFichierARestructurer,$trouver,$ObjetAPlacer);
-        }
-        $Stockage->next();
-    }
+    //Recherche des fichiers à restructurer
+    RechercheDossierARestructurer($somme,$nomEspaceStockageTrouver->getMaRacine(),$listeFichierARestructurer,$trouver,$ObjetAPlacer);
 
     //Recherche nouvelle emplacement pour les fichiers
+    $listeFichierARestructurer->rewind();
     while ($listeFichierARestructurer->valid()) { 
         //Initialisation de variable
         $restructurationEnCour = true;

@@ -31,6 +31,7 @@ function ChangementNomDossier($nomDossierTrouver, $ObjetAPlacer){
         $listeEnfantDossier = $nomDossierTrouver->getListeEnfantDossier();
 
         //Pour changer le nom d'un dossier
+        $listeEnfantDossier->rewind();
         while ($listeEnfantDossier->valid()) {
             $DossierTraiter= $listeEnfantDossier->current();
             if ($DossierTraiter->getNom() == $ObjetAPlacer->getNom()) {
@@ -47,8 +48,8 @@ function ChangementNomDossier($nomDossierTrouver, $ObjetAPlacer){
         $listeEnfantFichier= $nomDossierTrouver->getListeEnfantFichier();
         $compteur=1;
         $nouveauNom = "";
-    
         //Pour changer le nom d'un fichier
+        $listeEnfantFichier->rewind();
         while ($listeEnfantFichier->valid()) {
             $FichierTraiter = $listeEnfantFichier->current();
             if ($FichierTraiter->getNom() == $ObjetAPlacer->getNom()) {

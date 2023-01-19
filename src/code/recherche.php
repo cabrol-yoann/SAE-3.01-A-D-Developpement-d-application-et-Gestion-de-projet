@@ -21,7 +21,7 @@ include_once "baseDeDonneePhysique.php";
  */
 
 function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $objetAPlacer, $restructuration){
-    echo 'recherche d\'un emplacement '.$objetAPlacer->getNom().' dans le dossier '.$dossierParent->getNom();echo'<br>';
+    echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le dossier '.$dossierParent->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur
 
@@ -37,76 +37,95 @@ function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $ob
     $listEnfantFichier = $dossierParent->getListeEnfantFichier();
     // Recherche pour les fichiers
     //Vérification si la liste des enfants n'est pas vide
-    if (isset($listEnfantFichier)) {
-        $nbEnfant = $dossierParent->getListeEnfantFichier()->count();
-        $listEnfantFichier->rewind();
-        while ($listEnfantFichier->valid()) {
-            echo 'recherche d\'un emplacement '.$objetAPlacer->getNom().' en le comparent avec le fichier '.$listEnfantFichier->current()->getNom();echo '<br>';
-            // Recherche à partir du Tag
-            if($objetAPlacer->getMesTags()->valid() && $listEnfantFichier->current()->getMesTags()->valid()) {
-                $listTag = $objetAPlacer->getMesTags();
-                $listTagEnfant = $listEnfantFichier->current()->getMesTags();
-                while ($listTag->valid()) {
-                    if ($listTag->current() == $listTagEnfant->current()) {
-                        $point++;
-                        echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-                    }
-                    $listTag->next();
-                    $listTagEnfant->next();
+    $nbEnfant = $dossierParent->getListeEnfantFichier()->count();
+    $listEnfantFichier->rewind();
+    while ($listEnfantFichier->valid()) {
+        echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' en le comparent avec le fichier '.$listEnfantFichier->current()->getNom();echo '<br>';
+        // Recherche à partir du Tag
+        $listTag = $objetAPlacer->getMesTags();
+        $listTagEnfant = $listEnfantFichier->current()->getMesTags();
+        $listTagEnfant->rewind();
+        while($listTagEnfant->valid()) {
+            $listTag->rewind();
+            while ($listTag->valid()) {
+            if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
+                $point++;
+                echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
                 }
+                $listTag->next();
             }
-            // Recherche à partir du type
-            if ($listEnfantFichier->current()->getType() == $objetAPlacer->getType()) {
-                $compteur++;
-            }
-            if ($compteur == $nbEnfant) {
-                $point++;
-                echo "Type trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-            }
-            // Recherche à partir du nom
-            if ($listEnfantFichier->current()->getNom() == $objetAPlacer->getNom()) {
-                $point++;
-                echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-            }
-            $listEnfantFichier->next();
+            $listTagEnfant->next();
         }
+        // Recherche à partir du type
+        if ($listEnfantFichier->current()->getType() == $objetAPlacer->getType()) {
+            $compteur++;
+        }
+        if ($compteur == $nbEnfant) {
+            $point++;
+            echo "Type trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+        }
+        // Recherche à partir du nom
+        if ($listEnfantFichier->current()->getNom() == $objetAPlacer->getNom()) {
+            $point++;
+            echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+        }
+        $listEnfantFichier->next();
     }
     // Récupération de la liste des enfants Dossier 
     $listEnfantDossier = $dossierParent->getListeEnfantDossier();
     //Recherche pour les dossiers
-    if (isset($listEnfantDossier)) {
-        $nbEnfant = $listEnfantDossier->count();
-        while ($listEnfantDossier->valid()) { 
-            echo 'recherche d\'un emplacement '.$objetAPlacer->getNom().' dans le dossier '.$listEnfantFichier->current()->getNom();echo '<br>';
-            //Recherche du tag
-            if($objetAPlacer->getMesTags()->valid() && $listEnfantDossier->current()->getMesTags()->valid()) {
-                $listTag = $objetAPlacer->getMesTags();
-                $listTagEnfant = $listEnfantDossier->current()->getMesTags();
-                while ($listTag->valid()) {
-                    if ($listTag->current() == $listTagEnfant->current()) {
-                        $point++;
-                        echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-
-                    }
-                    $listTag->next();
-                    $listTagEnfant->next();
-                }
-            }
-            if ($listEnfantDossier->current()->getNom() == $objetAPlacer->getNom()) {
+    $nbEnfant = $listEnfantDossier->count();
+    while ($listEnfantDossier->valid()) { 
+        echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le dossier '.$listEnfantDossier->current()->getNom();echo '<br>';
+        //Recherche du tag
+        $listTag = $objetAPlacer->getMesTags();
+        $listTagEnfant = $listEnfantDossier->current()->getMesTags();
+        $listTagEnfant->rewind();
+        while($listTagEnfant->valid()) {
+            $listTag->rewind();
+            echo 'test';echo '<br>';
+            while ($listTag->valid()) {
+            if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
                 $point++;
-                echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+                echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+                }
+                $listTag->next();
             }
-            $listEnfantDossier->next();
+            $listTagEnfant->next();
         }
+        // Recherche du nom
+        if ($listEnfantDossier->current()->getNom() == $objetAPlacer->getNom()) {
+            $point++;
+            echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+        }
+        $listEnfantDossier->next();
     }
 
-    //Enregistrement des points si le score est égale à 0 ou si aucun fichier ou dossier n'a était trouver
-    if ($point > 0) {
-        $score = $point;
+    //Recherche pour le dossier parent
+    //Recherche du tag
+    $listTag = $objetAPlacer->getMesTags();
+    $listTagEnfant = $dossierParent->getMesTags();
+    $listTagEnfant->rewind();
+    while($listTagEnfant->valid()) {
+        $listTag->rewind();
+        while ($listTag->valid()) {
+            if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
+                $point++;
+                echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+            }
+            $listTag->next();
+        }
+        $listTagEnfant->next();
+    }
+    //Recherche du nom
+    if ($dossierParent->getNom() == $objetAPlacer->getNom()) {
+        $point++;
+        echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
     }
 
     //Enregistrement de valeur trouver
-    if ($point >= $score) {
+    if ($point > $score) {
+        echo 'Le dossier '.$dossierParent->getNom().' a été trouver avec un score de '.$point;echo '<br>';
         $score = $point;
         $nomDossierTrouver = $dossierParent;
         $trouver = true ;

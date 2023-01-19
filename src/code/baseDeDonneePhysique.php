@@ -5,7 +5,7 @@ include_once "../classe/Dossier.php";
 include_once "../classe/Fichier.php";
 
 // ESPACE DE STOCKAGE
-$drive = new Stockage("SAE","/",500000000,false);
+$drive = new Stockage("SAE","/",500000000,true);
 $cloud = new Stockage("TEST","/",666690420,true);
 $FTP = new Stockage("Stockage","/",987654321,true);
 $petitStockage = new Stockage("petit", "/", 200000, true);
@@ -44,6 +44,7 @@ $tag = new Tag("photo");
 $tag1 = new Tag("noël");
 $tag2 = new Tag("cour");
 $tag3 = new Tag("travail");
+$tag4 = new Tag("vacance");
 
 // CREATION DE LA LISTE DE TAGS (arraylist)
 $tags = new \SplObjectStorage();
@@ -51,6 +52,7 @@ $tags -> attach($tag);
 $tags -> attach($tag1);
 $tags -> attach($tag2);
 $tags -> attach($tag3);
+$tags -> attach($tag4);
 
 // AJOUT DES ENFANTS
 $drive->setMaRacine($dossier1);
@@ -92,6 +94,9 @@ $dossier5->ajouterTags($tag);
 $dossier6->ajouterTags($tag3);
 $dossier7->ajouterTags($tag2);
 $dossier8->ajouterTags($tag);
+$dossier8->ajouterTags($tag4);
+
+$fichier5->ajouterTags($tag2);
 
 
 // Object a ajouter
