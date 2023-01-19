@@ -3,7 +3,7 @@
  * @file Stockage.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
  * @brief fichier contenant la classe Tag
- * @detais Classe représentent un espace de stockage physique à partir d'un nom, d'une taille, d'une tailleMax, d'un chemin et d'une restructuration
+ * @details Classe représentent un espace de stockage physique à partir d'un nom, d'une taille, d'une tailleMax, d'un chemin et d'une restructuration
  * @version 2
  * @date 2021-03-31
  * 
@@ -18,51 +18,39 @@ class Stockage{
  
   // Attributs
   /**
-   * Représentation du nom que va posséder l'objet
-   *
-   * @var string
+   * @property string $nom Représentation du nom que va posséder l'objet
    */
-  public $nom;
+  public $nom; 
   
   /**
-   * Représentation de la taille que va posséder l'objet
-   *
-   * @var integer
+   * @property integer $taille Représentation de la taille que va posséder l'objet
    */
   public $taille;
   
   /**
-   * Représentation de la tailleMax que va posséder l'objet
-   *
-   * @var integer
+   * @property integer $tailleMax Représentation de la tailleMax que va posséder l'objet
    */
   public $tailleMax;
   
   /**
-   * Représentation du chemin que va posséder l'objet
-   *
-   * @var string
+   * @property string $chemin Représentation du chemin que va posséder l'objet
    */
   public $chemin;
   
   /**
-   * Représentation de la restructuration que va posséder l'objet
-   *
-   * @var bool
+   * @property bool $restructurable Représentation de la restructuration que va posséder l'objet
    */
   public $restructurable;
   
   /**
-   * Représentaion de l'enfant de l'objet
-   *
-   * @var Dossier
+   * @property Dossier $maRacine Représentaion de l'enfant de l'objet
    */
   protected $maRacine;
   
   
   // CONSTRUCTEUR
   /**
-   * Constructeur de la classe Stockage demandant en paramètre le nom, la tailleMax, le chemin et si le stockage est restructurable
+   * @brief Constructeur de la classe Stockage demandant en paramètre le nom, la tailleMax, le chemin et si le stockage est restructurable
    *
    * @param string $nom           Représentation du nom que va posséder l'objet
    * @param integer $tailleMax    Représentation de la tailleMax que va posséder l'objet
@@ -79,7 +67,7 @@ class Stockage{
   }
   
   /**
-   * Fonction de clonage de l'objet Stockage
+   * @brief Fonction de clonage de l'objet Stockage
    *
    * @param Stockage $Stockage objet à cloner
    */
@@ -95,9 +83,9 @@ class Stockage{
 
   // DESTRUCTEUR
   /**
-   * Destructeur de la classe
+   * @brief Destructeur de la classe
    */
-  public function __destuct(){
+  public function __destruct(){
    echo 'Destroying: ', $this->restructurable;
    echo 'Destroying: ', $this->nom;
    echo 'Destroying: ', $this->taille;
@@ -108,14 +96,14 @@ class Stockage{
   // ENCAPSULATION
   //public
   /**
-   * Retourne le nom de l'object Stockage
+   * @brief Retourne le nom de l'object Stockage
    *
    * @return string
    */
   public function getNom(){return $this->nom;}
   
   /**
-   * Retourne la taille de l'object Stockage
+   * @brief Retourne la taille de l'object Stockage
    *
    * @return integer
    */
@@ -124,71 +112,70 @@ class Stockage{
     return $this->taille;}
   
   /**
-   * Retourne la tailleMax de l'object Stockage
+   * @brief Retourne la tailleMax de l'object Stockage
    *
    * @return integer
    */
   public function getTailleMax(){return $this->tailleMax;}
   
   /**
-   * Retourne le chemin de l'object Stockage
+   * @brief Retourne le chemin de l'object Stockage
    *
    * @return string
    */
   public function getChemin(){return $this->chemin;}
  
   /**
-   * Retourne true si l'object Sctockage est restructuration
-   * false sinon
+   * @brief Retourne true si l'object Sctockage est restructuration false sinon
    *
    * @return bool
    */
   public function getRestructurable(){return $this->restructurable;}
   
   /**
-   * Retourne la racine de l'object Stockage
+   * @brief Retourne la racine de l'object Stockage
    *
    * @return Dossier
    */
   public function getMaRacine(){return $this->maRacine;}
  
   /**
-   * Modifie le nom de l'object Stockage
+   * @brief Modifie le nom de l'object Stockage
    *
    * @param string $nom Représentation du nom que va posséder l'objet
    */
   public function setNom($nom){$this->nom = $nom;}
   
   /**
-   * Modifie la taille de l'object Stockage
-   *
+   * @brief Modifie la taille de l'object Stockage
+   *  
    * @param integer $taille Représentation de la taille que va posséder l'objet
    */
   public function setTaille($taille){$this->taille = $taille;}
   
   /**
-   * Modifie la tailleMax de l'object Stockage
-   *
+   * @brief Modifie la tailleMax de l'object Stockage
+   * 
    * @param integer $tailleMax Représentation de la tailleMax que va posséder l'objet
    */
   public function setTailleMax($tailleMax){$this->tailleMax = $tailleMax;}
   
   /**
-   * Modifie le chemin de l'object Stockage
-   *
+   * @brief Modifie le chemin de l'object Stockage
+   * 
    * @param string $chemin Représentation du chemin que va posséder l'objet
    */
   public function setChemin($chemin){$this->chemin = $chemin;}
   
   /**
-   * Modifie l'attribue restructurable de l'object Stockage
+   * @brief Modifie l'attribue restructurable de l'object Stockage
    *
    * @param bool $restructurable Représentation de la restructuration que va posséder l'objet
    */
   public function setRestructurable($restructurable){$this->restructurable = $restructurable;}
   
   /**
-   * Modifie la racine de l'object Stockage
+   * @brief Modifie la racine de l'object Stockage
    *
    * @param Dossier $racine Représentaion de l'enfant de l'objet
    */

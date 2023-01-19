@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['ajouterenfantdossier_0',['ajouterEnfantDossier',['../class_dossier.html#a0c64bcc32987d13fd57d067bb4b8e5d1',1,'Dossier']]],
-  ['ajouterenfantfichier_1',['ajouterEnfantFichier',['../class_dossier.html#a52d1f750e83230d448e2aff2205f5b36',1,'Dossier']]],
-  ['ajoutertags_2',['ajouterTags',['../class_dossier.html#a6c3e76451e7d5034808f401c8e8f1e60',1,'Dossier\ajouterTags()'],['../class_fichier.html#a25925b88b71f4f0d9f0b576f4c7ee6c2',1,'Fichier\ajouterTags()']]]
+  ['ajouterenfantdossier_0',['ajouterEnfantDossier',['../class_dossier.html#a7356fd6bae7439794699d2cac1813c94',1,'Dossier']]],
+  ['ajouterenfantfichier_1',['ajouterEnfantFichier',['../class_dossier.html#ab21afcad006a596e9dba31237c564838',1,'Dossier']]],
+  ['ajoutertags_2',['ajouterTags',['../class_dossier.html#a3bb7084c43e5b892e2e29440e72055ef',1,'Dossier\ajouterTags()'],['../class_fichier.html#a3bb7084c43e5b892e2e29440e72055ef',1,'Fichier\ajouterTags()']]]
 ];
