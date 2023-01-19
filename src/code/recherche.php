@@ -1,13 +1,35 @@
 <?php
+/**
+ * @file recherche.php
+ * @author Cabrol Yoann
+ * @details Fonction permettant de restructurer un dossier
+ * @version 2.0
+ */
 include_once "../classe/Fichier.php";
 include_once "../classe/Dossier.php";
 include_once "baseDeDonneePhysique.php";
 
+
+/**
+ * @brief Fonction permettant de rechercher le meilleur emplacement du fichier à ajouter dans des dossier passés en paramètres
+ * @param int $somme Somme des tailles des fichiers
+ * @param Dossier $dossierParent dans lequel on va restructurer
+ * @param SplObjectStorage $listeFichierARestructure Liste des fichiers à restructurer
+ * @param bool $trouver pour savoir si on a trouver tout nos fichier
+ * @param Fichier $objetAPlacer Objet à placer
+ * @return void
+ */
+
 function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $objetAPlacer, $restructuration){
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
-    // Initialisation des points et du conteur
+    // Initialisation des points et du compteur
+
+    /**
+     * @var int $point Nombre de point
+     * @var int $compteur Nombre de fois que l'on a trouvé le type
+     */
     $point = 0;
-    $conteur = 0;
+    $compteur = 0;
 
     // Recherche et attribution des points
     // Récupération de la liste des enfants Fichier.
@@ -33,9 +55,9 @@ function Recherche(&$score, &$trouver,  &$nomDossierTrouver, $dossierParent, $ob
             }
             // Recherche à partir du type
             if ($listEnfantFichier->current()->getType() == $objetAPlacer->getType()) {
-                $conteur++;
+                $compteur++;
             }
-            if ($conteur == $nbEnfant) {
+            if ($compteur == $nbEnfant) {
                 $point++;
                 echo "Type trouvé";echo '<br>';
             }

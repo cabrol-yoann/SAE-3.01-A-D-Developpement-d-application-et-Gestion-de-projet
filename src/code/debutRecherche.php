@@ -1,14 +1,35 @@
 <?php
+/**
+ * @file debutRecherche.php
+ * @author Cabrol Yoann, Gouaud Romain
+ * @details Fonction permettant de restructurer un dossier
+ * @version 3.0
+ */
+
 
 include_once "trierList.php";
 include_once "recherche.php";
 
 
-
-function debutRecherche ($stockage, $objetAPlacer, &$nomEspaceTrouver, &$nomDossierTrouver, $restructuration){
-
+/**
+ * @brief Fonction permettant d'initialiser la recherche. Elle s'occupe de chercher quels sont les stockages dans lesquel il est possible de stocker le fichier
+ * @param SplObjectStorage $stockage Stockage dans lequel on va restructurer
+ * @param Fichier $objetAPlacer Objet à placer
+ * @param Stockage $nomStockageTrouver Espace dans lequel on va restructurer
+ * @param Dossier $nomDossierTrouver Dossier dans lequel on va restructurer
+ * @param bool $restructuration pour savoir si on est en mode restructuration
+ * @return void
+ */
+function debutRecherche ($stockage, $objetAPlacer, &$nomStockageTrouver, &$nomDossierTrouver, $restructuration){
 //Meilleur Emplacement
     //initialisation
+    /**
+     * @var int $score Score du dossier analysé
+     * @var string $nomDossierTrouver Nom du dossier que l'on a trouvé
+     * @var SplObjectStorage $listStockage Liste des stockages dans lesquels on peut stocker le dossier
+     * @var bool $trouver Pour savoir si on a trouvé un dossier
+     * @var int $tailleCalculer Taille total calculé du dossier avec le fichier à ajouter
+     */
     $score = 0;
     if (!isset($nomDossierTrouver))
         $nomDossierTrouver = "";
@@ -56,7 +77,7 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomEspaceTrouver, &$nomDoss
         recherche($score, $trouver, $nomDossierTrouver, $listStockage->current()->getMaRacine(), $objetAPlacer, $restructuration);
         //Recupération du nom de l'espace de stockage comportent la meilleur position
         if ($trouver == true) {
-            $nomEspaceTrouver = $listStockage->current();
+            $nomStockageTrouver = $listStockage->current();
         }
     
         $listStockage->next(); // A chaque itération de la boucle for, on passe à l'objet suivant de listStockage

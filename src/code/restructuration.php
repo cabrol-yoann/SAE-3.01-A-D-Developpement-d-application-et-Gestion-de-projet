@@ -1,8 +1,29 @@
 <?php
+/**
+ * @file restructuration.php
+ * @author Cabrol Yoann
+ * @details Fonction permettant de restructurer un dossier
+ * @version 2.0
+ */
 
 include_once 'rechercheDossierARestructurer.php';
 
+/**
+ * @brief Fonction permettant de restructurer un dossier
+ * @param Stockage $nomEspaceStockageTrouver Espace de stockage dans lequel on va restructurer
+ * @param Fichier $ObjetAPlacer Objet à placer
+ * @param Dossier $nomDossierTrouver Dossier dans lequel on va restructurer
+ * @param Stockage $Stockage Stockage dans lequel on va restructurer 
+ * @param bool $restructuration Booléen pour savoir si on est en cour de restructuration
+ * @return void
+ */
 function Restructuration($nomEspaceStockageTrouver,$ObjetAPlacer,$nomDossierTrouver,$Stockage,$restructuration){
+    /**
+     * @var int $tailleCalculer Taille du dossier calculé apres ajout de l'$ObjetAPlacer
+     * @var bool $trouver Booléen pour savoir si on a trouvé un dossier à restructurer
+     * @var int $somme Somme des tailles des fichiers
+     * @var SplObjectStorage $listeFichierARestructurer Liste des fichiers à restructurer 
+     */
     //Test taille
     $tailleCalculer = $nomEspaceStockageTrouver->getTaille() + $ObjetAPlacer->getTaille();
     echo $tailleCalculer ;echo ' taille calculer';echo '<br>';

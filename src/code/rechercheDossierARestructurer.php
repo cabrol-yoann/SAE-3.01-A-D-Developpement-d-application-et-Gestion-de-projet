@@ -1,6 +1,26 @@
 <?php
+/**
+ * @file dossierARestructurer.php
+ * @author Cabrol Yoann
+ * @details Fonction permettant de restructurer un dossier
+ * @version 1.0
+ */
 
+/**
+ * @brief Fonction permettant de rechercher un dossier à restructurer
+ * @param int $somme Somme des tailles des fichiers
+ * @param Dossier $dossierParent dans lequel on va restructurer
+ * @param SplObjectStorage $listeFichierARestructurer Liste des fichiers à restructurer
+ * @param bool $trouver pour savoir si on a trouver tout nos fichier
+ * @param Fichier $objetAPlacer Objet à placer
+ * @return void
+*/
 function RechercheDossierARestructurer(&$somme,$dossierParent,&$listeFichierARestructurer,&$trouver,$objetAPlacer){
+    
+    /**
+     * @var SplObjectStorage $listeEnfantFichier Liste des enfants Fichier
+     * @var SplObjectStorage $listeEnfantDossier Liste des enfants Dossier
+     */
     $listeEnfantFichier = $dossierParent->getListeEnfantFichier();
     $listeEnfantFichier->rewind();
     if ($trouver == true) {
