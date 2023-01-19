@@ -83,7 +83,7 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomStockageTrouver, &$nomDo
         $listStockage->next(); // A chaque itération de la boucle for, on passe à l'objet suivant de listStockage
     }
 
-    Restructuration($nomEspaceTrouver,$objetAPlacer,$nomDossierTrouver,$stockage,$restructuration);
+    Restructuration($nomStockageTrouver,$objetAPlacer,$nomDossierTrouver,$stockage,$restructuration);
 }
 
 

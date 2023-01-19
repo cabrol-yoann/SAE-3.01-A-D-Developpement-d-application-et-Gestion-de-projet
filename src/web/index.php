@@ -29,7 +29,7 @@ echo '<!DOCTYPE html>
         echo '<h1>'.$stockage->current()->getNom().'</h1>';
         echo '<h2>Caractéristiques</h2>';
         echo '<p> Nom : '.$stockage->current()->getNom().' | '.
-        'Nom : '.$stockage->current()->getTaille().' | '.
+        'Taille : '.$stockage->current()->getTaille().' | '.
         ' Taille maximale : '.$stockage->current()->getTailleMax().' | '.
         'Chemin : '.$stockage->current()->getChemin().' | '.
         'Restructurable ? : ';
@@ -85,7 +85,7 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
     $enfantsDoss = $racine->getListeEnfantDossier();
     $enfantsDoss->rewind();
     while($enfantsDoss->valid()){
-        echo "<p>".$espacement."|".$enfantsDoss->current()->getNom().'<p>';
+        echo "<p>".$espacement." <strong>".$enfantsDoss->current()->getNom().'</strong><p>';
         affichageContenu($enfantsDoss->current(), $ajout, $espace);
         $enfantsDoss->next();
     }
@@ -95,10 +95,10 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
     $enfantsFich->rewind();
     while($enfantsFich->valid()){
         if($enfantsFich->current() == $ajout){
-            echo "<p style='color: red;'>".$espacement."-".$enfantsFich->current()->getNom()."<p>";
+            echo "<p style='color: red;'>".$espacement."- ".$enfantsFich->current()->getNom()."<p>";
         }
         else{
-        echo "<p>".$espacement."-".$enfantsFich->current()->getNom()."<p>";
+        echo "<p>".$espacement."- ".$enfantsFich->current()->getNom()."<p>";
         }
         $enfantsFich->next();
     }
