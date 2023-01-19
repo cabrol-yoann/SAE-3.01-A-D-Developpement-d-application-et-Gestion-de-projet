@@ -117,7 +117,8 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
     while($enfantsFich->valid()){
         if($enfantsFich->current() == $ajout){
             echo "<p style='color: red;'>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType();
-            if ($enfantsFich->current()->getMesTags() != null) {
+            $enfantTag=$enfantsFich->current()->getMesTags();
+            if ($enfantTag->valid()) {
                 echo ' | Tag : ';
                 $FichTag = $enfantsFich->current()->getMesTags();
                 $FichTag->rewind();
