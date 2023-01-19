@@ -7,7 +7,7 @@ include_once "Tag.php";
  * @file Fichier.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
  * @brief fichier contenant la classe Fichier
- * @detais Classe représentant un fichier physique à partir de son type et de ses tags héritant de la classe Archive lui donnant un nom, une taille et un chemin
+ * @details Classe représentant un fichier physique à partir de son type et de ses tags héritant de la classe Archive lui donnant un nom, une taille et un chemin
  * @version 2.0
  * @date 2021-03-31
  * 
@@ -22,20 +22,18 @@ class Fichier extends Archive {
  
   // ATTRIBUT
   /**
-   * Représentation du type du fichier
-   * @var string
+   * @property string $type Représentation du type du fichier
    */
   public $type;
   
   /**
-   * Lien avec la classe tag
-   * @var ObjectStorage liste de tag
+   * @property ObjectStorage $mesTags liste de tag associé à l'objet 
    */
   public $mesTags;
  
   // CONSTRUCTEUR
   /**
-   * Constructeur de la classe Fichier demandant en paramètre le type du fichier, le nom, la taille et le chemin de l'objet Fichier à créer
+   * @brief Constructeur de la classe Fichier demandant en paramètre le type du fichier, le nom, la taille et le chemin de l'objet Fichier à créer
    * @param string $type    Représentation du type du fichier
    * @param string $nom     Représentation du nom que va posséder l'objet
    * @param integer $taille     Représentation de la taille que va avoir l'objet
@@ -50,9 +48,9 @@ class Fichier extends Archive {
   
   // DESTRUCTEUR
   /**
-   * Destructeur de la classe
+   * @brief Destructeur de la classe
    */
-  public function __destuct(){
+  public function __destruct(){
     echo 'Destroying: ', $this->type;
     echo 'Destroying: ', $this->mesTags;
   }
@@ -60,22 +58,22 @@ class Fichier extends Archive {
   // ENCASPULATION
   //public
   /**
-   * Retourne le type de l'object Fichier
+   * @brief Retourne le type de l'object Fichier
    *
    * @return string
    */
   public function getType(){return $this->type;}
   
   /**
-   * Modifie l'attribut type de l'object Fichier
-   *
+   * @brief Modifie l'attribut type de l'object Fichier
+   * 
    * @param string $type Représentation du type du fichier
    */
   public function setType($type){$this->type = $type;}
   
   /**
-   * Retourne la liste des tags de l'object Fichier
-   *
+   * @brief Retourne la liste des tags de l'object Fichier
+   * 
    * @return SplObjectStorage de tag
    */
   public function getMesTags() {
@@ -83,8 +81,8 @@ class Fichier extends Archive {
   }
   
   /**
-   * Ajoute un tag a la liste de tag de l'object Fichier
-   * 
+   * @brief Ajoute un tag a la liste de tag de l'object Fichier
+   *
    * @param Tag $tag Lien avec la classe tag
    */
   public function ajouterTags($tag){
@@ -92,7 +90,7 @@ class Fichier extends Archive {
   }
   
   /**
-   * Supprime un Tag de la liste des tags de l'object Fichier
+   * @brief Supprime un Tag de la liste des tags de l'object Fichier
    *
    * @param Tag $tag Lien avec la classe tag
    */

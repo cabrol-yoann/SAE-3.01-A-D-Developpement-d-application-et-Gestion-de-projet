@@ -3,7 +3,7 @@
  * @file trierList.php
  * @author Da Silva Eduardo, Cabrol Yoann
  * @brief fichier contenant la fonction trierList
- * @detais Fonction permettant de trier une liste d'objet
+ * @details Fonction permettant de trier une liste d'objet
  * @version 2.0
  */
 include_once "baseDeDonneePhysique.php";

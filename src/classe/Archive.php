@@ -3,7 +3,7 @@
  * @file Archive.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
  * @brief fichier contenant la classe Archive
- * @detais Super classe de l'archivage qui vas gérer le nom, la taille, et le chemin de la classe dossier et fichier
+ * @details Super classe de l'archivage qui vas gérer le nom, la taille, et le chemin de la classe dossier et fichier
  * @version 2
  * 
  * @copyright Copyright (c) 2022
@@ -16,21 +16,20 @@
 class Archive {
   // ATTRIBUTS
   /**
+   * @property string $nom 
    * Représentation du nom que va posséder l'objet
-   *
-   * @var string
    */
   public $nom;
+
   /**
-   * Représentation de la taille que va avoir l'objet
-   *
-   * @var integer
+   * @property integer $taille 
+   * Représentation de la taille que va posséder l'objet
    */
   public $taille;
+
   /**
+   * @property string $chemin 
    * Représentaton du chemin que va posséder l'objet
-   *
-   * @var string
    */
   public $chemin;
  
@@ -51,9 +50,9 @@ class Archive {
 
   //  DESTRUCTEUR
   /**
-   * Destructeur de la classe
+   * @brief Destructeur de la classe
    */
-  public function __destuct(){
+  public function __destruct(){
   echo 'Destroying: ', $this->nom;
   echo 'Destroying: ', $this->taille;
   echo 'Destroying: ', $this->chemin;
@@ -63,43 +62,43 @@ class Archive {
   //public
   // MÉTHODE USUELLE
   /**
-   * Récupération du Nom de l'object
-   *
+   * @brief Récupération du Nom de l'object
+   * 
    * @return string
    */
   public function getNom(){return $this->nom;}
   
   /**
-   * Récupération de la Taille de l'objet
-   *
+   * @brief Récupération de la Taille de l'objet
+   * 
    * @return integer
    */
   public function getTaille(){return $this->taille;}
   
   /**
-   * Récupération du Chemin de l'objet
+   * @brief Récupération du Chemin de l'objet
    *
    * @return string
    */
   public function getChemin(){return $this->chemin;}
   
   /**
-   * Modifie l'attribut Nom de l'object
-   *
+   * @brief Modifie l'attribut Nom de l'object
+   *  
    * @param string $nom Représentation du nom que va posséder l'objet
    */
   public function setNom($nom){$this->nom = $nom;}
   
   /**
-   * Modifie l'attribut Taille de l'object
-   *
+   * @brief Modifie l'attribut Taille de l'object
+   * 
    * @param integer $taille Représentation de la taille que va avoir l'objet
    */
   public function setTaille($taille){$this->taille = $taille;}
   
   /**
-   * Modifie l'attribut chemin de l'object
-   *
+   * @brief Modifie l'attribut chemin de l'object
+   * 
    * @param string $chemin Représentaton du chemin que va posséder l'objet
    */
   public function setChemin($chemin){$this->chemin = $chemin;}
