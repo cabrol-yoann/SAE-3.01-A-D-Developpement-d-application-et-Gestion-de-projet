@@ -26,11 +26,9 @@ function Restructuration($nomEspaceStockageTrouver,$ObjetAPlacer,$nomDossierTrou
      */
     //Test taille
     $tailleCalculer = $nomEspaceStockageTrouver->getTaille() + $ObjetAPlacer->getTaille();
-    echo $tailleCalculer ;echo ' taille calculer';echo '<br>';
-    echo $nomEspaceStockageTrouver->getTailleMax() ;echo ' taille max';echo '<br>';
     if ($nomEspaceStockageTrouver->getTailleMax() > $tailleCalculer) {
         //Ajout du dossier dans le dossier
-        echo 'Ajout du dossier '.$ObjetAPlacer->getNom().' dans le dossier '.$nomDossierTrouver->getNom().' dans l\'espace '.$nomEspaceStockageTrouver->getNom();echo '<br>';
+        echo 'Ajout du fichier '.$ObjetAPlacer->getNom().' dans le dossier '.$nomDossierTrouver->getNom().' dans l\'espace '.$nomEspaceStockageTrouver->getNom();echo '<br>';
         $nomDossierTrouver->ajouterEnfantFichier($ObjetAPlacer);
         return;
     }

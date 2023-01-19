@@ -129,7 +129,14 @@ class Dossier extends Archive {
    * @return integer $taille Représentation de la taille que va avoir l'objet
    */
   public function getTaille() {
+    $this->taille = 0;
     $enfant = $this->getListeEnfantDossier();
+    $enfant->rewind();
+    while ($enfant->valid()) {
+      $this->taille += $enfant->current()->getTaille();
+      $enfant->next();
+    }
+    $enfant = $this->getListeEnfantFichier();
     $enfant->rewind();
     while ($enfant->valid()) {
       $this->taille += $enfant->current()->getTaille();

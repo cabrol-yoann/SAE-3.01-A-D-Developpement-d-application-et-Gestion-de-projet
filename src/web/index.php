@@ -31,8 +31,7 @@ echo '<!DOCTYPE html>
         echo '<p> Nom : '.$stockage->current()->getNom().' | '.
         'Taille : '.$stockage->current()->getTaille().' | '.
         ' Taille maximale : '.$stockage->current()->getTailleMax().' | '.
-        'Chemin : '.$stockage->current()->getChemin().' | '.
-        'Restructurable ? : ';
+        'Restructurable  : ';
         if ($stockage->current()->getRestructurable()){
             echo 'oui';
         }
@@ -85,7 +84,15 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
     $enfantsDoss = $racine->getListeEnfantDossier();
     $enfantsDoss->rewind();
     while($enfantsDoss->valid()){
-        echo "<p>".$espacement." <strong>".$enfantsDoss->current()->getNom().'</strong><p>';
+        echo "<p>".$espacement." <strong>".$enfantsDoss->current()->getNom().'</strong>';
+    if ($enfantsDoss->current()->getMesTags() != null) {
+        echo ' | Tag : ';
+        $DossTag = $enfantsDoss->current()->getMesTags();
+        while($DossTag->valid()){
+            echo '  '.$DossTag->current()->getTitre();
+            $DossTag->next();
+        }
+    }
         affichageContenu($enfantsDoss->current(), $ajout, $espace);
         $enfantsDoss->next();
     }
@@ -95,7 +102,15 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
     $enfantsFich->rewind();
     while($enfantsFich->valid()){
         if($enfantsFich->current() == $ajout){
-            echo "<p style='color: red;'>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType()."<p>";
+            echo "<p style='color: red;'>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType();
+            if ($enfantsFich->current()->getMesTags() != null) {
+                echo ' | Tag : ';
+                $FichTag = $enfantsFich->current()->getMesTags();
+                while($FichTag->valid()){
+                    echo '  '.$FichTag->current()->getTitre();
+                    $FichTag->next();
+                }
+            }
         }
         else{
         echo "<p>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType()."<p>";
@@ -153,20 +168,22 @@ function ajoutFichier($stockage, $tags){
             // Récupérer les différents tags séparés par des points-virgules dans un array
             $tags_recuperes = explode(";", $_POST["tag"]);
             foreach($tags_recuperes as $tag){
-                $newTag = new Tag($tag);
-                // Si le tag existe, l'ajouter
-                if($tags->contains($newTag)){
-                    $ajout->ajouterTags($tags->get($newTag));
+                $tags->rewind();
+                while ($tags->valid()) {
+                    // Si le tag existe, l'ajouter
+                    if($tags->current()->getTitre() == $tag){
+                        $ajout->ajouterTags($tags->current());
+                        break;
+                    }
+                    $tags->next();
                 }
-
-                // Sinon, le créer et l'ajouter
-                else{
-                    $ajout->ajouterTags($newTag);
+                if(!$tags->valid()) {
+                // Si pas trouver, le créer et l'ajouter
+                $newTag = new Tag($tag);
+                $ajout->ajouterTags($newTag);
                 }
             }
-
         }
-
         return $ajout;
     }
 

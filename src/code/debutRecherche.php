@@ -33,7 +33,7 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomStockageTrouver, &$nomDo
      */
     $score = 0;
     if (!isset($nomDossierTrouver))
-        $nomDossierTrouver = "";
+        $nomDossierTrouver = new Dossier("","");
     $listStockage = new \SplObjectStorage();
     $trouver = false;
     $tailleCalculer = 0;
@@ -74,11 +74,12 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomStockageTrouver, &$nomDo
     //Recherche dans tous les espaces de stockage
     $listStockage -> rewind();
     while($listStockage->valid()) { 
-        echo $objetAPlacer->getNom() . ' recherche dans ' . $listStockage->current()->getNom() . ' ';echo '<br>';
+        echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom() . ' dans l\'espace de stockage ' . $listStockage->current()->getNom();echo '<br>';echo '<br>';
         recherche($score, $trouver, $nomDossierTrouver, $listStockage->current()->getMaRacine(), $objetAPlacer, $restructuration);
         //Recupération du nom de l'espace de stockage comportent la meilleur position
         if ($trouver == true) {
             $nomStockageTrouver = $listStockage->current();
+            echo 'le fichier peut être stocké dans le dossier '.$nomDossierTrouver->getNom().' de l\'espace de stockage ' . $nomStockageTrouver->getNom().' avec un score de '.$score;echo '<br>';echo '<br>';
         }
     
         $listStockage->next(); // A chaque itération de la boucle for, on passe à l'objet suivant de listStockage
