@@ -13,7 +13,7 @@ include_once 'rechercheDossierARestructurer.php';
  * @param Stockage $nomEspaceStockageTrouver Espace de stockage dans lequel on va restructurer
  * @param Fichier $ObjetAPlacer Objet à placer
  * @param Dossier $nomDossierTrouver Dossier dans lequel on va restructurer
- * @param Stockage $Stockage Stockage dans lequel on va restructurer 
+ * @param SplObjectStorage $Stockage liste des Stockage dans lequel on va restructurer 
  * @param bool $restructuration Booléen pour savoir si on est en cour de restructuration
  * @return void
  */

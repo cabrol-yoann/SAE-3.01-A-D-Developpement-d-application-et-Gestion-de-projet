@@ -9,6 +9,7 @@
 
 include_once "trierList.php";
 include_once "recherche.php";
+include_once "restructuration.php";
 
 
 /**
@@ -82,8 +83,13 @@ function debutRecherche ($stockage, $objetAPlacer, &$nomStockageTrouver, &$nomDo
     
         $listStockage->next(); // A chaque itération de la boucle for, on passe à l'objet suivant de listStockage
     }
-
-    Restructuration($nomStockageTrouver,$objetAPlacer,$nomDossierTrouver,$stockage,$restructuration);
+    if ($trouver == false) {
+        echo 'le fichier ne peut pas être stocké dans aucun espace de stockage';
+        exit();
+    }
+    else {
+        Restructuration($nomStockageTrouver,$objetAPlacer,$nomDossierTrouver,$stockage,$restructuration);
+    }
 }
 
 

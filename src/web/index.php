@@ -95,10 +95,10 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
     $enfantsFich->rewind();
     while($enfantsFich->valid()){
         if($enfantsFich->current() == $ajout){
-            echo "<p style='color: red;'>".$espacement."- ".$enfantsFich->current()->getNom()."<p>";
+            echo "<p style='color: red;'>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType()."<p>";
         }
         else{
-        echo "<p>".$espacement."- ".$enfantsFich->current()->getNom()."<p>";
+        echo "<p>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType()."<p>";
         }
         $enfantsFich->next();
     }
