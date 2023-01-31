@@ -61,9 +61,7 @@ class Dossier extends Archive {
    * @brief Destructeur de la classe
    */
   public function __destruct(){
-    echo 'Destroying: ', $this->nbFichier;
-    echo 'Destroying: ', $this->listeEnfantDossier;
-    echo 'Destroying: ', $this->listEnfantFichier;
+    parent::__destruct(); 
   }
 
   // ENCASPULATION

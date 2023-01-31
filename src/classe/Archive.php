@@ -53,9 +53,7 @@ class Archive {
    * @brief Destructeur de la classe
    */
   public function __destruct(){
-  echo 'Destroying: ', $this->nom;
-  echo 'Destroying: ', $this->taille;
-  echo 'Destroying: ', $this->chemin;
+
   }
 
   // ENCASPULATION

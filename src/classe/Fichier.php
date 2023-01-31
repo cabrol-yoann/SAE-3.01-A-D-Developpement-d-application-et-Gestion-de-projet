@@ -51,8 +51,7 @@ class Fichier extends Archive {
    * @brief Destructeur de la classe
    */
   public function __destruct(){
-    echo 'Destroying: ', $this->type;
-    echo 'Destroying: ', $this->mesTags;
+    parent::__destruct();
   }
   
   // ENCASPULATION
