@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+    text-align: center;
+}
+
+header {
+    display: grid;
+    grid-template-rows: 10% 10% 80%;
+    grid-template-columns: auto;
+    align-items: center;
+    line-height: normal;
+}
+
+.header-title {
+    font-size: large;
+    font-weight: bold;
+    padding: 10px;
+}
+
+nav>ul>li {
+    display: inline;
+    font-size: large;
+    font-weight: bold;
+    padding: 10px;
+}
