@@ -5,8 +5,8 @@
  * @details Fonction permettant de restructurer un dossier
  * @version 2.0
  */
-include_once "../classe/Fichier.php";
-include_once "../classe/Dossier.php";
+include_once "../class/Fichier.php";
+include_once "../class/Dossier.php";
 include_once "baseDeDonneePhysique.php";
 
 

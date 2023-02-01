@@ -1,12 +1,12 @@
 <?php
-include_once "baseDeDonneePhysique.php";
-include_once "../classe/Dossier.php";
-include_once "../classe/Fichier.php";
-include_once "trierList.php";
-include_once "changementNom.php";
-include_once "recherche.php";
-include_once "restructuration.php";
-include_once "debutRecherche.php";
+include_once "../code/baseDeDonneePhysique.php";
+include_once "../class/Dossier.php";
+include_once "../class/Fichier.php";
+include_once "../code/trierList.php";
+include_once "../code/changementNom.php";
+include_once "../code/recherche.php";
+include_once "../code/restructuration.php";
+include_once "../code/debutRecherche.php";
 
 /*
 // test de la fonction debutRecherche
