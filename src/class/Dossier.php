@@ -197,7 +197,218 @@ class Dossier extends Archive {
     $this->mesTags->detach($tag);
   }
 
-  // MÉTHODE SPÉCIFIQUE : NON
+  // MÉTHODE SPÉCIFIQUE : 
 
+  public function afficher() { 
+    echo "Nom : " . $this->nom . "<br>";
+    echo "Taille : " . $this->taille . "<br>";
+    echo "Nombre de fichier : " . $this->nbFichier . "<br>";
+    echo "Liste des enfants dossier : <br>";
+    $this->listeEnfantDossier->rewind();
+    while ($this->listeEnfantDossier->valid()) {
+      echo $this->listeEnfantDossier->current()->getNom() . "<br>";
+      $this->listeEnfantDossier->next();
+    }
+    echo "Liste des enfants fichier : <br>";
+    $this->listEnfantFichier->rewind();
+    while ($this->listEnfantFichier->valid()) {
+      echo $this->listEnfantFichier->current()->getNom() . "<br>";
+      $this->listEnfantFichier->next();
+    }
+    echo "Liste des tags : <br>";
+    $this->mesTags->rewind();
+    while ($this->mesTags->valid()) {
+      echo $this->mesTags->current()->getNom() . "<br>";
+      $this->mesTags->next();
+    }
+  }
+
+  public function meRanger($listeStockage, $restructuration = false) {
+    //initialisation
+    /**
+     * @var int $score Score du dossier analysé
+     * @var string $nomDossierTrouver Nom du dossier que l'on a trouvé
+     * @var SplObjectStorage $listStockage Liste des stockages dans lesquels on peut stocker le dossier
+     * @var bool $trouver Pour savoir si on a trouvé un dossier
+     * @var int $tailleCalculer Taille total calculé du dossier avec le fichier à ajouter
+     */
+    $listStockage = new \SplObjectStorage();
+    $tailleCalculer = 0;
+
+    //Recherche de taille
+    $listeStockage->rewind(); // placement de l'itérateur au début de la structure
+    
+    while($listeStockage->valid()){
+    $nomStockage = $listeStockage->current();
+    $tailleCalculer = $nomStockage->getTaille() + $this->getTaille();
+    //On regarde si on peut stocker le dossier dans un espace puis on enregistre la valeur dans une liste
+    if ($this->getTaille() < $nomStockage->getTailleMax()) {
+      if ($tailleCalculer > $nomStockage->getTailleMax()) {               // Fichier trop volumineux pour être stocké dans le stockage
+        if ($restructuration == false) {                                // Si on n'est pas en face de restructuration
+          if ($nomStockage->getRestructurable() == true) {                // Mais restructurable (donc peut potentiellement être intégré)
+          $listStockage->attach($nomStockage);
+          }
+        }
+        elseif($restructuration == true && $nomStockage != $nomDossierTrouver) {    // Si on est en face de restructuration et que le stockage n'est pas celui du dossier à restructurer
+          if ($nomStockage->getRestructurable() == true) {                        // Et restructurable (donc peut potentiellement être intégré)
+            $listStockage->attach($nomStockage);
+          }
+        }
+      }
+      else{ // Sinon, restructurable ou non, mais place suffisante pour l'intégrer
+        $listStockage->attach($nomStockage);
+      }
+    }
+      $listStockage->next();
+    }
+    if (!$listStockage->valid()) {
+      echo 'le fichier ne peut pas être stocké dans aucun espace de stockage';
+      exit();
+    }
+
+    //tri de la list
+    trierList($listStockage);
+
+    return $listStockage;
+  }
+
+  public function meRenommer($meilleurEmplacement){
+    //Variables
+    /**
+     * @var int $compteur Compteur pour le changement de nom
+     * @var string $nouveauNom Nouveau nom du dossier
+     * @var SplObjectStorage $listeEnfantDossier Liste des enfants du dossier
+     */
+    $compteur=1;
+    $nouveauNom = "";
+    $listeEnfantDossier = $meilleurEmplacement->getListeEnfantDossier();
+
+    //Pour changer le nom d'un dossier
+    $listeEnfantDossier->rewind();
+    while ($listeEnfantDossier->valid()) {
+      $DossierTraiter= $listeEnfantDossier->current();
+      if ($DossierTraiter->getNom() == $this->getNom()) {
+        $nouveauNom = $this->getNom()."(".$compteur.")";
+        $this->setNom($nouveauNom);
+        $compteur++;
+        $listeEnfantDossier->rewind();
+      }
+      $listeEnfantDossier->next();
+    }
+  }
+
+  public function rechercheMeilleurEmplacement($score, $trouver, $meilleurEmplacement, $objetAPlacer) {
+    echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le dossier '.$this->getNom();echo'<br>';
+    // Recherche de l'emplacement le plus favorable à partir d'un parcour
+    // Initialisation des points et du compteur
+
+    /**
+     * @var int $point Nombre de point
+     * @var int $compteur Nombre de fois que l'on a trouvé le type
+     */
+    $point = 0;
+    $compteur = 0;
+
+    //Recherche du meilleur emplacement pour les enfants du dossier courant
+    //Récupération de la liste des enfants Fichier.
+    $listEnfantFichier = $this->getListeEnfantFichier();
+    $listEnfantFichier->rewind();
+    while ($listEnfantFichier->valid()) {
+      echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' en le comparent avec le fichier '.$listEnfantFichier->current()->getNom();echo '<br>';
+      //Recherche du meilleur emplacement pour les enfants du dossier courant à partir du tag
+      $listTag = $objetAPlacer->getMesTags();
+      $listTagEnfant = $listEnfantFichier->current()->getMesTags();        $listTagEnfant->rewind();
+        while($listTagEnfant->valid()) {
+          $listTag->rewind();
+          while ($listTag->valid()) {
+          if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
+              $point++;
+              echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+              }
+              $listTag->next();
+          }
+          $listTagEnfant->next();
+      }
+      //Recherche du meilleur emplacement pour les enfants du dossier courant à partir du type
+      if ($listEnfantFichier->current()->getType() == $objetAPlacer->getType()) {
+          $compteur++;
+      }
+      if ($compteur == $listEnfantFichier->count()) {
+        $point++;
+        echo "Type trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+      }
+      //Recherche du meilleur emplacement pour les enfants du dossier courant à partir du nom
+      if ($listEnfantFichier->current()->getNom() == $objetAPlacer->getNom()) {
+        $point++;
+        echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+      }
+      $listEnfantFichier->next();
+    }
+    // Récupération de la liste des enfants Dossier 
+    $listEnfantDossier = $this->getListeEnfantDossier();
+    //Recherche pour les dossiers
+    while ($listEnfantDossier->valid()) { 
+      echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le dossier '.$listEnfantDossier->current()->getNom();echo '<br>';
+      //Recherche du tag
+      $listTag = $objetAPlacer->getMesTags();
+      $listTagEnfant = $listEnfantDossier->current()->getMesTags();
+      $listTagEnfant->rewind();
+      while($listTagEnfant->valid()) {
+        $listTag->rewind();
+        echo 'test';echo '<br>';
+        while ($listTag->valid()) {
+          if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
+            $point++;
+            echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+          }
+          $listTag->next();
+        }
+        $listTagEnfant->next();
+      }
+      // Recherche du nom
+      if ($listEnfantDossier->current()->getNom() == $objetAPlacer->getNom()) {
+        $point++;
+        echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+      }
+      $listEnfantDossier->next();
+    }
+
+    //Recherche du meilleur emplacement à partir le dossier parent pour l'object à placer
+    //Recherche du tag
+    $listTag = $objetAPlacer->getMesTags();
+    $listTagEnfant = $this->getMesTags();
+    $listTagEnfant->rewind();
+    while($listTagEnfant->valid()) {
+      $listTag->rewind();
+      while ($listTag->valid()) {
+        if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
+          $point++;
+          echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+        }
+        $listTag->next();
+      }
+      $listTagEnfant->next();
+    }
+    //Recherche du nom
+    if ($this->getNom() == $objetAPlacer->getNom()) {
+      $point++;
+      echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+    }
+
+    //Enregistrement de valeur trouver
+    if ($point > $score) {
+      echo 'Le dossier '.$this->getNom().' a été trouver avec un score de '.$point;echo '<br>';
+      $score = $point;
+      $meilleurEmplacement = $this;
+      $trouver = true ;
+    }
+
+    //Regarde les enfants
+    $listEnfantDossier->rewind();
+    while ($listEnfantDossier->valid()) {
+      $listEnfantDossier->current()->rechercheMeilleurEmplacement($score, $trouver, $meilleurEmplacement, $objetAPlacer);
+      $listEnfantDossier->next();
+    }
+  }
 }
 ?>

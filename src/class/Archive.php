@@ -13,7 +13,10 @@
 /**
  * Super classe de l'archivage qui vas gérer le nom, la taille, et le chemin de la classe dossier et fichier
  */
-class Archive {
+
+ include_once "interfaceUtilisateur.php";
+
+class Archive implements interfaceUtilisateur {
   // ATTRIBUTS
   /**
    * @property string $nom 
@@ -101,10 +104,20 @@ class Archive {
    */
   public function setChemin($chemin){$this->chemin = $chemin;}
   
-  // MÉTHODE SPÉCIFIQUE : NON
+  // MÉTHODE SPÉCIFIQUE : 
    
- 
+  public function afficher() {
+    return false;
   }
+
+  public function meRanger($listStockage){
+      return false;
+  }
+  
+  public function meRenommer($meilleurEmplacement){
+    return false;
+  }
+}
  
  
  

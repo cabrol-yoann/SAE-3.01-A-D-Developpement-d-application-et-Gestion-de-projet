@@ -179,6 +179,71 @@ class Stockage{
   
   // MÉTHODE USUELLES
 
-  // MÉTHODE SPÉCIFIQUE : NON
+  // MÉTHODE SPÉCIFIQUE : 
+
+  
+
+  public function restructation() {
+
+  }
+
+  public function rechercheMeilleurEmplacement($objetAPlacer) {
+    echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le stockage '.$this->getNom();echo'<br>';
+    // Recherche de l'emplacement le plus favorable à partir d'un parcour
+    // Initialisation des points et du compteur
+
+    /**
+     * @var int $point Nombre de point
+     * @var int $compteur Nombre de fois que l'on a trouvé le type
+     */
+    $point = 0;
+    $score = 0;
+
+    // Récupération de la liste des enfants Dossier 
+    $listEnfantDossier = $this->getMaRacine()->getListeEnfantDossier();
+    //Recherche du meilleur emplacement pour les enfants du dossier courant
+    while ($listEnfantDossier->valid()) { 
+      echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le dossier '.$listEnfantDossier->current()->getNom();echo '<br>';
+      //Recherche du meilleur emplacement pour le dossier courant à partir du tag
+      $listTag = $objetAPlacer->getMesTags();
+      $listTagEnfant = $listEnfantDossier->current()->getMesTags();
+      $listTagEnfant->rewind();
+      while($listTagEnfant->valid()) {
+        $listTag->rewind();
+        echo 'test';echo '<br>';
+        while ($listTag->valid()) {
+        if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
+          $point++;
+          echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+        }
+        $listTag->next();
+        }
+          $listTagEnfant->next();
+      }
+      //Recherche du meilleur emplacement pour le dossier courant à partir du tag
+      if ($listEnfantDossier->current()->getNom() == $objetAPlacer->getNom()) {
+        $point++;
+        echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+      }
+      $listEnfantDossier->next();
+    }
+
+    // Enregsitrement du meilleur emplacement trouvé a partir du score
+    if ($point > $score) {
+        echo 'Le dossier '.$this->getNom().' a été trouver avec un score de '.$point;echo '<br>';
+        $score = $point;
+        $meilleurEmplacement = $this;
+        $trouver = true ;
+    }
+
+    //Regarde les enfants
+    $listEnfantDossier->rewind();
+    if (isset($listEnfantDossier)) {
+      while ($listEnfantDossier->valid()) {
+        $listEnfantDossier->current()->rechercheMeilleurEmplacement($score, $trouver, $meilleurEmplacement, $objetAPlacer);
+        $listEnfantDossier->next();
+      }
+    }
+  }
 }
 ?>
