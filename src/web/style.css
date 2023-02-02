@@ -7,12 +7,23 @@
 
 header {
     display: grid;
-    grid-template-rows: 10% 10% 80%;
-    grid-template-columns: auto;
+    grid-template-rows: auto;
+    grid-template-columns: 15% 70% 15%;
     align-items: center;
     line-height: normal;
+    background-color: #50aa97;
 }
 
+.LogoTitre{
+    display: grid;
+    grid-template-columns: 60% 40%;
+    align-items: center;
+    justify-items: end;
+}
+
+#Logo {
+    width: 40%;
+}
 .header-title {
     font-size: large;
     font-weight: bold;
@@ -24,4 +35,17 @@ nav>ul>li {
     font-size: large;
     font-weight: bold;
     padding: 10px;
+}
+
+nav>ul {
+    text-align: right;
+}
+
+li>a {
+    text-decoration: none;
+}
+
+#Avatar{
+    width: 20%;
+    border-radius: 25px;
 }

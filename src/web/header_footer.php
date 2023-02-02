@@ -12,8 +12,10 @@ $header = '
 
 <body>
     <header role="banner">
-        <img src="logo_DuolCloud.png">
-        <p class="header-title">DuolCloud</p>
+        <div class="LogoTitre">
+            <img id="Logo" src="../../logo_DuolCloud.png">
+            <p class="header-title">DuolCloud</p>
+        </div>
         <nav id="navigation" class="nav-title" role="navigation" aria-label="menu de navigation">
             <ul>
                 <li><a class="menu-link" href="#Fichiers">Fichiers</a></li>
@@ -21,9 +23,9 @@ $header = '
                 <li><a class="menu-link" href="#Partage">Partage</a></li>
             </ul>
         </nav>
-        <div class="profile">
-            <img src="avatar.jpg">
-            <p>'.$_SESSION['pseudo'].'</p>
+        <div class="profile" id="Parcourir">
+            <img id="Avatar" src="../../avatar.jpg">
+            <p>mettre le login</p>
         </div>
     </header>
     <hr>
