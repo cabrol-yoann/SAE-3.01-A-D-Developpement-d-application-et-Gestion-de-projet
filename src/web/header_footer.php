@@ -25,7 +25,7 @@ $header = '
         </nav>
         <div class="profile">
             <img id="Avatar" src="../../avatar PP.png">
-            <p>'.$_SESSION['pseudo'].'</p>
+            <p>aa</p>
         </div>
     </header>
     <hr>
@@ -37,9 +37,8 @@ $footer = '</main>
 <footer>
     <div class="footer-section">
         <ul>
-            <li><a href="#">Mentions légales</a></li>
-            <li><a href="#">Conditions d utilisation</a></li>
-            <li><a href="#">Politique de confidentialité</a></li>
+            <li><a href="MentionsLegales.php">Mentions légales</a></li>
+            <li><a href="conditionUtilisation.php">Conditions d utilisation</a></li>
         </ul>
     </div>
     <p>DuolCloud © 2023 | Tous droits réservés</p>
