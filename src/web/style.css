@@ -13,7 +13,7 @@ header {
     background-color: #50aa97;
 }
 
-.LogoTitre{
+.LogoTitre {
     display: grid;
     grid-template-columns: 60% 40%;
     align-items: center;
@@ -23,6 +23,7 @@ header {
 #Logo {
     width: 40%;
 }
+
 .header-title {
     font-size: large;
     font-weight: bold;
@@ -45,10 +46,11 @@ nav>ul>li>a {
     color: black;
 }
 
-#Avatar{
+#Avatar {
     width: 15%;
 }
-.profile{
+
+.profile {
     font-weight: bold;
 }
 
@@ -63,11 +65,11 @@ footer {
     width: 100%;
 }
 
-.footer-section>ul{
+.footer-section>ul {
     padding: 20px;
 }
 
-.footer-section>ul>li{
+.footer-section>ul>li {
     display: inline;
     font-size: large;
     padding: 5px;
