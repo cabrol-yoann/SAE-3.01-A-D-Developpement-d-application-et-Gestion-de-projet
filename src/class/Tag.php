@@ -38,7 +38,6 @@ class Tag{
    * @brief Destructeur de la classe
    */
   public function __destruct(){
-    
   }
   
   // ENCAPSULATION

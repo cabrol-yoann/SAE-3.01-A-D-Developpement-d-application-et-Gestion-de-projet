@@ -7,6 +7,12 @@ include_once "../code/baseDeDonneePhysique.php";
 $fichier = new Fichier("test", 10, "C:\test", "txt");
 $dossier = new Dossier("sapin", "C:\test");
 
+//echo $drive->getTaille();
+
+$drive->Restructuration($fichier,$dossier6,$drive);
+
+//$fichier->meRanger($stockage,);
+
 $dossier->ajouterEnfantFichier($fichier);
 $dossier->ajouterTags($tag4);
 
