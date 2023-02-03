@@ -4,14 +4,16 @@ include_once "../class/Dossier.php";
 include_once "../class/Archive.php";
 include_once "../code/baseDeDonneePhysique.php";
 
-$fichier = new Fichier("test", 10, "C:\test", "txt");
+$fichier = new Fichier("sapin", 5000, "C:\test", "png");
 $dossier = new Dossier("sapin", "C:\test");
+
 
 $dossier->ajouterEnfantFichier($fichier);
 $dossier->ajouterTags($tag4);
+$fichier->ajouterTags($tag4);
 
 //$fichier->meRanger($stockage);
-$dossier->meRanger($fichier);
+$dossier->meRanger($stockage);
 
 //$fichier->ajouterElement($stockage);
 

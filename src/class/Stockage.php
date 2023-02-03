@@ -92,14 +92,14 @@ class Stockage{
   // ENCAPSULATION
   //public
   /**
-   * @brief Retourne le nom de l'object Stockage
+   * @brief Retourne le nom de l'objet Stockage
    *
    * @return string
    */
   public function getNom(){return $this->nom;}
   
   /**
-   * @brief Retourne la taille de l'object Stockage
+   * @brief Retourne la taille de l'objet Stockage
    *
    * @return integer
    */
@@ -108,70 +108,70 @@ class Stockage{
     return $this->taille;}
   
   /**
-   * @brief Retourne la tailleMax de l'object Stockage
+   * @brief Retourne la tailleMax de l'objet Stockage
    *
    * @return integer
    */
   public function getTailleMax(){return $this->tailleMax;}
   
   /**
-   * @brief Retourne le chemin de l'object Stockage
+   * @brief Retourne le chemin de l'objet Stockage
    *
    * @return string
    */
   public function getChemin(){return $this->chemin;}
  
   /**
-   * @brief Retourne true si l'object Sctockage est restructuration false sinon
+   * @brief Retourne true si l'objet Sctockage est restructuration false sinon
    *
    * @return bool
    */
   public function getRestructurable(){return $this->restructurable;}
   
   /**
-   * @brief Retourne la racine de l'object Stockage
+   * @brief Retourne la racine de l'objet Stockage
    *
    * @return Dossier
    */
   public function getMaRacine(){return $this->maRacine;}
  
   /**
-   * @brief Modifie le nom de l'object Stockage
+   * @brief Modifie le nom de l'objet Stockage
    *
    * @param string $nom Représentation du nom que va posséder l'objet
    */
   public function setNom($nom){$this->nom = $nom;}
   
   /**
-   * @brief Modifie la taille de l'object Stockage
+   * @brief Modifie la taille de l'objet Stockage
    *  
    * @param integer $taille Représentation de la taille que va posséder l'objet
    */
   public function setTaille($taille){$this->taille = $taille;}
   
   /**
-   * @brief Modifie la tailleMax de l'object Stockage
+   * @brief Modifie la tailleMax de l'objet Stockage
    * 
    * @param integer $tailleMax Représentation de la tailleMax que va posséder l'objet
    */
   public function setTailleMax($tailleMax){$this->tailleMax = $tailleMax;}
   
   /**
-   * @brief Modifie le chemin de l'object Stockage
+   * @brief Modifie le chemin de l'objet Stockage
    * 
    * @param string $chemin Représentation du chemin que va posséder l'objet
    */
   public function setChemin($chemin){$this->chemin = $chemin;}
   
   /**
-   * @brief Modifie l'attribue restructurable de l'object Stockage
+   * @brief Modifie l'attribue restructurable de l'objet Stockage
    *
    * @param bool $restructurable Représentation de la restructuration que va posséder l'objet
    */
   public function setRestructurable($restructurable){$this->restructurable = $restructurable;}
   
   /**
-   * @brief Modifie la racine de l'object Stockage
+   * @brief Modifie la racine de l'objet Stockage
    *
    * @param Dossier $racine Représentaion de l'enfant de l'objet
    */
@@ -209,7 +209,6 @@ class Stockage{
       $listTagEnfant->rewind();
       while($listTagEnfant->valid()) {
         $listTag->rewind();
-        echo 'test';echo '<br>';
         while ($listTag->valid()) {
         if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
           $point++;
@@ -236,10 +235,11 @@ class Stockage{
     }
 
     //Regarde les enfants
+    
     $listeEnfantDossier->rewind();
     if (isset($listeEnfantDossier)) {
       while ($listeEnfantDossier->valid()) {
-        $listeEnfantDossier->current()->rechercheMeilleurEmplacement($objetAPlacer, $meilleurEmplacement, $score, $trouver);
+        $this->rechercheMeilleurEmplacement($listeEnfantDossier->current(), $meilleurEmplacement, $score, $trouver);
         $listeEnfantDossier->next();
       }
     }

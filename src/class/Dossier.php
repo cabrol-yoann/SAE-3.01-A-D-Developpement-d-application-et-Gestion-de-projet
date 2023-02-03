@@ -78,7 +78,7 @@ class Dossier extends Archive {
   }
   
   /**
-   * @brief Modifie l'attribut nbFichier de l'object Dossier
+   * @brief Modifie l'attribut nbFichier de l'objet Dossier
    * 
    * @param int $nbFic Représentation du nombre de Fichier que possède l'objet
   */
@@ -87,7 +87,7 @@ class Dossier extends Archive {
   }
   
   /**
-   * @brief retourne la liste des enfants dossier de l'object Dossier
+   * @brief retourne la liste des enfants dossier de l'objet Dossier
    * 
    * @return SplObjectStorage liste d'enfant Dossier
    */
@@ -96,7 +96,7 @@ class Dossier extends Archive {
   }
   
   /**
-   * @brief retourne la liste des enfants fichier de l'object Dossier
+   * @brief retourne la liste des enfants fichier de l'objet Dossier
    * 
    * @return SplObjectStorage liste d'enfant Fichier
    */
@@ -105,7 +105,7 @@ class Dossier extends Archive {
   }
 
   /**
-   * @brief retourne la liste des tags de l'object Dossier
+   * @brief retourne la liste des tags de l'objet Dossier
    * 
    * @return SplObjectStorage liste de Tag
    */
@@ -137,9 +137,9 @@ class Dossier extends Archive {
   }
 
   /**
-   * @brief Ajoute un Fochier à la liste de fichier de l'object Dossier et met a jour sa taille
+   * @brief Ajoute un Fochier à la liste de fichier de l'objet Dossier et met a jour sa taille
    * 
-   * @param Fichier $fichier object de la classe Fichier
+   * @param Fichier $fichier objet de la classe Fichier
    */
   public function ajouterEnfantFichier($fichier){
     $this->listEnfantFichier->attach($fichier);
@@ -148,9 +148,9 @@ class Dossier extends Archive {
   }
 
   /**
-   * @brief Supprime un Fichier de la liste des enfants fichier de l'object Dossier et met a jour sa taille
+   * @brief Supprime un Fichier de la liste des enfants fichier de l'objet Dossier et met a jour sa taille
    *   
-   * @param Fichier $fichier object de la classe Fichier
+   * @param Fichier $fichier objet de la classe Fichier
    */
   public function supprimerEnfantFichier($fichier) {
     $this->listEnfantFichier->detach($fichier);
@@ -159,9 +159,9 @@ class Dossier extends Archive {
   }
 
   /**
-   * @brief Ajoute un Dossier à la liste des enfants dossier de l'object Dossier et met a jour sa taille
+   * @brief Ajoute un Dossier à la liste des enfants dossier de l'objet Dossier et met a jour sa taille
    *
-   * @param Dossier $dossier object de la Dossier
+   * @param Dossier $dossier objet de la Dossier
    */
   public function ajouterEnfantDossier($dossier){
     $this->listeEnfantDossier->attach($dossier);
@@ -170,9 +170,9 @@ class Dossier extends Archive {
   }
 
   /**
-   * @brief Supprime un Dossier de la liste des enfants dossier de l'object Dossier et met a jour sa taille
+   * @brief Supprime un Dossier de la liste des enfants dossier de l'objet Dossier et met a jour sa taille
    * 
-   * @param Dossier $dossier object de la classe Dossier
+   * @param Dossier $dossier objet de la classe Dossier
    */
   public function supprimerEnfantDossier($dossier) {
     $this->listeEnfantDossier->detach($dossier);
@@ -181,18 +181,18 @@ class Dossier extends Archive {
   }
 
   /**
-   * @brief Ajoute un Tag à la liste des tags de l'object Dossier
+   * @brief Ajoute un Tag à la liste des tags de l'objet Dossier
    *  
-   * @param Tag $tag object de la classe Tag
+   * @param Tag $tag objet de la classe Tag
    */
   public function ajouterTags($tag){
     $this->mesTags->attach($tag);
   }
 
   /**
-   * @brief Supprime un Tag de la liste des tags de l'object Dossier
+   * @brief Supprime un Tag de la liste des tags de l'objet Dossier
    *
-   * @param Tag $tag object de la classe Tag
+   * @param Tag $tag objet de la classe Tag
    */
   public function supprimerTags($tag){
     $this->mesTags->detach($tag);
@@ -318,8 +318,8 @@ class Dossier extends Archive {
     }
   }
 
-  public function rechercheMeilleurEmplacement($objectAPlacer, &$meilleurEmplacement = null, &$score = 0, &$trouver = false) {
-    echo 'recherche d\'un emplacement pour '.$objectAPlacer->getNom().' dans le dossier '.$this->getNom();echo'<br>';
+  public function rechercheMeilleurEmplacement($DossierTraiter, &$meilleurEmplacement = null, &$score = 0, &$trouver = false) {
+    //echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$DossierTraiter->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur
 
@@ -328,16 +328,16 @@ class Dossier extends Archive {
      * @var int $compteur Nombre de fois que l'on a trouvé le type
      */
     $point = 0;
-    $score = 0;
-
+    $compteur = 0;
+    
     //Recherche du meilleur emplacement pour les enfants qui sont des fichiers du dossier courant
     //Récupération de la liste des enfants Fichier.
-    $listEnfantFichier = $this->getListeEnfantFichier();
+    $listEnfantFichier = $DossierTraiter->getListeEnfantFichier();
     $listEnfantFichier->rewind();
     while ($listEnfantFichier->valid()) {
-      echo 'recherche d\'un emplacement pour '.$objectAPlacer->getNom().' en le comparent avec le fichier '.$listEnfantFichier->current()->getNom();echo '<br>';
+      echo 'recherche d\'un emplacement pour '.$this->getNom().' en le comparent avec le fichier '.$listEnfantFichier->current()->getNom();echo '<br>';
       //Recherche du meilleur emplacement pour les enfants du dossier courant à partir du tag
-      $listTag = $objectAPlacer->getMesTags();
+      $listTag = $this->getMesTags();
       $listTagEnfant = $listEnfantFichier->current()->getMesTags();
       $listTagEnfant->rewind();
         while($listTagEnfant->valid()) {
@@ -352,25 +352,24 @@ class Dossier extends Archive {
           $listTagEnfant->next();
       }
       //recherhe du meilleur emplacement pour les enfants du dossier courant à partir du nom
-      if ($this->getNom() == $listEnfantFichier->current()->getNom()) {
+      if ($DossierTraiter->getNom() == $listEnfantFichier->current()->getNom()) {
         $point++;
         echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
       }
       $listEnfantFichier->next();
     }
-
+    
     //Recherche du meilleur emplacement pour les enfants qui sont des dossiers du dossier courant
     // Récupération de la liste des enfants Dossier 
-    $listEnfantDossier = $this->getListeEnfantDossier();
+    $listEnfantDossier = $DossierTraiter->getListeEnfantDossier();
     while ($listEnfantDossier->valid()) { 
-      echo 'recherche d\'un emplacement pour '.$objectAPlacer->getNom().' dans le dossier '.$listEnfantDossier->current()->getNom();echo '<br>';
+      echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$listEnfantDossier->current()->getNom();echo '<br>';
       //Recherche à partir du tag
-      $listTag = $objectAPlacer->getMesTags();
+      $listTag = $this->getMesTags();
       $listTagEnfant = $listEnfantDossier->current()->getMesTags();
       $listTagEnfant->rewind();
       while($listTagEnfant->valid()) {
         $listTag->rewind();
-        echo 'test';echo '<br>';
         while ($listTag->valid()) {
           if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
             $point++;
@@ -381,17 +380,17 @@ class Dossier extends Archive {
         $listTagEnfant->next();
       }
       // Recherche à partir du nom
-      if ($listEnfantDossier->current()->getNom() == $objectAPlacer->getNom()) {
+      if ($listEnfantDossier->current()->getNom() == $this->getNom()) {
         $point++;
         echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
       }
       $listEnfantDossier->next();
     }
-
+    
     //Recherche du meilleur emplacement à partir du dossier courant
     //Recherche à partir du tag
-    $listTag = $objectAPlacer->getMesTags();
-    $listTagEnfant = $this->getMesTags();
+    $listTag = $this->getMesTags();
+    $listTagEnfant = $DossierTraiter->getMesTags();
     $listTagEnfant->rewind();
     while($listTagEnfant->valid()) {
       $listTag->rewind();
@@ -405,23 +404,23 @@ class Dossier extends Archive {
       $listTagEnfant->next();
     }
     //Recherche à partir du nom
-    if ($this->getNom() == $objectAPlacer->getNom()) {
+    if ($DossierTraiter->getNom() == $this->getNom()) {
       $point++;
       echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
     }
 
     //Enregistrement de valeur trouver
     if ($point > $score) {
-      echo 'Le dossier '.$this->getNom().' a été trouver avec un score de '.$point;echo '<br>';
+      echo 'Le dossier '.$DossierTraiter->getNom().' a été trouver avec un score de '.$point;echo '<br>';
       $score = $point;
-      $meilleurEmplacement = $this;
+      $meilleurEmplacement = $DossierTraiter;
       $trouver = true ;
     }
-
+    
     //Regarde les enfants
     $listEnfantDossier->rewind();
     while ($listEnfantDossier->valid()) {
-      $listEnfantDossier->current()->rechercheMeilleurEmplacement($objectAPlacer, $meilleurEmplacement, $score, $trouver);
+      //$this->rechercheMeilleurEmplacement($listEnfantDossier->current(), $meilleurEmplacement, $score, $trouver);
       $listEnfantDossier->next();
     }
   }

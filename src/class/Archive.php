@@ -38,7 +38,7 @@ class Archive implements interfaceUtilisateur {
  
   // CONSTRUCTEUR
   /**
-   * constructeur de la classe Archive demandant en paramètre le nom, la taille et le type de l'object Fichier ou dossier à créer
+   * constructeur de la classe Archive demandant en paramètre le nom, la taille et le type de l'objet Fichier ou dossier à créer
    *
    * @param string  $nom      Représentation du nom que va posséder l'objet
    * @param integer $taille   Représentation de la taille que va avoir l'objet
@@ -63,7 +63,7 @@ class Archive implements interfaceUtilisateur {
   //public
   // MÉTHODE USUELLE
   /**
-   * @brief Récupération du Nom de l'object
+   * @brief Récupération du Nom de l'objet
    * 
    * @return string
    */
@@ -84,21 +84,21 @@ class Archive implements interfaceUtilisateur {
   public function getChemin(){return $this->chemin;}
   
   /**
-   * @brief Modifie l'attribut Nom de l'object
+   * @brief Modifie l'attribut Nom de l'objet
    *  
    * @param string $nom Représentation du nom que va posséder l'objet
    */
   public function setNom($nom){$this->nom = $nom;}
   
   /**
-   * @brief Modifie l'attribut Taille de l'object
+   * @brief Modifie l'attribut Taille de l'objet
    * 
    * @param integer $taille Représentation de la taille que va avoir l'objet
    */
   public function setTaille($taille){$this->taille = $taille;}
   
   /**
-   * @brief Modifie l'attribut chemin de l'object
+   * @brief Modifie l'attribut chemin de l'objet
    * 
    * @param string $chemin Représentaton du chemin que va posséder l'objet
    */
