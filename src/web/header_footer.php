@@ -23,9 +23,9 @@ $header = '
                 <li><a class="menu-link" href="#Partage">Partage</a></li>
             </ul>
         </nav>
-        <div class="profile" id="Parcourir">
-            <img id="Avatar" src="../../avatar.jpg">
-            <p>mettre le login</p>
+        <div class="profile">
+            <img id="Avatar" src="../../avatar PP.png">
+            <p>'.$_SESSION['pseudo'].'</p>
         </div>
     </header>
     <hr>
@@ -36,7 +36,6 @@ $footer = '</main>
 </body>
 <footer>
     <div class="footer-section">
-        <h3>Informations juridiques</h3>
         <ul>
             <li><a href="#">Mentions légales</a></li>
             <li><a href="#">Conditions d utilisation</a></li>
