@@ -19,7 +19,7 @@ $header = '
         <nav id="navigation" class="nav-title" role="navigation" aria-label="menu de navigation">
             <ul>
                 <li><a class="menu-link" href="#Fichiers">Fichiers</a></li>
-                <li><a class="menu-link" href="ConnexionStockage">Connexion Espace de Stockage</a></li>
+                <li><a class="menu-link" href="ConnexionStockage.php">Connexion Espace de Stockage</a></li>
                 <li><a class="menu-link" href="#Partage">Partage</a></li>
             </ul>
         </nav>

@@ -5,15 +5,6 @@ echo $header;
 
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<meta charset="utf-8">
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DuolCloud - Mentions légales</title>
-</head>
-
 <body>
     <main>
         <h1 style="text-align:center; padding:10px;">Mentions légales</h1>
@@ -77,9 +68,8 @@ echo $header;
                 données comme les préférences et les statistiques seront conservées moins longtemps.</p>
             <p>Il n’y aura pas de transfert de données hors Union Européenne. Toutes nos données seront
                 traitées en interne.</p>
-    </main>
-</body>
-</htmml>
+    
+
 <?php
 include_once "header_footer.php";
 

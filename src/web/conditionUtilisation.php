@@ -4,14 +4,6 @@ include_once "header_footer.php";
 echo $header;
 
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<meta charset="utf-8">
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DuolCloud - Conditions d'utilisation</title>
-</head>
 
 <body>
     <main>
@@ -87,9 +79,8 @@ echo $header;
             ne pas être responsable des retards
             ou des interruptions dans le service causés par des problèmes techniques ou autres imprévus.</p>
         <br>
-    </main>
-</body>
-</htmml>
+    
+
 <?php
 include_once "header_footer.php";
 
