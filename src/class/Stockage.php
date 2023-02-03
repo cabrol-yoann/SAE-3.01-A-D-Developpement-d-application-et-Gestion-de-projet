@@ -187,7 +187,7 @@ class Stockage{
 
   }
 
-  public function rechercheMeilleurEmplacement($objetAPlacer) {
+  public function rechercheMeilleurEmplacement($objetAPlacer, &$meilleurEmplacement = null, &$score = 0, &$trouver = false) {
     echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le stockage '.$this->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur
@@ -197,16 +197,15 @@ class Stockage{
      * @var int $compteur Nombre de fois que l'on a trouvé le type
      */
     $point = 0;
-    $score = 0;
 
     // Récupération de la liste des enfants Dossier 
-    $listEnfantDossier = $this->getMaRacine()->getListeEnfantDossier();
+    $listeEnfantDossier = $this->getMaRacine()->getListeEnfantDossier();
     //Recherche du meilleur emplacement pour les enfants du dossier courant
-    while ($listEnfantDossier->valid()) { 
-      echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le dossier '.$listEnfantDossier->current()->getNom();echo '<br>';
+    while ($listeEnfantDossier->valid()) { 
+      echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le dossier '.$listeEnfantDossier->current()->getNom();echo '<br>';
       //Recherche du meilleur emplacement pour le dossier courant à partir du tag
       $listTag = $objetAPlacer->getMesTags();
-      $listTagEnfant = $listEnfantDossier->current()->getMesTags();
+      $listTagEnfant = $listeEnfantDossier->current()->getMesTags();
       $listTagEnfant->rewind();
       while($listTagEnfant->valid()) {
         $listTag->rewind();
@@ -221,11 +220,11 @@ class Stockage{
           $listTagEnfant->next();
       }
       //Recherche du meilleur emplacement pour le dossier courant à partir du tag
-      if ($listEnfantDossier->current()->getNom() == $objetAPlacer->getNom()) {
+      if ($listeEnfantDossier->current()->getNom() == $objetAPlacer->getNom()) {
         $point++;
         echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
       }
-      $listEnfantDossier->next();
+      $listeEnfantDossier->next();
     }
 
     // Enregsitrement du meilleur emplacement trouvé a partir du score
@@ -237,11 +236,11 @@ class Stockage{
     }
 
     //Regarde les enfants
-    $listEnfantDossier->rewind();
-    if (isset($listEnfantDossier)) {
-      while ($listEnfantDossier->valid()) {
-        $listEnfantDossier->current()->rechercheMeilleurEmplacement($score, $trouver, $meilleurEmplacement, $objetAPlacer);
-        $listEnfantDossier->next();
+    $listeEnfantDossier->rewind();
+    if (isset($listeEnfantDossier)) {
+      while ($listeEnfantDossier->valid()) {
+        $listeEnfantDossier->current()->rechercheMeilleurEmplacement($objetAPlacer, $meilleurEmplacement, $score, $trouver);
+        $listeEnfantDossier->next();
       }
     }
   }

@@ -110,6 +110,14 @@ class Archive implements interfaceUtilisateur {
     return false;
   }
 
+  public function rechercheListeStockageATraiter($listeStockage, $restructuration = false){
+    return false;
+  }
+
+  public function rechercheMeilleurEmplacement($stockageTester, &$meilleurEmplacement = null, &$score = 0, &$trouver = false) {
+    return false;
+  }
+
   public function meRanger($listStockage){
       return false;
   }
