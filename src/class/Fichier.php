@@ -131,6 +131,7 @@ class Fichier extends Archive {
       return;
     }
     while ($listeDesStokagesATraiter->valid()) {
+      $trouver = false;
       $listeDesStokagesATraiter->current()->rechercheMeilleurEmplacement($this, $meilleurEmplacement, $trouver);
       if ($trouver) {
         $espaceStockageTrouver = $listeDesStokagesATraiter->current();
@@ -138,15 +139,25 @@ class Fichier extends Archive {
       }
       $listeDesStokagesATraiter->next();
     }
-    //Regarde si l'on peut stocker le dossier dans l'espace de stockage
-    $tailleCalculer = $espaceStockageTrouver->getTaille() + $this->getTaille();
-    if ($espaceStockageTrouver->getTailleMax() > $tailleCalculer) {
-      //Changement de nom si nécéssaire
-      $this->meRenommer($meilleurEmplacement);
-      //Ajout du dossier dans le dossier
-      echo 'Ajout du fichier '.$this->getNom().' dans le dossier '.$meilleurEmplacement->getNom().' dans l\'espace '.$espaceStockageTrouver->getNom();echo '<br>';
-      $meilleurEmplacement->ajouterEnfantFichier($this);
+    if (!isset($espaceStockageTrouver)) {
+      echo 'Aucun espace de stockage trouvé';echo '<br>';
       return;
+    }
+    else {
+      //Regarde si l'on peut stocker le dossier dans l'espace de stockage
+      $tailleCalculer = $espaceStockageTrouver->getTaille() + $this->getTaille();
+      if ($espaceStockageTrouver->getTailleMax() > $tailleCalculer) {
+        //Changement de nom si nécéssaire
+        $this->meRenommer($meilleurEmplacement);
+        //Ajout du dossier dans le dossier
+        echo 'Ajout du fichier '.$this->getNom().' dans le dossier '.$meilleurEmplacement->getNom().' dans l\'espace '.$espaceStockageTrouver->getNom();echo '<br>';
+        $meilleurEmplacement->ajouterEnfantFichier($this);
+        return;
+      }
+      else
+      {
+        
+      }
     }
   }
 

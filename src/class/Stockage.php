@@ -180,12 +180,6 @@ class Stockage{
   // MÉTHODE USUELLES
 
   // MÉTHODE SPÉCIFIQUE : 
-
-  
-
-  public function restructation() {
-
-  }
   
   /**
    * fonction qui permet de rechercher un emplacement pour un objet
