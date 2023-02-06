@@ -1,9 +1,11 @@
 <?php
 
-include_once "../class/Database.php";
+include_once "../DAO/FichierDAO.php";
 
-$db = new Database();
+$db = new FichierDAO();
 
-var_dump($db->getMusique())
+var_dump($db->getFichier())
+
+
 
 ?>
