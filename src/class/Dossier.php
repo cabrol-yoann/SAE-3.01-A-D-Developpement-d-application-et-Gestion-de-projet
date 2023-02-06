@@ -225,7 +225,7 @@ class Dossier extends Archive {
   }
 
   /**
-   * fonction qui range un dossier dans un espace de stockage
+   * fonction qui range un dossier dans un espace de stockage de l'utilisateur
    *
    * @param ObjectStorage $listStockage liste de tous les espaces de stockage de l'utilisateur
    */
