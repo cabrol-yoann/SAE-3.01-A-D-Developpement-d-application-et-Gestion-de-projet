@@ -92,14 +92,14 @@ class Stockage{
   // ENCAPSULATION
   //public
   /**
-   * @brief Retourne le nom de l'object Stockage
+   * @brief Retourne le nom de l'objet Stockage
    *
    * @return string
    */
   public function getNom(){return $this->nom;}
   
   /**
-   * @brief Retourne la taille de l'object Stockage
+   * @brief Retourne la taille de l'objet Stockage
    *
    * @return integer
    */
@@ -108,70 +108,70 @@ class Stockage{
     return $this->taille;}
   
   /**
-   * @brief Retourne la tailleMax de l'object Stockage
+   * @brief Retourne la tailleMax de l'objet Stockage
    *
    * @return integer
    */
   public function getTailleMax(){return $this->tailleMax;}
   
   /**
-   * @brief Retourne le chemin de l'object Stockage
+   * @brief Retourne le chemin de l'objet Stockage
    *
    * @return string
    */
   public function getChemin(){return $this->chemin;}
  
   /**
-   * @brief Retourne true si l'object Sctockage est restructuration false sinon
+   * @brief Retourne true si l'objet Sctockage est restructuration false sinon
    *
    * @return bool
    */
   public function getRestructurable(){return $this->restructurable;}
   
   /**
-   * @brief Retourne la racine de l'object Stockage
+   * @brief Retourne la racine de l'objet Stockage
    *
    * @return Dossier
    */
   public function getMaRacine(){return $this->maRacine;}
  
   /**
-   * @brief Modifie le nom de l'object Stockage
+   * @brief Modifie le nom de l'objet Stockage
    *
    * @param string $nom Représentation du nom que va posséder l'objet
    */
   public function setNom($nom){$this->nom = $nom;}
   
   /**
-   * @brief Modifie la taille de l'object Stockage
+   * @brief Modifie la taille de l'objet Stockage
    *  
    * @param integer $taille Représentation de la taille que va posséder l'objet
    */
   public function setTaille($taille){$this->taille = $taille;}
   
   /**
-   * @brief Modifie la tailleMax de l'object Stockage
+   * @brief Modifie la tailleMax de l'objet Stockage
    * 
    * @param integer $tailleMax Représentation de la tailleMax que va posséder l'objet
    */
   public function setTailleMax($tailleMax){$this->tailleMax = $tailleMax;}
   
   /**
-   * @brief Modifie le chemin de l'object Stockage
+   * @brief Modifie le chemin de l'objet Stockage
    * 
    * @param string $chemin Représentation du chemin que va posséder l'objet
    */
   public function setChemin($chemin){$this->chemin = $chemin;}
   
   /**
-   * @brief Modifie l'attribue restructurable de l'object Stockage
+   * @brief Modifie l'attribue restructurable de l'objet Stockage
    *
    * @param bool $restructurable Représentation de la restructuration que va posséder l'objet
    */
   public function setRestructurable($restructurable){$this->restructurable = $restructurable;}
   
   /**
-   * @brief Modifie la racine de l'object Stockage
+   * @brief Modifie la racine de l'objet Stockage
    *
    * @param Dossier $racine Représentaion de l'enfant de l'objet
    */
@@ -180,8 +180,76 @@ class Stockage{
   // MÉTHODE USUELLES
 
   // MÉTHODE SPÉCIFIQUE : 
+  
+  public function rechercheMeilleurEmplacement($objetAPlacer, &$meilleurEmplacement = null, &$score = 0, &$trouver = false) {
+  /**
+   * fonction qui permet de rechercher un emplacement pour un objet
+   *
+   * @param Dossier/Fichier $objetAPlacer objet à placer
+   * @param Dossier $meilleurEmplacement emplacement le plus favorable
+   * @param boolean $trouver si l'on a trouvé un emplacement
+   * @param integer $score score de l'emplacement
+   * @return void
+   */
+  public function rechercheMeilleurEmplacement($objetAPlacer, &$meilleurEmplacement = null,  &$trouver = false, &$score = 0) {
 
-  public function rechercheDossierEtFichierARestructurer(&$somme,&$listeFichierARestructurer,&$trouver,$objetAPlacer ) {
+    echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le stockage '.$this->getNom();echo'<br>';
+    // Recherche de l'emplacement le plus favorable à partir d'un parcour
+    // Initialisation des points et du compteur
+
+    /**
+     * @var int $point Nombre de point
+     * @var int $compteur Nombre de fois que l'on a trouvé le type
+     */
+    $point = 0;
+
+    // Récupération de la liste des enfants Dossier 
+    $listeEnfantDossier = $this->getMaRacine()->getListeEnfantDossier();
+    //Recherche du meilleur emplacement pour les enfants du dossier courant
+    while ($listeEnfantDossier->valid()) { 
+      echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le dossier '.$listeEnfantDossier->current()->getNom();echo '<br>';
+      //Recherche du meilleur emplacement pour le dossier courant à partir du tag
+      $listTag = $objetAPlacer->getMesTags();
+      $listTagEnfant = $listeEnfantDossier->current()->getMesTags();
+      $listTagEnfant->rewind();
+      while($listTagEnfant->valid()) {
+        $listTag->rewind();
+        while ($listTag->valid()) {
+        if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
+          $point++;
+          echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+        }
+        $listTag->next();
+        }
+          $listTagEnfant->next();
+      }
+      //Recherche du meilleur emplacement pour le dossier courant à partir du tag
+      if ($listeEnfantDossier->current()->getNom() == $objetAPlacer->getNom()) {
+        $point++;
+        echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
+      }
+      $listeEnfantDossier->next();
+    }
+
+    // Enregsitrement du meilleur emplacement trouvé a partir du score
+    if ($point > $score) {
+        echo 'Le dossier '.$this->getNom().' a été trouver avec un score de '.$point;echo '<br>';
+        $score = $point;
+        $meilleurEmplacement = $this;
+        $trouver = true ;
+    }
+
+    //Regarde les enfants
+    $listeEnfantDossier->rewind();
+    if (isset($listeEnfantDossier)) {
+      while ($listeEnfantDossier->valid()) {
+        $objetAPlacer->rechercheMeilleurEmplacement($meilleurEmplacement, $score, $trouver, $listeEnfantDossier->current());
+        $listeEnfantDossier->next();
+      }
+    }
+  }
+  
+    public function rechercheDossierEtFichierARestructurer(&$somme,&$listeFichierARestructurer,&$trouver,$objetAPlacer ) {
     /**
        * @var SplObjectStorage $listeEnfantFichier Liste des enfants Fichier
        * @var SplObjectStorage $listeEnfantDossier Liste des enfants Dossier
@@ -254,62 +322,4 @@ public function Restructuration($ObjetAPlacer,$nomDossierTrouver,$Stockage){
       $listeFichierARestructurer->next();
   }
 }
-
-  public function rechercheMeilleurEmplacement($objetAPlacer, &$meilleurEmplacement = null, &$score = 0, &$trouver = false) {
-    echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le stockage '.$this->getNom();echo'<br>';
-    // Recherche de l'emplacement le plus favorable à partir d'un parcour
-    // Initialisation des points et du compteur
-
-    /**
-     * @var int $point Nombre de point
-     * @var int $compteur Nombre de fois que l'on a trouvé le type
-     */
-    $point = 0;
-
-    // Récupération de la liste des enfants Dossier 
-    $listeEnfantDossier = $this->getMaRacine()->getListeEnfantDossier();
-    //Recherche du meilleur emplacement pour les enfants du dossier courant
-    while ($listeEnfantDossier->valid()) { 
-      echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le dossier '.$listeEnfantDossier->current()->getNom();echo '<br>';
-      //Recherche du meilleur emplacement pour le dossier courant à partir du tag
-      $listTag = $objetAPlacer->getMesTags();
-      $listTagEnfant = $listeEnfantDossier->current()->getMesTags();
-      $listTagEnfant->rewind();
-      while($listTagEnfant->valid()) {
-        $listTag->rewind();
-        echo 'test';echo '<br>';
-        while ($listTag->valid()) {
-        if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
-          $point++;
-          echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-        }
-        $listTag->next();
-        }
-          $listTagEnfant->next();
-      }
-      //Recherche du meilleur emplacement pour le dossier courant à partir du tag
-      if ($listeEnfantDossier->current()->getNom() == $objetAPlacer->getNom()) {
-        $point++;
-        echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-      }
-      $listeEnfantDossier->next();
-    }
-
-    // Enregsitrement du meilleur emplacement trouvé a partir du score
-    if ($point > $score) {
-        echo 'Le dossier '.$this->getNom().' a été trouver avec un score de '.$point;echo '<br>';
-        $score = $point;
-        $meilleurEmplacement = $this;
-        $trouver = true ;
-    }
-
-    //Regarde les enfants
-    $listeEnfantDossier->rewind();
-    if (isset($listeEnfantDossier)) {
-      while ($listeEnfantDossier->valid()) {
-        $listeEnfantDossier->current()->rechercheMeilleurEmplacement($objetAPlacer, $meilleurEmplacement, $score, $trouver);
-        $listeEnfantDossier->next();
-      }
-    }
-  }
 }
