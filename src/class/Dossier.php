@@ -207,19 +207,19 @@ class Dossier extends Archive {
     echo "Liste des enfants dossier : <br>";
     $this->listeEnfantDossier->rewind();
     while ($this->listeEnfantDossier->valid()) {
-      echo $this->listeEnfantDossier->current()->getNom() . "<br>";
+      echo "      ",$this->listeEnfantDossier->current()->getNom() . "<br>";
       $this->listeEnfantDossier->next();
     }
     echo "Liste des enfants fichier : <br>";
     $this->listEnfantFichier->rewind();
     while ($this->listEnfantFichier->valid()) {
-      echo $this->listEnfantFichier->current()->getNom() . "<br>";
+      echo "      ",$this->listEnfantFichier->current()->getNom() . "<br>";
       $this->listEnfantFichier->next();
     }
     echo "Liste des tags : <br>";
     $this->mesTags->rewind();
     while ($this->mesTags->valid()) {
-      echo $this->mesTags->current()->getNom() . "<br>";
+      echo "      ",$this->mesTags->current()->getTitre() . "<br>";
       $this->mesTags->next();
     }
   }
@@ -265,6 +265,13 @@ class Dossier extends Archive {
     }
   }
 
+  /**
+   * fonction qui recherche les espaces de stockage dans lesquels le dossier peut être rangé
+   *
+   * @param ObjectStorage $listeStockage liste de tous les espaces de stockage de l'utilisateur
+   * @param boolean $restructuration indique si on est en phase de restructuration ou non
+   * @return $listeStockageTrouver liste des espaces de stockage dans lesquels le dossier peut être rangé
+   */
   public function rechercheListeStockageATraiter($listeStockage, $restructuration = false) {
     //initialisation
     /**
@@ -311,6 +318,11 @@ class Dossier extends Archive {
     return $listeStockageTrouver;
   }
 
+  /**
+   * fonction qui renomme le dossier si nécéssaire
+   *
+   * @param Dossier $meilleurEmplacement Dossier dans lequel on veut stocker le dossier
+   */
   public function meRenommer($meilleurEmplacement){
     //Variables
     /**
@@ -336,6 +348,15 @@ class Dossier extends Archive {
     }
   }
 
+  /**
+   * fonction qui recherche le meilleur emplacement pour le dossier
+   *
+   * @param Dossier $meilleurEmplacement Dossier dans lequel on veut stocker le dossier
+   * @param integer $score Score du dossier analysé
+   * @param boolean $trouver Pour savoir si on a trouvé un dossier
+   * @param Dossier $DossierTraiter Dossier dans lequel on cherche le meilleur emplacement
+   * @return void
+   */
   public function rechercheMeilleurEmplacement(&$meilleurEmplacement = null, &$score = 0, &$trouver = false, $DossierTraiter) {
     //echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$DossierTraiter->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
@@ -393,9 +414,16 @@ class Dossier extends Archive {
       $listEnfantDossier->next();
     }
   }
-  private function rechercheTag($listeEnfant) {
+
+  /**
+   * fonction qui recherche le meilleur emplacement pour le dossier à partir du nom
+   *
+   * @param Dossier $DossierTraiter Dossier dans lequel on cherche le meilleur emplacement
+   * @return 1
+   */
+  private function rechercheTag($DossierTraiter) {
     $listeTag = $this->getMesTags();
-    $listeTagEnfant = $listeEnfant->getMesTags();
+    $listeTagEnfant = $DossierTraiter->getMesTags();
     $listeTagEnfant->rewind();
     while($listeTagEnfant->valid()) {
       $listeTag->rewind();
@@ -410,6 +438,12 @@ class Dossier extends Archive {
     }
   }
 
+  /**
+   * fonction qui recherche le meilleur emplacement pour le dossier à partir du tag
+   *
+   * @param Dossier $DossierTraiter Dossier dans lequel on cherche le meilleur emplacement
+   * @return 1
+   */
   private function rechercheNom($DossierTraiter) {
     if ($DossierTraiter->getNom() == $this->getNom()) {
       echo 'nom trouver';echo '<br>';

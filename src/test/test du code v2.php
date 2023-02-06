@@ -12,6 +12,9 @@ $dossier->ajouterEnfantFichier($fichier);
 $dossier->ajouterTags($tag3);
 $fichier->ajouterTags($tag3);
 
+
+$fichier->afficher();echo "<br>";echo "<br>";
+$dossier->afficher();echo "<br>";echo "<br>";
 //$fichier->meRanger($stockage);
 $fichier->meRanger($stockage);
 

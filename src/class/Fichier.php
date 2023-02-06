@@ -104,7 +104,7 @@ class Fichier extends Archive {
     $this->mesTags->rewind();
     while ($this->mesTags->valid()) {
       $tagTraiter = $this->mesTags->current();
-      echo "Tag : ".$tagTraiter->getNom()."\n";
+      echo "Tag : ".$tagTraiter->getTitre()."\n";
       $this->mesTags->next();
     }
   }
@@ -150,6 +150,13 @@ class Fichier extends Archive {
     }
   }
 
+  /**
+   * fonction qui recherche les espaces de stockage dans lesquels le dossier peut être rangé
+   *
+   * @param objectStorage $listeStockage liste de tous les espaces de stockage de l'utilisateur
+   * @param boolean $restructuration Indique si on est en restructuration ou non
+   * @return void
+   */
   public function rechercheListeStockageATraiter($listeStockage, $restructuration = false) {
     //initialisation
     /**
@@ -194,8 +201,13 @@ class Fichier extends Archive {
     return $listStockage;
   }
 
+  /**
+   * fonction qui renomme le fichier si nécéssaire.
+   *
+   * @param Dossier $meilleurEmplacement Dossier dans lequel on veut placer le fichier
+   * @return void
+   */
   public function meRenommer($meilleurEmplacement) {
-    
     //Variables pour le renommage du fichier
     $listeEnfantFichier= $meilleurEmplacement->getListeEnfantFichier();
     $compteur=1;
@@ -213,6 +225,15 @@ class Fichier extends Archive {
     }
   }
 
+  /**
+   * fonction qui recherche le meilleur emplacement pour le fichier
+   *
+   * @param Dossier $meilleurEmplacement Dossier dans lequel on veut placer le fichier
+   * @param integer $score Score du dossier analysé
+   * @param boolean $trouver Indique si on a trouvé un dossier idéal
+   * @param Dossier $DossierTraiter Dossier dans lequel on cherche à placer le fichier
+   * @return void
+   */
   public function rechercheMeilleurEmplacement(&$meilleurEmplacement = null, &$score = 0, &$trouver = false, $DossierTraiter) {
     echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$DossierTraiter->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
@@ -278,9 +299,15 @@ class Fichier extends Archive {
     }
   }
 
-  private function rechercheTag($listeEnfant) {
+  /**
+   * fonction qui recherche le meilleur emplacement pour le fichier à partir du nom
+   *
+   * @param Dossier $DossierTraiter Dossier dans lequel on cherche à placer le fichier
+   * @return 1
+   */
+  private function rechercheTag($DossierTraiter) {
     $listeTag = $this->getMesTags();
-    $listeTagEnfant = $listeEnfant->getMesTags();
+    $listeTagEnfant = $DossierTraiter->getMesTags();
     $listeTagEnfant->rewind();
     while($listeTagEnfant->valid()) {
       $listeTag->rewind();
@@ -295,16 +322,29 @@ class Fichier extends Archive {
     }
   }
 
-  private function rechercheType($DossierTraiter, &$compteur) {
-    if ($DossierTraiter->current()->getType() == $this->getType()) {
+  /**
+   * fonction qui recherche le meilleur emplacement pour le fichier à partir du type
+   *
+   * @param ObjectStorage $listeEnfantDossier Liste des enfants Fichier du dossier courant 
+   * @param integer $compteur Nombre de fichier que l'on a trouvé avec le type dans le dossier
+   * @return 1
+   */
+  private function rechercheType($listeEnfantDossier, &$compteur) {
+    if ($listeEnfantDossier->current()->getType() == $this->getType()) {
       $compteur++;
-      if ($compteur == $DossierTraiter->count()) {
+      if ($compteur == $listeEnfantDossier->count()) {
         echo 'type trouver';echo '<br>';
         return 1;
       } 
     }
   }
 
+  /**
+   * fonction qui recherche le meilleur emplacement pour le fichier à partir du nom
+   *
+   * @param Dossier $DossierTraiter Dossier dans lequel on cherche à placer le fichier
+   * @return 1
+   */
   private function rechercheNom($DossierTraiter) {
     if ($DossierTraiter->getNom() == $this->getNom()) {
       echo 'nom trouver';echo '<br>';

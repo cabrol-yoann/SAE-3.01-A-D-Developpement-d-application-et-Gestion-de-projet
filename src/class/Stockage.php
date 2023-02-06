@@ -186,7 +186,16 @@ class Stockage{
   public function restructation() {
 
   }
-
+  
+  /**
+   * fonction qui permet de rechercher un emplacement pour un objet
+   *
+   * @param Dossier/Fichier $objetAPlacer objet à placer
+   * @param Dossier $meilleurEmplacement emplacement le plus favorable
+   * @param boolean $trouver si l'on a trouvé un emplacement
+   * @param integer $score score de l'emplacement
+   * @return void
+   */
   public function rechercheMeilleurEmplacement($objetAPlacer, &$meilleurEmplacement = null,  &$trouver = false, &$score = 0) {
     echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le stockage '.$this->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
