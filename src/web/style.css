@@ -1,3 +1,6 @@
+html{
+    height:100%;
+}
 * {
     margin: 0;
     font-family: Arial;
@@ -5,73 +8,21 @@
 
 header {
     text-align: center;
-    display: grid;
-    grid-template-rows: auto;
-    grid-template-columns: 15% 70% 15%;
     align-items: center;
     line-height: normal;
     background-color: #50aa97;
+    position: relative;
 }
 
-.LogoTitre {
-    display: grid;
-    grid-template-columns: 60% 40%;
-    align-items: center;
-    justify-items: end;
+body{
+    height:100%;
+    position: relative;
 }
 
-#Logo {
-    width: 40%;
+main{
+    padding-bottom: 50px;
+    position: relative;
 }
-
-.header-title {
-    font-size: large;
-    font-weight: bold;
-    padding: 10px;
-}
-
-nav>ul>li {
-    display: inline;
-    font-size: large;
-    font-weight: bold;
-    padding: 5px;
-}
-
-nav>ul {
-    text-align: right;
-}
-
-nav>ul>li>a {
-    text-decoration: none;
-    color: black;
-}
-
-#Avatar {
-    width: 15%;
-}
-
-.profile {
-    font-weight: bold;
-}
-
 footer {
-    text-align: center;
-    background-color: rgb(230, 230, 230);
-    color: black;
-    padding: 1rem;
-    align-items: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-}
-
-.footer-section>ul {
-    padding: 20px;
-}
-
-.footer-section>ul>li {
-    display: inline;
-    font-size: large;
-    padding: 5px;
+    background-color: rgb(240, 240, 240);
 }

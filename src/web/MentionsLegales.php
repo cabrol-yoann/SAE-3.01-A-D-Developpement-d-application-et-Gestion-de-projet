@@ -5,8 +5,6 @@ echo $header;
 
 ?>
 
-<body>
-    <main>
         <h1 style="text-align:center; padding:10px;">Mentions légales</h1>
         <br>
 

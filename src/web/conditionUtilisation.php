@@ -5,8 +5,6 @@ echo $header;
 
 ?>
 
-<body>
-    <main>
         <h1 style='text-align:center; padding:10px;'>Conditions d'utilisation</h1>
         <br>
         <h2 style='padding: 0 20px 0 20px;'>Responsabilité de l'utilisateur :</h2>

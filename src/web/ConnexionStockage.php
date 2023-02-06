@@ -5,8 +5,6 @@ echo $header;
 
 ?>
 
-<body>
-    <main>
         <section class="form-edit">
             <h2 style="text-align:center; padding:10px;">Nouveau Serveur</h1>
                 <form style="text-align:center; padding:10px;" action="add.php" method="POST">

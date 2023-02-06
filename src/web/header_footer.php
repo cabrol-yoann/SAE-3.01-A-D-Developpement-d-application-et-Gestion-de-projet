@@ -7,42 +7,60 @@ $header = '
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DuolCloud</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/ae52c2fd44.js" crossorigin="anonymous"></script>
-</head>
+  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+     rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+     </head>
 
 <body>
-    <header role="banner">
-        <div class="LogoTitre">
-            <img id="Logo" src="../../logo_DuolCloud.png">
-            <p class="header-title">DuolCloud</p>
+<header class="p-3 mb-3 border-bottom">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start ">
+        <a href="test.php" class="d-flex align-items-center me-lg-auto mb-2 mb-lg-0 text-dark text-decoration-none">
+          <img class="bi me-2" width="50" height="50" role="img" src="../../logo_DuolCloud.png">
+          <p style="margin-bottom: 0; font-weight:bold; color:white ;">DuolCloud</p>
+        </a>
+
+        <ul class="nav nav-pills ">
+        <li class="nav-item"><a href="#" class="nav-link" style="color:white ;">Fichiers</a></li>
+        <li class="nav-item"><a href="ConnexionStockage.php" class="nav-link" style="color:white ;">Connexion stockage</a></li>
+        <li class="nav-item"><a href="#" class="nav-link" style="color:white ;">Partage</a></li>
+        </ul>
+
+        <div class="dropdown text-end">
+          <a href="#" class=" d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="../../avatar PP.png" alt="mdo" width="32" height="32" class="rounded-circle">
+          </a>
+          <ul class="dropdown-menu text-small" style="">
+            <li><a class="dropdown-item" href="#">New project...</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul>
         </div>
-        <nav id="navigation" class="nav-title" role="navigation" aria-label="menu de navigation">
-            <ul>
-                <li><a class="menu-link" href="#Fichiers">Fichiers</a></li>
-                <li><a class="menu-link" href="ConnexionStockage.php">Connexion Espace de Stockage</a></li>
-                <li><a class="menu-link" href="#Partage">Partage</a></li>
-            </ul>
-        </nav>
-        <div class="profile">
-            <img id="Avatar" src="../../avatar PP.png">
-            <p>aa</p>
-        </div>
-    </header>
-    <hr>
+      </div>
+    </div>
+  </header>
     <main role="main">
     
 ';    
-$footer = '</main>
+      $footer = '
+</main>
+<footer class="py-3 my-4" style=" padding-left: 500px; padding-right: 500px;">
+    <ul class="nav justify-content-center pb-3 mb-3">
+      <li class="nav-item"><a href="MentionsLegales.php" class="nav-link px-2 text-muted">Mentions légales</a></li>
+      <li class="nav-item"><a href="conditionUtilisation.php" class="nav-link px-2 text-muted">Conditions d`utilisation</a></li>
+    </ul>
+    <hr>
+    <p class="text-center text-muted">DuolCloud © 2023 | Tous droits réservés</p>
+  </footer>
 </body>
-<footer>
-    <div class="footer-section">
-        <ul>
-            <li><a href="MentionsLegales.php">Mentions légales</a></li>
-            <li><a href="conditionUtilisation.php">Conditions d utilisation</a></li>
-        </ul>
-    </div>
-    <p>DuolCloud © 2023 | Tous droits réservés</p>
-</footer>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 </html>';
 ?>
