@@ -224,11 +224,27 @@ class Dossier extends Archive {
     }
   }
 
+  /**
+   * fonction qui range un dossier dans un espace de stockage
+   *
+   * @param ObjectStorage $listStockage liste de tous les espaces de stockage de l'utilisateur
+   */
   public function meRanger($listStockage) {
+    /**
+     * @var Stockage $espaceStockageTrouver Espace de stockage dans lequel le dossier peut être rangé
+     * @var Dossier $meilleurEmplacement Dossier dans lequel le dossier peut être rangé
+     * @var bool $trouver Indique si le dossier a été trouver ou non
+     * @var ObjectStorage $listeDesStokagesATraiter Liste des espaces de stockage dans lesquels le dossier peut être rangé
+     */
     $meilleurEmplacement = null;
     $trouver = false;
+    // Recherche de l'espace de stockage le plus adapté
     $listeDesStokagesATraiter = $this->rechercheListeStockageATraiter($listStockage);
     $listeDesStokagesATraiter->rewind();
+    if (!$listeDesStokagesATraiter->valid()) {
+      echo 'Aucun espace de stockage trouvé';echo '<br>';
+      return;
+    }
     while ($listeDesStokagesATraiter->valid()) {
       $listeDesStokagesATraiter->current()->rechercheMeilleurEmplacement($this, $meilleurEmplacement, $trouver);
       if ($trouver) {
@@ -254,43 +270,45 @@ class Dossier extends Archive {
     /**
      * @var int $score Score du dossier analysé
      * @var string $nomDossierTrouver Nom du dossier que l'on a trouvé
-     * @var SplObjectStorage $listStockage Liste des stockages dans lesquels on peut stocker le dossier
+     * @var SplObjectStorage $listeStockageTrouver Liste des stockages dans lesquels on peut stocker le dossier
      * @var bool $trouver Pour savoir si on a trouvé un dossier
      * @var int $tailleCalculer Taille total calculé du dossier avec le fichier à ajouter
      */
-    $listStockage = new \SplObjectStorage();
+
+    //Initialisation
+    $listeStockageTrouver = new \SplObjectStorage();
     $tailleCalculer = 0;
+
     //Recherche de taille
     $listeStockage->rewind(); // placement de l'itérateur au début de la structure
-    
     while($listeStockage->valid()){
-      $nomStockage = $listeStockage->current();
-      $tailleCalculer = $nomStockage->getTaille() + $this->getTaille();
-      //On regarde si on peut stocker le dossier dans un espace puis on enregistre la valeur dans une liste
-      if ($this->getTaille() < $nomStockage->getTailleMax()) {
-        if ($tailleCalculer > $nomStockage->getTailleMax()) {               // Fichier trop volumineux pour être stocké dans le stockage
+      $StockageTraiter = $listeStockage->current();
+      if ($this->getTaille() < $StockageTraiter->getTailleMax()) {
+        //On regarde si on peut stocker le dossier dans un espace puis on enregistre la valeur dans une liste
+        $tailleCalculer = $StockageTraiter->getTaille() + $this->getTaille();
+        if ($tailleCalculer > $StockageTraiter->getTailleMax()) {               // Fichier trop volumineux pour être stocké dans le stockage
           if ($restructuration == false) {                                // Si on n'est pas en face de restructuration
-            if ($nomStockage->getRestructurable() == true) {                // Mais restructurable (donc peut potentiellement être intégré)
-            $listStockage->attach($nomStockage);
+            if ($StockageTraiter->getRestructurable() == true) {                // Mais restructurable (donc peut potentiellement être intégré)
+            $listeStockageTrouver->attach($StockageTraiter);
             }
           }
-          elseif($restructuration == true && $nomStockage != $nomDossierTrouver) {    // Si on est en face de restructuration et que le stockage n'est pas celui du dossier à restructurer
-            if ($nomStockage->getRestructurable() == true) {                        // Et restructurable (donc peut potentiellement être intégré)
-              $listStockage->attach($nomStockage);
+          elseif($restructuration == true && $StockageTraiter != $nomDossierTrouver) {    // Si on est en face de restructuration et que le stockage n'est pas celui du dossier à restructurer
+            if ($StockageTraiter->getRestructurable() == true) {                        // Et restructurable (donc peut potentiellement être intégré)
+              $listeStockageTrouver->attach($StockageTraiter);
             }
           }
         }
         else{ // Sinon, restructurable ou non, mais place suffisante pour l'intégrer
-          $listStockage->attach($nomStockage);
+          $listeStockageTrouver->attach($StockageTraiter);
         }
       }
       $listeStockage->next();
     }
 
     //tri de la list
-    trierList($listStockage);
+    trierList($listeStockageTrouver);
 
-    return $listStockage;
+    return $listeStockageTrouver;
   }
 
   public function meRenommer($meilleurEmplacement){
@@ -318,7 +336,7 @@ class Dossier extends Archive {
     }
   }
 
-  public function rechercheMeilleurEmplacement($DossierTraiter, &$meilleurEmplacement = null, &$score = 0, &$trouver = false) {
+  public function rechercheMeilleurEmplacement(&$meilleurEmplacement = null, &$score = 0, &$trouver = false, $DossierTraiter) {
     //echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$DossierTraiter->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur
@@ -328,7 +346,6 @@ class Dossier extends Archive {
      * @var int $compteur Nombre de fois que l'on a trouvé le type
      */
     $point = 0;
-    $compteur = 0;
     
     //Recherche du meilleur emplacement pour les enfants qui sont des fichiers du dossier courant
     //Récupération de la liste des enfants Fichier.
@@ -337,25 +354,9 @@ class Dossier extends Archive {
     while ($listEnfantFichier->valid()) {
       echo 'recherche d\'un emplacement pour '.$this->getNom().' en le comparent avec le fichier '.$listEnfantFichier->current()->getNom();echo '<br>';
       //Recherche du meilleur emplacement pour les enfants du dossier courant à partir du tag
-      $listTag = $this->getMesTags();
-      $listTagEnfant = $listEnfantFichier->current()->getMesTags();
-      $listTagEnfant->rewind();
-        while($listTagEnfant->valid()) {
-          $listTag->rewind();
-          while ($listTag->valid()) {
-          if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
-              $point++;
-              echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-              }
-              $listTag->next();
-          }
-          $listTagEnfant->next();
-      }
+      $point += $this->rechercheTag($listEnfantFichier->current());
       //recherhe du meilleur emplacement pour les enfants du dossier courant à partir du nom
-      if ($DossierTraiter->getNom() == $listEnfantFichier->current()->getNom()) {
-        $point++;
-        echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-      }
+      $point += $this->rechercheNom($listEnfantFichier->current());
       $listEnfantFichier->next();
     }
     
@@ -365,49 +366,17 @@ class Dossier extends Archive {
     while ($listEnfantDossier->valid()) { 
       echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$listEnfantDossier->current()->getNom();echo '<br>';
       //Recherche à partir du tag
-      $listTag = $this->getMesTags();
-      $listTagEnfant = $listEnfantDossier->current()->getMesTags();
-      $listTagEnfant->rewind();
-      while($listTagEnfant->valid()) {
-        $listTag->rewind();
-        while ($listTag->valid()) {
-          if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
-            $point++;
-            echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-          }
-          $listTag->next();
-        }
-        $listTagEnfant->next();
-      }
+      $point += $this->rechercheTag($listEnfantDossier->current());
       // Recherche à partir du nom
-      if ($listEnfantDossier->current()->getNom() == $this->getNom()) {
-        $point++;
-        echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-      }
+      $point += $this->rechercheNom($listEnfantDossier->current());
       $listEnfantDossier->next();
     }
     
     //Recherche du meilleur emplacement à partir du dossier courant
     //Recherche à partir du tag
-    $listTag = $this->getMesTags();
-    $listTagEnfant = $DossierTraiter->getMesTags();
-    $listTagEnfant->rewind();
-    while($listTagEnfant->valid()) {
-      $listTag->rewind();
-      while ($listTag->valid()) {
-        if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
-          $point++;
-          echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-        }
-        $listTag->next();
-      }
-      $listTagEnfant->next();
-    }
+    $point += $this->rechercheTag($DossierTraiter);
     //Recherche à partir du nom
-    if ($DossierTraiter->getNom() == $this->getNom()) {
-      $point++;
-      echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-    }
+    $point += $this->rechercheNom($DossierTraiter);
 
     //Enregistrement de valeur trouver
     if ($point > $score) {
@@ -422,6 +391,29 @@ class Dossier extends Archive {
     while ($listEnfantDossier->valid()) {
       //$this->rechercheMeilleurEmplacement($listEnfantDossier->current(), $meilleurEmplacement, $score, $trouver);
       $listEnfantDossier->next();
+    }
+  }
+  private function rechercheTag($listeEnfant) {
+    $listeTag = $this->getMesTags();
+    $listeTagEnfant = $listeEnfant->getMesTags();
+    $listeTagEnfant->rewind();
+    while($listeTagEnfant->valid()) {
+      $listeTag->rewind();
+      while ($listeTag->valid()) {
+        if ($listeTag->current()->getTitre() == $listeTagEnfant->current()->getTitre()) {
+          echo 'tag trouver';echo '<br>';
+          return 1;
+        }
+        $listeTag->next();
+      }
+      $listeTagEnfant->next();
+    }
+  }
+
+  private function rechercheNom($DossierTraiter) {
+    if ($DossierTraiter->getNom() == $this->getNom()) {
+      echo 'nom trouver';echo '<br>';
+      return 1;
     }
   }
 }

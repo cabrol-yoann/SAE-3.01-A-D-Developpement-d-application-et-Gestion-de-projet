@@ -187,7 +187,7 @@ class Stockage{
 
   }
 
-  public function rechercheMeilleurEmplacement($objetAPlacer, &$meilleurEmplacement = null, &$score = 0, &$trouver = false) {
+  public function rechercheMeilleurEmplacement($objetAPlacer, &$meilleurEmplacement = null,  &$trouver = false, &$score = 0) {
     echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le stockage '.$this->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur
@@ -235,11 +235,10 @@ class Stockage{
     }
 
     //Regarde les enfants
-    
     $listeEnfantDossier->rewind();
     if (isset($listeEnfantDossier)) {
       while ($listeEnfantDossier->valid()) {
-        $this->rechercheMeilleurEmplacement($listeEnfantDossier->current(), $meilleurEmplacement, $score, $trouver);
+        $objetAPlacer->rechercheMeilleurEmplacement($meilleurEmplacement, $score, $trouver, $listeEnfantDossier->current());
         $listeEnfantDossier->next();
       }
     }

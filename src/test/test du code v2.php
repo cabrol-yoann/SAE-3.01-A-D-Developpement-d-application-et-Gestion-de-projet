@@ -9,8 +9,8 @@ $dossier = new Dossier("sapin", "C:\test");
 
 
 $dossier->ajouterEnfantFichier($fichier);
-$dossier->ajouterTags($tag4);
-$fichier->ajouterTags($tag4);
+$dossier->ajouterTags($tag);
+$fichier->ajouterTags($tag);
 
 //$fichier->meRanger($stockage);
 $dossier->meRanger($stockage);

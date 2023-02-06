@@ -112,8 +112,13 @@ class Fichier extends Archive {
   public function meRanger($listStockage) {
     $meilleurEmplacement = null;
     $trouver = false;
+    // Recherche de l'espace de stockage le plus adapté
     $listeDesStokagesATraiter = $this->rechercheListeStockageATraiter($listStockage);
     $listeDesStokagesATraiter->rewind();
+    if (!$listeDesStokagesATraiter->valid()) {
+      echo 'Aucun espace de stockage trouvé';echo '<br>';
+      return;
+    }
     while ($listeDesStokagesATraiter->valid()) {
       $listeDesStokagesATraiter->current()->rechercheMeilleurEmplacement($this, $meilleurEmplacement, $trouver);
       if ($trouver) {
@@ -121,7 +126,7 @@ class Fichier extends Archive {
         echo 'Espace de stockage trouvé : '.$espaceStockageTrouver->getNom();echo '<br>';
       }
       $listeDesStokagesATraiter->next();
-    }
+    }/*
     //Regarde si l'on peut stocker le dossier dans l'espace de stockage
     $tailleCalculer = $espaceStockageTrouver->getTaille() + $this->getTaille();
     if ($espaceStockageTrouver->getTailleMax() > $tailleCalculer) {
@@ -131,7 +136,7 @@ class Fichier extends Archive {
       echo 'Ajout du fichier '.$this->getNom().' dans le dossier '.$meilleurEmplacement->getNom().' dans l\'espace '.$espaceStockageTrouver->getNom();echo '<br>';
       $meilleurEmplacement->ajouterEnfantFichier($this);
       return;
-    }
+    }*/
   }
 
   public function rechercheListeStockageATraiter($listeStockage, $restructuration = false) {
@@ -197,7 +202,7 @@ class Fichier extends Archive {
     }
   }
 
-  public function rechercheMeilleurEmplacement($DossierTraiter, &$meilleurEmplacement = null, &$score = 0, &$trouver = false) {
+  public function rechercheMeilleurEmplacement(&$meilleurEmplacement = null, &$score = 0, &$trouver = false, $DossierTraiter) {
     echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$DossierTraiter->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur
@@ -207,94 +212,44 @@ class Fichier extends Archive {
      * @var int $compteur Nombre de fois que l'on a trouvé le type
      */
     $point = 0;
-    $compteur = 0;
+    
 
     //Recherche du meilleur emplacement pour les enfants qui sont des fichiers du dossier courant
     //Récupération de la liste des enfants Fichier.
-    $listEnfantFichier = $DossierTraiter->getListeEnfantFichier();
-    $listEnfantFichier->rewind();
-    while ($listEnfantFichier->valid()) {
-      echo 'recherche d\'un emplacement pour '.$this->getNom().' en le comparent avec le fichier '.$listEnfantFichier->current()->getNom();echo '<br>';
+    $listeEnfantFichier = $DossierTraiter->getListeEnfantFichier();
+    $listeEnfantFichier->rewind();
+    $compteur = 0;
+    while ($listeEnfantFichier->valid()) {
+      echo 'recherche d\'un emplacement pour '.$this->getNom().' en le comparent avec le fichier '.$listeEnfantFichier->current()->getNom();echo '<br>';
       //Recherche du meilleur emplacement pour les enfants du dossier courant à partir du tag
-      $listTag = $this->getMesTags();
-      $listTagEnfant = $listEnfantFichier->current()->getMesTags();
-      $listTagEnfant->rewind();
-      while($listTagEnfant->valid()) {
-        $listTag->rewind();
-        while ($listTag->valid()) {
-        if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
-          $point++;
-          echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-        }
-          $listTag->next();
-        }
-        $listTagEnfant->next();
-      }
+      $point += $this->rechercheTag($listeEnfantFichier->current());
       //recherhe du meilleur emplacement pour les enfants du dossier courant à partir du nom
-      if ($DossierTraiter->getNom() == $listEnfantFichier->current()->getNom()) {
-        $point++;
-        echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-      }
-        // Recherche à partir du type
-      if ($listEnfantFichier->current()->getType() == $this->getType()) {
-        $compteur++;
-        if ($compteur == $listEnfantFichier->count()) {
-          $point++;
-          echo "Type trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-        } 
-      }
-      $listEnfantFichier->next();
+      $point += $this->rechercheNom($listeEnfantFichier->current());
+      // Recherche à partir du type
+      $point += $this->rechercheType($listeEnfantFichier, $compteur);
+      // fichier suivant
+      $listeEnfantFichier->next();
     }
 
     //Recherche du meilleur emplacement pour les enfants qui sont des dossiers du dossier courant
     // Récupération de la liste des enfants Dossier 
-    $listEnfantDossier = $DossierTraiter->getListeEnfantDossier();
-    while ($listEnfantDossier->valid()) { 
-      echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$listEnfantDossier->current()->getNom();echo '<br>';
+    $compteur = 0;
+    $listeEnfantDossier = $DossierTraiter->getListeEnfantDossier();
+    while ($listeEnfantDossier->valid()) { 
+      echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$listeEnfantDossier->current()->getNom();echo '<br>';
       //Recherche à partir du tag
-      $listTag = $this->getMesTags();
-      $listTagEnfant = $listEnfantDossier->current()->getMesTags();
-      $listTagEnfant->rewind();
-      while($listTagEnfant->valid()) {
-        $listTag->rewind();
-        while ($listTag->valid()) {
-          if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
-            $point++;
-            echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-          }
-          $listTag->next();
-        }
-        $listTagEnfant->next();
-      }
+      $point += $this->rechercheTag($listeEnfantDossier->current());
       // Recherche à partir du nom
-      if ($listEnfantDossier->current()->getNom() == $this->getNom()) {
-        $point++;
-        echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-      }
-      $listEnfantDossier->next();
+      $point += $this->rechercheNom($listeEnfantDossier->current());
+      // dossier suivant
+      $listeEnfantDossier->next();
     }
 
     //Recherche du meilleur emplacement à partir du dossier courant
     //Recherche à partir du tag
-    $listTag = $this->getMesTags();
-    $listTagEnfant = $DossierTraiter->getMesTags();
-    $listTagEnfant->rewind();
-    while($listTagEnfant->valid()) {
-      $listTag->rewind();
-      while ($listTag->valid()) {
-        if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
-          $point++;
-          echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-        }
-        $listTag->next();
-      }
-      $listTagEnfant->next();
-    }
+    $point += $this->rechercheTag($DossierTraiter);
     //Recherche à partir du nom
-    if ($DossierTraiter->getNom() == $this->getNom()) {
-      $point++;
-      echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
-    }
+    $point += $this->rechercheNom($DossierTraiter);
 
     //Enregistrement de valeur trouver
     if ($point > $score) {
@@ -305,10 +260,44 @@ class Fichier extends Archive {
     }
     
     //Regarde les enfants
-    $listEnfantDossier->rewind();
-    while ($listEnfantDossier->valid()) {
+    $listeEnfantDossier->rewind();
+    while ($listeEnfantDossier->valid()) {
       //$this->rechercheMeilleurEmplacement($listEnfantDossier->current(), $meilleurEmplacement, $score, $trouver);
-      $listEnfantDossier->next();
+      $listeEnfantDossier->next();
+    }
+  }
+
+  private function rechercheTag($listeEnfant) {
+    $listeTag = $this->getMesTags();
+    $listeTagEnfant = $listeEnfant->getMesTags();
+    $listeTagEnfant->rewind();
+    while($listeTagEnfant->valid()) {
+      $listeTag->rewind();
+      while ($listeTag->valid()) {
+        if ($listeTag->current()->getTitre() == $listeTagEnfant->current()->getTitre()) {
+          echo 'tag trouver';echo '<br>';
+          return 1;
+        }
+        $listeTag->next();
+      }
+      $listeTagEnfant->next();
+    }
+  }
+
+  private function rechercheType($DossierTraiter, &$compteur) {
+    if ($DossierTraiter->current()->getType() == $this->getType()) {
+      $compteur++;
+      if ($compteur == $DossierTraiter->count()) {
+        echo 'type trouver';echo '<br>';
+        return 1;
+      } 
+    }
+  }
+
+  private function rechercheNom($DossierTraiter) {
+    if ($DossierTraiter->getNom() == $this->getNom()) {
+      echo 'nom trouver';echo '<br>';
+      return 1;
     }
   }
 }
