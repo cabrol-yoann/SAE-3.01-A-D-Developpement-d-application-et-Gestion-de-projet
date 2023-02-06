@@ -449,6 +449,40 @@ class Dossier extends Archive {
       echo 'nom trouver';echo '<br>';
       return 1;
     }
+    
+  public function rechercheDossierEtFichierARestructurer(&$somme,&$listeFichierARestructurer,&$trouver,$objetAPlacer ) {
+    /**
+       * @var SplObjectStorage $listeEnfantFichier Liste des enfants Fichier
+       * @var SplObjectStorage $listeEnfantDossier Liste des enfants Dossier
+       */
+      $listeEnfantFichier = $this->getListeEnfantFichier();
+      $listeEnfantFichier->rewind();
+      if ($trouver == true) {
+          //Fin procedure
+          return;
+      }
+      elseif ($listeEnfantFichier->valid()) {
+          //Debut de la recherche
+          $listeEnfantFichier->rewind();
+          while ($listeEnfantFichier->valid()) {
+              $somme = $somme + $listeEnfantFichier->current()->getTaille();
+              $listeFichierARestructurer->attach($listeEnfantFichier->current());
+              $this->supprimerEnfantFichier($listeEnfantFichier->current());
+              //Test si on a trouver tout nos fichier
+              if ($somme > $objetAPlacer->getTaille()) {
+                  $trouver = true;
+                  break;
+              }
+              $listeEnfantFichier->next();
+          }
+      }
+      //Recherche avec les enfants
+      $listeEnfantDossier = $this->getListeEnfantDossier();
+      $listeEnfantDossier->rewind();
+      while ($listeEnfantDossier->valid()) { 
+          $listeEnfantDossier->current()->rechercheDossierEtFichierARestructurer($somme,$listeFichierARestructurer,$trouver,$objetAPlacer);
+          $listeEnfantDossier->next();
+      }
   }
 }
 ?>
