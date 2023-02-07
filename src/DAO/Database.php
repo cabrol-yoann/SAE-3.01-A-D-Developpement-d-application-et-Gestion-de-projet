@@ -12,13 +12,13 @@
         /**
          * @var PDO $db Objet PDO pour la connexion à la base de données
          */
-            private $link;
+        private $link;
 
         /**
          * @brief Constructeur de la classe Database
          * @var array $dbConfig Tableau contenant les informations de connexion à la base de données, lu dans le fichier bd.php
          */
-        public function __construct()
+        protected function __construct()
         {
             $dbConfig = require('../config/bd.php');
 
@@ -32,7 +32,7 @@
         /**
          * @brief Destructeur de la classe Database
          */
-        public function __destruct()
+        protected function __destruct()
         {
             // Fermeture de la connexion PDO
             $this->link = null;

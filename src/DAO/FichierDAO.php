@@ -2,7 +2,7 @@
 
 
 include_once "Database.php";
-include_once "Fichier.php";
+include_once "../class/Fichier.php";
 /**
  * @file FichierDAO.php
  * @author GOUAUD Romain
@@ -15,7 +15,10 @@ include_once "Fichier.php";
 
 class FichierDao extends Database{
 
-    private const TABLE = "FICHIER";
+    /**
+     * @var string $TABLE Nom de la table fichier
+     */
+    public const TABLE = "FICHIER";
 
     /**
      * @brief Constructeur de la classe FichierDAO
@@ -33,14 +36,13 @@ class FichierDao extends Database{
 
     // SELECT 
     /**
-     * @brief Fonction permettant de récupérer un fichier
-     * @param int $id ID du fichier à récupérer, null par défaut pour récupérer tous les fichiers
-     * @return array Tableau contenant les informations du / des fichier
-     * @details Fonction permettant de récupérer un fichier en fonction de son ID, ou tous les fichiers si l'ID n'est pas spécifié
+     * @brief Fonction permettant de récupérer tous les fichiers
+     * @return array Tableau contenant les informations du / des fichiers
+     * @details Fonction permettant de récupérer tous les fichiers
      */
-    public function getFichier($id = null){
+    public function getFichiers(){
         try{
-            $sql = "SELECT * FROM $TABLE WHERE ID = :id";
+            $sql = "SELECT * FROM this->TABLE";
             $stmt = $this->link->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -59,20 +61,45 @@ class FichierDao extends Database{
         return $result;
     }
 
+    /**
+     * @brief Fonction permettant de récupérer un fichier
+     * @param int $id ID du fichier à récupérer
+     * @return array Tableau contenant les informations du fichier
+     * @details Fonction permettant de récupérer un fichier en fonction de son ID
+     */
+    public function getFichier($id){
+        try{
+            $sql = "SELECT * FROM $this->TABLE WHERE ID = :id";
+            $stmt = $this->link->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            exit;
+        }
+
+        /**
+         * @TODO Convertion des résultats en objet Fichier
+         */
+        //Convertion des résultats en objet Fichier
+        foreach($result as $key => $value){
+            $result[$key] = new Fichier($value);
+        }
+        return $result;
+    }
+
+
+
     // DELETE
     /**
      * @brief Fonction permettant de supprimer un fichier
-     * @param int $id ID du fichier à supprimer, null par défaut pour supprimer tous les fichiers
+     * @param int $id ID du fichier à supprimer
      * @return bool Retourne true si la suppression a réussi, false sinon
-     * @details Fonction permettant de supprimer un fichier en fonction de son ID, ou tous les fichiers si l'ID n'est pas spécifié
+     * @details Fonction permettant de supprimer un fichier en fonction de son ID
      */
-
-     /**
-      * @TODO Vérifier que le fichier existe bien avant de le supprimer. Trouver un moyen de récupérer un attribut unique dans l'objet Fichier
-      */
-    public function deleteFichier($id = null){
+    public function deleteFichier($id){
         try{
-            $sql = "DELETE FROM $TABLE WHERE ID = :id";
+            $sql = "DELETE FROM $this->TABLE WHERE ID = :id";
             $stmt = $this->link->prepare($sql);
             $stmt->execute();
         }catch(PDOException $e){
@@ -108,7 +135,7 @@ class FichierDao extends Database{
         $id = $result[0]['MAX(ID)'] + 1;
 
         try{
-            $sql = "INSERT INTO $TABLE (ID, TYPE, NOM, TAILLE, CHEMIN) VALUES (:$id, :$type, :$nom, :$taille, :$chemin)";
+            $sql = "INSERT INTO $this->TABLE (ID, TYPE, NOM, TAILLE, CHEMIN) VALUES (:$id, :$type, :$nom, :$taille, :$chemin)";
             $stmt = $this->link->prepare($sql);
             $stmt->execute();
         }catch(PDOException $e){
@@ -133,7 +160,7 @@ class FichierDao extends Database{
         $chemin = $fichier->getChemin();
         
         try{
-            $sql = "UPDATE $TABLE SET TYPE = :$type, NOM = :$nom, TAILLE = :$taille, CHEMIN = :$chemin WHERE ID = :$id";
+            $sql = "UPDATE $this->TABLE SET TYPE = :$type, NOM = :$nom, TAILLE = :$taille, CHEMIN = :$chemin WHERE ID = :$id";
             $stmt = $this->link->prepare($sql);
             $stmt->execute();
         }catch(PDOException $e){
