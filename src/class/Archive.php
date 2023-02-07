@@ -79,7 +79,7 @@ class Archive implements interfaceUtilisateur {
   /**
    * @brief Récupération du Chemin de l'objet
    *
-   * @return string
+   * @return string $chemin Représentaton du chemin que va posséder l'objet
    */
   public function getChemin(){return $this->chemin;}
   
@@ -118,7 +118,7 @@ class Archive implements interfaceUtilisateur {
     return false;
   }
 
-  public function meRanger($listStockage){
+  public function meRanger($listStockage, $restructurationEnCour = false){
       return false;
   }
   

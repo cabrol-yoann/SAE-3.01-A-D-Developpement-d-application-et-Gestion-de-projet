@@ -71,12 +71,12 @@ class Dossier extends Archive {
   /**
    * @brief retourne le nombre de Fichier du Dossier
    *
-   * @return int
+   * @return int nombre de Fichier
    */
   public function getNbFichier() {
     return $this->nbFichier;
   }
-  
+
   /**
    * @brief Modifie l'attribut nbFichier de l'objet Dossier
    * 
@@ -144,6 +144,7 @@ class Dossier extends Archive {
   public function ajouterEnfantFichier($fichier){
     $this->listEnfantFichier->attach($fichier);
     $this->taille = $this->taille + $fichier->getTaille();
+    $fichier->setChemin($this->getChemin() . "/" . $this->getNom());
     $this->setNbFichier();
   }
 
@@ -155,6 +156,7 @@ class Dossier extends Archive {
   public function supprimerEnfantFichier($fichier) {
     $this->listEnfantFichier->detach($fichier);
     $this->taille = $this->taille - $fichier->getTaille();
+    $fichier->setChemin("");
     $this->setNbFichier();
   }
 
@@ -166,6 +168,19 @@ class Dossier extends Archive {
   public function ajouterEnfantDossier($dossier){
     $this->listeEnfantDossier->attach($dossier);
     $this->taille = $this->taille + $dossier->getTaille();
+    $dossier->setChemin($this->chemin . "/" . $this->nom);
+    $enfant = $dossier->getListeEnfantDossier();
+    $enfant->rewind();
+    while ($enfant->valid()) { 
+      $dossier->ajouterEnfantDossier($enfant->current());
+      $enfant->next();
+    }
+    $enfant = $dossier->getListeEnfantFichier();
+    $enfant->rewind();
+    while ($enfant->valid()) { 
+      $dossier->ajouterEnfantFichier($enfant->current());
+      $enfant->next();
+    }
     $this->setNbFichier();
   }
 
@@ -177,6 +192,19 @@ class Dossier extends Archive {
   public function supprimerEnfantDossier($dossier) {
     $this->listeEnfantDossier->detach($dossier);
     $this->taille = $this->taille - $dossier->getTaille();
+    $dossier->setChemin($dossier->getNom());
+    $enfant = $dossier->getListeEnfantDossier();
+    $enfant->rewind();
+    while ($enfant->valid()) { 
+      $enfant->current()->setChemin($dossier->getChemin(). "/" .$dossier->getNom());
+      $enfant->next();
+    }
+    $enfant = $dossier->getListeEnfantFichier();
+    $enfant->rewind();
+    while ($enfant->valid()) { 
+      $enfant->current()->setChemin($dossier->getChemin(). "/" .$enfant->current()->getNom());
+      $enfant->next();
+    }
     $this->setNbFichier();
   }
 
@@ -229,7 +257,7 @@ class Dossier extends Archive {
    *
    * @param ObjectStorage $listStockage liste de tous les espaces de stockage de l'utilisateur
    */
-  public function meRanger($listStockage) {
+  public function meRanger($listeStockage, $restructurationEnCour = false) {
     /**
      * @var Stockage $espaceStockageTrouver Espace de stockage dans lequel le dossier peut être rangé
      * @var Dossier $meilleurEmplacement Dossier dans lequel le dossier peut être rangé
@@ -239,7 +267,7 @@ class Dossier extends Archive {
     $meilleurEmplacement = null;
     $trouver = false;
     // Recherche de l'espace de stockage le plus adapté
-    $listeDesStokagesATraiter = $this->rechercheListeStockageATraiter($listStockage);
+    $listeDesStokagesATraiter = $this->rechercheListeStockageATraiter($listeStockage,$restructurationEnCour);
     $listeDesStokagesATraiter->rewind();
     if (!$listeDesStokagesATraiter->valid()) {
       echo 'Aucun espace de stockage trouvé';echo '<br>';
@@ -262,6 +290,13 @@ class Dossier extends Archive {
       echo 'Ajout du fichier '.$this->getNom().' dans le dossier '.$meilleurEmplacement->getNom().' dans l\'espace '.$espaceStockageTrouver->getNom();echo '<br>';
       $meilleurEmplacement->ajouterEnfantFichier($this);
       return;
+    }
+    else if ($restructurationEnCour == false) {
+      echo 'Restructuration de l\'espace de stockage '.$espaceStockageTrouver->getNom();echo '<br>';
+      $espaceStockageTrouver->restructuration($this, $meilleurEmplacement, $listeStockage);
+    }
+    else {
+      echo 'Le Dossier'.$this->getNom().'ne peut pas être stocker';echo '<br>';
     }
   }
 
@@ -449,40 +484,41 @@ class Dossier extends Archive {
       echo 'nom trouver';echo '<br>';
       return 1;
     }
+  }
     
   public function rechercheDossierEtFichierARestructurer(&$somme,&$listeFichierARestructurer,&$trouver,$objetAPlacer ) {
     /**
-       * @var SplObjectStorage $listeEnfantFichier Liste des enfants Fichier
-       * @var SplObjectStorage $listeEnfantDossier Liste des enfants Dossier
-       */
-      $listeEnfantFichier = $this->getListeEnfantFichier();
+     * @var SplObjectStorage $listeEnfantFichier Liste des enfants Fichier
+     * @var SplObjectStorage $listeEnfantDossier Liste des enfants Dossier
+     */
+    $listeEnfantFichier = $this->getListeEnfantFichier();
+    $listeEnfantFichier->rewind();
+    if ($trouver == true) {
+      //Fin procedure
+      return;
+    }
+    elseif ($listeEnfantFichier->valid()) {
+      //Debut de la recherche
       $listeEnfantFichier->rewind();
-      if ($trouver == true) {
-          //Fin procedure
-          return;
+      while ($listeEnfantFichier->valid()) {
+        $somme = $somme + $listeEnfantFichier->current()->getTaille();
+        $listeFichierARestructurer->attach($listeEnfantFichier->current());
+        $this->supprimerEnfantFichier($listeEnfantFichier->current());
+        //Test si on a trouver tout nos fichier
+        if ($somme > $objetAPlacer->getTaille()) {
+          $trouver = true;
+          break;
+        }
+        $listeEnfantFichier->next();
       }
-      elseif ($listeEnfantFichier->valid()) {
-          //Debut de la recherche
-          $listeEnfantFichier->rewind();
-          while ($listeEnfantFichier->valid()) {
-              $somme = $somme + $listeEnfantFichier->current()->getTaille();
-              $listeFichierARestructurer->attach($listeEnfantFichier->current());
-              $this->supprimerEnfantFichier($listeEnfantFichier->current());
-              //Test si on a trouver tout nos fichier
-              if ($somme > $objetAPlacer->getTaille()) {
-                  $trouver = true;
-                  break;
-              }
-              $listeEnfantFichier->next();
-          }
-      }
-      //Recherche avec les enfants
-      $listeEnfantDossier = $this->getListeEnfantDossier();
-      $listeEnfantDossier->rewind();
-      while ($listeEnfantDossier->valid()) { 
-          $listeEnfantDossier->current()->rechercheDossierEtFichierARestructurer($somme,$listeFichierARestructurer,$trouver,$objetAPlacer);
-          $listeEnfantDossier->next();
-      }
+    }
+    //Recherche avec les enfants
+    $listeEnfantDossier = $this->getListeEnfantDossier();
+    $listeEnfantDossier->rewind();
+    while ($listeEnfantDossier->valid()) { 
+      $listeEnfantDossier->current()->rechercheDossierEtFichierARestructurer($somme,$listeFichierARestructurer,$trouver,$objetAPlacer);
+      $listeEnfantDossier->next();
+    }
   }
 }
 ?>

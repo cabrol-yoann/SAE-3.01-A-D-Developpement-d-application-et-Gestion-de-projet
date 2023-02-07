@@ -1,6 +1,6 @@
 <?php
     interface interfaceUtilisateur {
         public function afficher();
-        public function meRanger($listStockage);
+        public function meRanger($listStockage, $restructurationEnCour = false);
     }
 ?>

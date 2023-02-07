@@ -112,9 +112,9 @@ class Fichier extends Archive {
   /**
    * fonction qui range un fichier dans un espace de stockage de l'utilisateur
    *
-   * @param ObjectStorage $listStockage liste de tous les espaces de stockage de l'utilisateur
+   * @param ObjectStorage $listeStockage liste de tous les espaces de stockage de l'utilisateur
    */
-  public function meRanger($listStockage) {
+  public function meRanger($listeStockage, $restructurationEnCour = false) {
     /**
      * @var Stockage $espaceStockageTrouver Espace de stockage dans lequel le dossier peut être rangé
      * @var Dossier $meilleurEmplacement Dossier dans lequel le dossier peut être rangé
@@ -124,7 +124,7 @@ class Fichier extends Archive {
     $meilleurEmplacement = null;
     $trouver = false;
     // Recherche de l'espace de stockage le plus adapté
-    $listeDesStokagesATraiter = $this->rechercheListeStockageATraiter($listStockage);
+    $listeDesStokagesATraiter = $this->rechercheListeStockageATraiter($listeStockage,$restructurationEnCour);
     $listeDesStokagesATraiter->rewind();
     if (!$listeDesStokagesATraiter->valid()) {
       echo 'Aucun espace de stockage trouvé';echo '<br>';
@@ -154,9 +154,15 @@ class Fichier extends Archive {
         $meilleurEmplacement->ajouterEnfantFichier($this);
         return;
       }
-      else
-      {
-        
+      else if ($restructurationEnCour == true) {
+        echo 'on ne peut pas stocker le fichier'.$this->getNom();echo '<br>';
+        return;
+      }
+      else {
+        echo 'Espace de stockage '.$espaceStockageTrouver->getNom().' plein';echo '<br>';
+        echo 'Restructuration en cours';echo '<br>';
+        $espaceStockageTrouver->restructuration($this, $meilleurEmplacement, $listeStockage);
+        return;
       }
     }
   }

@@ -4,8 +4,10 @@ include_once "../class/Dossier.php";
 include_once "../class/Archive.php";
 include_once "../code/baseDeDonneePhysique.php";
 
-$fichier = new Fichier("cour", 499999999, "C:\test", "word");
-$dossier = new Dossier("sapin", "C:\test");
+$fichier = new Fichier("cour", 499999999, "C:\\test", "word");
+$dossier = new Dossier("sapin", "C:\\test");
+
+$fichier->afficher();echo "<br>";echo "<br>";
 
 $dossier->ajouterEnfantFichier($fichier);
 $dossier->ajouterTags($tag3);

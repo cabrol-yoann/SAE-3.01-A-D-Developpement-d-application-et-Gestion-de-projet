@@ -181,7 +181,6 @@ class Stockage{
 
   // MÉTHODE SPÉCIFIQUE : 
   
-  public function rechercheMeilleurEmplacement($objetAPlacer, &$meilleurEmplacement = null, &$score = 0, &$trouver = false) {
   /**
    * fonction qui permet de rechercher un emplacement pour un objet
    *
@@ -249,11 +248,12 @@ class Stockage{
     }
   }
   
-    public function rechercheDossierEtFichierARestructurer(&$somme,&$listeFichierARestructurer,&$trouver,$objetAPlacer ) {
+    public function rechercheDossierEtFichierARestructurer(&$somme,&$trouver,$objetAPlacer ) {
     /**
        * @var SplObjectStorage $listeEnfantFichier Liste des enfants Fichier
        * @var SplObjectStorage $listeEnfantDossier Liste des enfants Dossier
        */
+      $listeFichierARestructurer = new SplObjectStorage();
       $listeEnfantFichier = $this->getMaRacine()->getListeEnfantFichier();
       $listeEnfantFichier->rewind();
       if ($trouver == true) {
@@ -282,6 +282,7 @@ class Stockage{
           $listeEnfantDossier->current()->rechercheDossierEtFichierARestructurer($somme,$listeFichierARestructurer,$trouver,$objetAPlacer);
           $listeEnfantDossier->next();
       }
+      return $listeFichierARestructurer;
   }
   
 
@@ -308,18 +309,18 @@ public function Restructuration($ObjetAPlacer,$nomDossierTrouver,$Stockage){
   $listeFichierARestructurer = new \SplObjectStorage();
 
   //Recherche des fichiers à restructurer
-  $this->rechercheDossierEtFichierARestructurer($somme,$listeFichierARestructurer,$trouver,$ObjetAPlacer);
+  $listeFichierARestructurer = $this->rechercheDossierEtFichierARestructurer($somme,$trouver,$ObjetAPlacer);
 
   //Recherche nouvel emplacement pour les fichiers
   $listeFichierARestructurer->rewind();
   while ($listeFichierARestructurer->valid()) { 
-      //Initialisation de variable
-      $restructurationEnCours = true;
-      echo 'Restructuration en cours de '.$listeFichierARestructurer->current()->getNom().' dans '.$this->getNom().' <br>';
-      //Recherche de l'espace de stockage pour le fichier en cours de restructuration
-      //DebutRecherche est une fonction récursive qui prend en paramètre l'espace de stockage, le fichier à restructurer, un booléen pour savoir si on a trouvé un espace de stockage et le nom de l'espace de stockage trouvé
-      //debutRecherche($Stockage,$listeFichierARestructurer->current(),$this,$nomDossierTrouver,$restructurationEnCours); 
-      $listeFichierARestructurer->next();
+    //Initialisation de variable
+    $restructurationEnCours = true;
+    echo 'Restructuration en cours de '.$listeFichierARestructurer->current()->getNom().' dans '.$this->getNom().' <br>';
+    //Recherche de l'espace de stockage pour le fichier en cours de restructuration
+    //DebutRecherche est une fonction récursive qui prend en paramètre l'espace de stockage, le fichier à restructurer, un booléen pour savoir si on a trouvé un espace de stockage et le nom de l'espace de stockage trouvé
+    $listeFichierARestructurer->current()->meRanger($Stockage,$restructurationEnCours);
+    $listeFichierARestructurer->next();
   }
 }
 }
