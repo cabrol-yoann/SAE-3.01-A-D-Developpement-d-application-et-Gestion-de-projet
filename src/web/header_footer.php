@@ -15,25 +15,25 @@ $header = '
 <body>
 <header class="p-3 mb-3 border-bottom">
     <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start ">
-        <a href="test.php" class="d-flex align-items-center me-lg-auto mb-2 mb-lg-0 text-dark text-decoration-none">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
+        <a href="test.php" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
           <img class="bi me-2" width="50" height="50" role="img" src="../../logo_DuolCloud.png">
           <p style="margin-bottom: 0; font-weight:bold; color:white ;">DuolCloud</p>
         </a>
 
-        <ul class="nav nav-pills ">
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li class="nav-item"><a href="#" class="nav-link" style="color:white ;">Fichiers</a></li>
         <li class="nav-item"><a href="ConnexionStockage.php" class="nav-link" style="color:white ;">Connexion stockage</a></li>
         <li class="nav-item"><a href="#" class="nav-link" style="color:white ;">Partage</a></li>
         </ul>
 
-        <div class="dropdown text-end">
+        <div class="dropdown col-md-3 text-end">
           <a href="#" class=" d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="../../avatar PP.png" alt="mdo" width="32" height="32" class="rounded-circle">
           </a>
-          <ul class="dropdown-menu text-small" style="">
-            <li><a class="dropdown-item" href="#">New project...</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
+          <ul class="dropdown-menu dropdown-menu-end text-small" style="">
+            <li><a class="dropdown-item" href="connexion.php">New project...</a></li>
+            <li><a class="dropdown-item" href="inscription.php">Settings</a></li>
             <li><a class="dropdown-item" href="#">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Sign out</a></li>
@@ -47,12 +47,12 @@ $header = '
 ';    
       $footer = '
 </main>
-<footer class="py-3 my-4" style=" padding-left: 500px; padding-right: 500px;">
-    <ul class="nav justify-content-center pb-3 mb-3">
+<footer class="py-4 my-4 px-5">
+    <ul class="nav justify-content-center mb-2">
       <li class="nav-item"><a href="MentionsLegales.php" class="nav-link px-2 text-muted">Mentions légales</a></li>
       <li class="nav-item"><a href="conditionUtilisation.php" class="nav-link px-2 text-muted">Conditions d`utilisation</a></li>
     </ul>
-    <hr>
+    <hr class="my-4">
     <p class="text-center text-muted">DuolCloud © 2023 | Tous droits réservés</p>
   </footer>
 </body>

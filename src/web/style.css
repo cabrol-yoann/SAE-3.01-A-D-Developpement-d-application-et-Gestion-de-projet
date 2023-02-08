@@ -7,21 +7,11 @@ html{
 }
 
 header {
-    text-align: center;
-    align-items: center;
-    line-height: normal;
     background-color: #50aa97;
-    position: relative;
-}
-
-body{
-    height:100%;
-    position: relative;
 }
 
 main{
     padding-bottom: 50px;
-    position: relative;
 }
 footer {
     background-color: rgb(240, 240, 240);
