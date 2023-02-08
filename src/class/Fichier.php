@@ -39,11 +39,11 @@ class Fichier extends Archive {
    * @param integer $taille     Représentation de la taille que va avoir l'objet
    * @param string $chemin  Représentaton du chemin que va posséder l'objet
    */
-  public function __construct($nom, $taille, $chemin, $type)
+  public function __construct($nom, $taille, $chemin, $type, $id = null)
   {
     $this->mesTags = new \SplObjectStorage();
     $this->type = $type;
-    parent::__construct($nom, $taille, $chemin);
+    parent::__construct($nom, $taille, $chemin, $id);
   }
   
   // DESTRUCTEUR
@@ -100,7 +100,7 @@ class Fichier extends Archive {
   // MÉTHODE SPÉCIFIQUE :
 
   public function afficher() {
-    echo "Fichier : ".$this->getNom()." ".$this->getTaille()." ".$this->getChemin()." ".$this->getType()."\n";
+    echo "Fichier : ". $this->getId() ." ".$this->getNom()." ".$this->getTaille()." ".$this->getChemin()." ".$this->getType()."\n";
     $this->mesTags->rewind();
     while ($this->mesTags->valid()) {
       $tagTraiter = $this->mesTags->current();
