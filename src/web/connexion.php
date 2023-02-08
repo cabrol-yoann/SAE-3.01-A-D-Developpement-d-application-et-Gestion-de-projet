@@ -6,7 +6,7 @@ echo $header;
 ?>
 
   <form class="form-signin w-25 m-auto text-center  py-5 my-5">
-    <img class="mb-4" src="../../logo_DuolCloud.png" alt="" width="100" height="100">
+    <img class="mb-4" src="img/logo_DuolCloud.png" alt="" width="100" height="100">
     <h1 class="h3 mb-3 fw-normal">Connectez Vous</h1>
 
     <div class="form-floating">
