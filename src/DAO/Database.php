@@ -12,19 +12,19 @@
         /**
          * @var PDO $db Objet PDO pour la connexion à la base de données
          */
-        protected $link;
 
         /**
          * @brief Constructeur de la classe Database
          * @var array $dbConfig Tableau contenant les informations de connexion à la base de données, lu dans le fichier bd.php
          */
-        public function __construct()
-        {
-            $dbConfig = require('../config/bd.php');
 
+        private function __construct()
+        {    
+            $dbConfig = require('../config/bd.php');
+            
             try {
-                $this->link = new PDO("odbc:SAE", "rgouaud", "rgouaud");
-                $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->link = new PDO("mysql:host={$dbConfig['host']};dbname={$dbConfig['database']}", $dbConfig['username'], $dbConfig['password']);
+
             } catch (PDOException $e) {
                 echo $e->getMessage();
             }
@@ -36,10 +36,18 @@
         public function __destruct()
         {
             // Fermeture de la connexion PDO
-            $this->link = null;
+
+            self::$_instance = null;
         }
 
-    }   
+        public static function getInstance() {
+            if(self::$_instance == null)
+               self::$_instance = new self();
+            return self::$_instance ;
+         }
 
-
+        public function getConnection() {
+            return $this->link;
+        }
+    }
 ?>

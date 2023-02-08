@@ -1,9 +1,9 @@
 <?php
 return [
     'host' => 'lakartxela.iutbayonne.univ-pau.fr',
-    'database' => 'rgouaud',
-    'username' => 'rgouaud',
-    'password' => 'rgouaud'
+    'database' => 'aferreira021_bd',
+    'username' => 'aferreira021_bd',
+    'password' => 'aferreira021_bd'
 ];
 
 ?>
