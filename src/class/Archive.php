@@ -18,6 +18,12 @@
 
 class Archive implements interfaceUtilisateur {
   // ATTRIBUTS
+
+  /**
+   * @property integer $id identifiant du dossier
+   */
+  public $id;
+
   /**
    * @property string $nom 
    * Représentation du nom que va posséder l'objet
@@ -44,11 +50,12 @@ class Archive implements interfaceUtilisateur {
    * @param integer $taille   Représentation de la taille que va avoir l'objet
    * @param string  $chemin   Représentaton du chemin que va posséder l'objet
    */
-  public function __construct($nom, $taille, $chemin)
+  public function __construct($nom, $taille, $chemin, $id)
   {
     $this->nom = $nom;        
     $this->taille = $taille;  
     $this->chemin = $chemin;
+    $this->id = $id;
   }
 
   //  DESTRUCTEUR
@@ -62,7 +69,17 @@ class Archive implements interfaceUtilisateur {
   // ENCASPULATION
   //public
   // MÉTHODE USUELLE
+
   /**
+
+   * @brief Récupération de l'identifiant de l'objet
+   * 
+   * @return integer
+   */
+  public function getId(){return $this->id;}
+
+  /**
+
    * @brief Récupération du Nom de l'objet
    * 
    * @return string
@@ -82,6 +99,14 @@ class Archive implements interfaceUtilisateur {
    * @return string $chemin Représentaton du chemin que va posséder l'objet
    */
   public function getChemin(){return $this->chemin;}
+
+/**
+ * @brief Modifiue l'attribut id de l'objet
+ * 
+ * @param integer $id représente l'identifiant que va posséder l'objet
+ */
+  public function setId($id){$this->id = $id;}
+
   
   /**
    * @brief Modifie l'attribut Nom de l'objet

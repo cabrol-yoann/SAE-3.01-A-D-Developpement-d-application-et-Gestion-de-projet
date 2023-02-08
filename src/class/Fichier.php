@@ -39,11 +39,11 @@ class Fichier extends Archive {
    * @param integer $taille     Représentation de la taille que va avoir l'objet
    * @param string $chemin  Représentaton du chemin que va posséder l'objet
    */
-  public function __construct($nom, $taille, $chemin, $type)
+  public function __construct($nom, $taille, $chemin, $type, $id)
   {
     $this->mesTags = new \SplObjectStorage();
     $this->type = $type;
-    parent::__construct($nom, $taille, $chemin);
+    parent::__construct($nom, $taille, $chemin, $id);
   }
   
   // DESTRUCTEUR
