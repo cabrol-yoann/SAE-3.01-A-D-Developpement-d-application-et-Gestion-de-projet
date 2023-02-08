@@ -12,19 +12,17 @@ foreach($all as $object){
 }
 
 //Test de la supression d'un dossier
-//$BD->deleteDossier($all[0]);
+    //$BD->deleteDossier($all[0]);
 
 //Test de l'ajout d'un dossier
-$dossierTest = new Dossier('SAE', 'SAE/');
+$dossierTest = new Dossier('SAE2', 'SAE2/');
 
 //Test de la création d'un dossier
-//$BD->addDossier($dossierTest);
+    //$BD->addDossier($dossierTest);
 
 //Test de l'update
 $dossierTest->setNom('Eduardo');
-echo $dossierTest->getNom();
 $dossierTest->setChemin('/Eduardo');
-
 $BD->updateDossier($dossierTest);
 
 ?>
