@@ -22,7 +22,7 @@ $header = '
         </a>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li class="nav-item"><a href="#" class="nav-link" style="color:white ;">Fichiers</a></li>
+        <li class="nav-item"><a href="Fichier.php" class="nav-link" style="color:white ;">Fichiers</a></li>
         <li class="nav-item"><a href="connexionStockage.php" class="nav-link" style="color:white ;">Connexion stockage</a></li>
         <li class="nav-item"><a href="#" class="nav-link" style="color:white ;">Partage</a></li>
         </ul>
