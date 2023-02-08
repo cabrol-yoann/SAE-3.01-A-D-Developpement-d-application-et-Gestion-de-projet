@@ -13,11 +13,11 @@ echo $header;
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img class="bd-placeholder-img" width="100%" height=600PX src="img/nuageDrives.png" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></img>
+        <img class="bd-placeholder-img" width="100%" height=100% src="img/drives.png" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></img>
         <div class="container">
           <div class="carousel-caption text-start">
             <h1>Connecter plusieurs Stockage</h1>
-            <p>Avec Duolcloud vous pouvez connecter plusieurs espace de stockage afin d'avoir une seule vue</p>
+            <p>Avec Duolcloud vous pouvez connecter plusieurs espace de stockage afin d'avoir un seul stockage</p>
             <p><a class="btn btn-lg btn-primary" href="inscription.php">Inscrivez-vous</a></p>
           </div>
         </div>
