@@ -43,6 +43,8 @@ class Dossier extends Archive {
    */
   public $mesTags;
 
+  public $id;
+
   //private $id;
 
   // CONSTRUCTEUR
@@ -72,6 +74,9 @@ class Dossier extends Archive {
   // ENCASPULATION
   //public
   // MÉTHODE USUELLE
+
+  public function getId(){return $this->id;}
+
   /**
    * @brief retourne le nombre de Fichier du Dossier
    *

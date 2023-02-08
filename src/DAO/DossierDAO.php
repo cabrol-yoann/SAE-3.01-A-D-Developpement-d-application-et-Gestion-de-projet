@@ -34,7 +34,7 @@ require_once "../class/Dossier.php";
             $stmt->bindValue(":id", $id);
             $stmt->execute();
             $result = $stmt->fetch();
-            return new Dossier($result["id"], $result["titre"], $result["auteur"], $result["genre"]);
+            return new Dossier($result["titre"], $result["auteur"], $result["id"]);
         }
 
         public function getAllDossiers() {
@@ -44,15 +44,36 @@ require_once "../class/Dossier.php";
             $results = $stmt->fetchAll();
             $dossiers = array();
             foreach ($results as $result) {
-            $dossiers[] = new Dossier($result["id"], $result["titre"], $result["auteur"], $result["genre"]);
+            $dossiers[] = new Dossier($result["titre"], $result["auteur"], $result["id"]);
             }
             return $dossiers;
             }
 
+            public function addDossier(Dossier $dossier) {
+                $query = "INSERT INTO disque (titre, auteur, genre, prix, image) VALUES (:nom, :chemin, null, null, null)";
+                $stmt = $this->getConnection()->prepare($query);
+                $stmt->bindValue(":nom", $dossier->getNom());
+                $stmt->bindValue(":chemin", $dossier->getChemin());
+                $stmt->execute();
+            }
+
+            public function updateDossier(Dossier $dossier) {
+                $query = "UPDATE disque SET titre = :nom, auteur = :date_modification WHERE id = :id";
+                $stmt = $this->getConnection()->prepare($query);
+                $stmt->bindValue(":nom", $dossier->getNom());
+                $stmt->bindValue(":date_modification", $dossier->getChemin());
+                $stmt->bindValue(":id", $dossier->getId());
+                $stmt->execute();
+            }
+
             public function deleteDossier(Dossier $dossier) {
-                $query = "DELETE FROM dossiers WHERE id = :id";
+                $query = "DELETE FROM disque WHERE id = :id";
                 $stmt = $this->getConnection()->prepare($query);
                 $stmt->bindValue(":id", $dossier->getId());
+
+                echo "Query: " . $query . "<br>";
+                echo "Data: " . $dossier->getId() . "<br>";
+
                 $stmt->execute();
             }
      }
