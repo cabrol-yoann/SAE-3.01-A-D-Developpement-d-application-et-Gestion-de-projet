@@ -22,7 +22,6 @@ include_once "Tag.php";
 class Dossier extends Archive {
   
   // ATTRIBUTS
-
   /**
    * @property integer $nbFichier Représentation du nombre de Fichier que possède l'objet
    */
@@ -43,10 +42,6 @@ class Dossier extends Archive {
    */
   public $mesTags;
 
-  public $id;
-
-  //private $id;
-
   // CONSTRUCTEUR
   /**
    * @brief Constructeur de la classe
@@ -54,13 +49,12 @@ class Dossier extends Archive {
    * @param string $nom        Représentation du nom que va posséder l'objet
    * @param string $chemin     Représentaton du chemin que va posséder l'objet
    */
-  public function __construct($nom, $chemin, $id = null)
+  public function __construct($nom, $chemin)
   {
-    
-      $this->listeEnfantDossier = new \SplObjectStorage();
-      $this->listEnfantFichier = new \SplObjectStorage();
-      $this->mesTags = new \SplObjectStorage();
-    parent::__construct($nom, 0, $chemin, $id);        
+    $this->listeEnfantDossier = new \SplObjectStorage();
+    $this->listEnfantFichier = new \SplObjectStorage();
+    $this->mesTags = new \SplObjectStorage();
+    parent::__construct($nom, 0, $chemin);        
   }
 
   // DESTRUCTEUR
@@ -74,9 +68,6 @@ class Dossier extends Archive {
   // ENCASPULATION
   //public
   // MÉTHODE USUELLE
-
-  public function getId(){return $this->id;}
-
   /**
    * @brief retourne le nombre de Fichier du Dossier
    *
