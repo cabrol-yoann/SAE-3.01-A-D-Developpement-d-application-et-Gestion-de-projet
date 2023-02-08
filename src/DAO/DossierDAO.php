@@ -28,19 +28,6 @@ require_once "../class/Dossier.php";
         }
 
 
-       /* public function select(){
-            try{
-                $stmt = $this->link->prepare('SELECT id, titre, auteur, genre FROM '.self::TABLE);
-                $stmt->execute();
-                return $stmt->fetch();
-            }
-
-            catch(PDOException $e){
-                echo $e->getMessage();
-                exit;
-            }
-        }*/
-
         public function getDossierById($id) {
             $query = "SELECT * FROM disque WHERE id = :id";
             $stmt = $this->getConnection()->prepare($query);
@@ -60,6 +47,13 @@ require_once "../class/Dossier.php";
             $dossiers[] = new Dossier($result["id"], $result["titre"], $result["auteur"], $result["genre"]);
             }
             return $dossiers;
+            }
+
+            public function deleteDossier(Dossier $dossier) {
+                $query = "DELETE FROM dossiers WHERE id = :id";
+                $stmt = $this->getConnection()->prepare($query);
+                $stmt->bindValue(":id", $dossier->getId());
+                $stmt->execute();
             }
      }
 ?>

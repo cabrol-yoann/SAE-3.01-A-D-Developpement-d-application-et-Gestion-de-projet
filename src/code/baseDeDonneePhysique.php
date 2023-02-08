@@ -30,14 +30,14 @@ $dossier8 = new Dossier("ski","/photo/vacance/ski");
 $dossier9 = new Dossier("TP","/TP");
 
 // FICHIER
-$fichier = new Fichier("buche",300000,"/photo/noël/buche","png");
-$fichier1 = new Fichier("sapin",383000,"/photo/noël/sapin","png");
-$fichier2 = new Fichier("decoMaison",500000,"/photo/noël/decoMaison","png");
-$fichier3 = new Fichier("montagne",475000,"/photo/vacance/ski/montagne","png");
-$fichier4 = new Fichier("raclette",183000,"/photo/vacance/ski/raclette","png");
-$fichier5 = new Fichier("polymorphisme",351085,"/TD/dev/polymorphisme","pdf");
-$fichier6 = new Fichier("cycle_v",864215,"/cour/gestion projet/cycle_v","pdf");
-$fichier7 = new Fichier("SCRUM",256755,"/cour/gestion projet/SCRUM","word");
+$fichier = new Fichier(1,"buche",300000,"/photo/noël/buche","png");
+$fichier1 = new Fichier(2,"sapin",383000,"/photo/noël/sapin","png");
+$fichier2 = new Fichier(3,"decoMaison",500000,"/photo/noël/decoMaison","png");
+$fichier3 = new Fichier(4,"montagne",475000,"/photo/vacance/ski/montagne","png");
+$fichier4 = new Fichier(5,"raclette",183000,"/photo/vacance/ski/raclette","png");
+$fichier5 = new Fichier(6,"polymorphisme",351085,"/TD/dev/polymorphisme","pdf");
+$fichier6 = new Fichier(7,"cycle_v",864215,"/cour/gestion projet/cycle_v","pdf");
+$fichier7 = new Fichier(8,"SCRUM",256755,"/cour/gestion projet/SCRUM","word");
 
 // TAG
 $tag = new Tag("photo");
@@ -101,6 +101,6 @@ $fichier5->ajouterTags($tag2);
 
 // Object a ajouter
 
-$objetAPlacer = new Fichier("sapin",6841000000,"","png");
+$objetAPlacer = new Fichier(15,"sapin",6841000000,"","png");
 $objetAPlacer->ajouterTags($tag1);
 ?>
