@@ -4,5 +4,7 @@ include_once "../DAO/DossierDAO.php";
 
 $BD = new DossierDAO();
 var_dump($BD->getDossierById(2));
-var_dump($BD->getAllDossiers());
+$all = $BD->getAllDossiers();
+
+var_dump($all);
 ?>
