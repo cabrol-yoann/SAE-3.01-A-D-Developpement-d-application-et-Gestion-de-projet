@@ -1,0 +1,17 @@
+html{
+    height:100%;
+}
+* {
+    font-family: Arial;
+}
+
+header {
+    background-color: #50aa97;
+}
+
+main{
+    padding-bottom: 50px;
+}
+footer {
+    background-color: rgb(240, 240, 240);
+}
