@@ -1,9 +1,8 @@
 <?php
 
-include_once "../class/Database.php";
+include_once "../DAO/DossierDAO.php";
 
-$db = new Database();
-
-var_dump($db->getMusique())
-
+$BD = new DossierDAO();
+var_dump($BD->getDossierById(2));
+var_dump($BD->getAllDossiers());
 ?>
