@@ -30,6 +30,11 @@ class Fichier extends Archive {
    * @property ObjectStorage $mesTags liste de tag associé à l'objet 
    */
   public $mesTags;
+
+  /**
+   * @property integer $id Identifiant de l'objet dans la base de donnée
+   */
+  public $id;
  
   // CONSTRUCTEUR
   /**
