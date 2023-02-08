@@ -9,27 +9,27 @@ $header = '
     <link rel="stylesheet" href="style.css">
   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-     rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-     </head>
+    rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    </head>
 
 <body>
-<header class="p-3 mb-3 border-bottom">
+<header class="p-3 border-bottom">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
-        <a href="test.php" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-          <img class="bi me-2" width="50" height="50" role="img" src="../../logo_DuolCloud.png">
+        <a href="accueil.php" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+          <img class="bi me-2" width="50" height="50" role="img" src="img/logo_DuolCloud.png">
           <p style="margin-bottom: 0; font-weight:bold; color:white ;">DuolCloud</p>
         </a>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li class="nav-item"><a href="#" class="nav-link" style="color:white ;">Fichiers</a></li>
-        <li class="nav-item"><a href="ConnexionStockage.php" class="nav-link" style="color:white ;">Connexion stockage</a></li>
+        <li class="nav-item"><a href="connexionStockage.php" class="nav-link" style="color:white ;">Connexion stockage</a></li>
         <li class="nav-item"><a href="#" class="nav-link" style="color:white ;">Partage</a></li>
         </ul>
 
         <div class="dropdown col-md-3 text-end">
           <a href="#" class=" d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="../../avatar PP.png" alt="mdo" width="32" height="32" class="rounded-circle">
+            <img src="img/avatar PP.png" alt="mdo" width="32" height="32" class="rounded-circle">
           </a>
           <ul class="dropdown-menu dropdown-menu-end text-small" style="">
             <li><a class="dropdown-item" href="connexion.php">New project...</a></li>
@@ -49,7 +49,7 @@ $header = '
 </main>
 <footer class="py-4 my-4 px-5">
     <ul class="nav justify-content-center mb-2">
-      <li class="nav-item"><a href="MentionsLegales.php" class="nav-link px-2 text-muted">Mentions légales</a></li>
+      <li class="nav-item"><a href="mentionsLegales.php" class="nav-link px-2 text-muted">Mentions légales</a></li>
       <li class="nav-item"><a href="conditionUtilisation.php" class="nav-link px-2 text-muted">Conditions d`utilisation</a></li>
     </ul>
     <hr class="my-4">
