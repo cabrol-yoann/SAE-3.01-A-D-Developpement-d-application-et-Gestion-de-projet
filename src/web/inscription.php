@@ -26,9 +26,10 @@ echo $header;
               <input type="checkbox" value="remember-me"> Se souvenir de moi
             </label>
           </div>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">S'inscrire</button>
+          <button class="w-100 btn btn-lg btn-primary mb-2" type="submit">S'inscrire</button>
+          <small class="text-muted">En vous inscrivant, vous acceptez les conditions d'utilisation.</small>
           <hr class="my-4">
-          <small class="text-muted">En cliquant sur S'inscrire, vous acceptez les conditions d'utilisation.</small>
+          <a class="w-100 btn-lg btn btn-primary" href="connexion.php" role="button">Connexion</a>
         </form>
       </div>
     </div>

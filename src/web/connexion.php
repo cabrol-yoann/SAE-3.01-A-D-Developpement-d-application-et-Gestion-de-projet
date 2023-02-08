@@ -23,7 +23,9 @@ echo $header;
         <input type="checkbox" value="remember-me"> Se souvenir de moi
       </label>
     </div>
-    <button class="w-50 btn btn-lg btn-primary mb-5" type="submit">Connexion</button>
+    <button class="w-50 btn btn-lg btn-primary" type="submit">Connexion</button>
+    <hr class="m-4">
+    <a class="w-50 btn-lg btn btn-outline-primary" href="inscription.php" role="button">Créer un compte</a>
   </form>
 
 <?php
