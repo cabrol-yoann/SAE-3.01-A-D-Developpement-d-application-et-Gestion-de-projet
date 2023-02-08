@@ -3,7 +3,7 @@
  * @file Tag.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
  * @brief fichier contenant la classe Tag
- * @details Classe représentant un tag que l'on donne a des object pour les spécifier
+ * @details Classe représentant un tag que l'on donne a des objet pour les spécifier
  * @version 2
  * @date 2021-03-31
  * 
@@ -13,7 +13,7 @@
 
  
 /**
- * Classe représentant un tag que l'on donne a des object pour les spécifier
+ * Classe représentant un tag que l'on donne a des objet pour les spécifier
  */
 class Tag{ 
   // ATTRIBUTS
@@ -38,20 +38,19 @@ class Tag{
    * @brief Destructeur de la classe
    */
   public function __destruct(){
-      echo 'Destroying: ', $this->titre;
   }
   
   // ENCAPSULATION
   //public
   /**
-   * @brief Retourne le titre de l'object Tag
+   * @brief Retourne le titre de l'objet Tag
    *
    * @return string
    */
   public function getTitre(){return  $this->titre;}
   
   /**
-   * @brief Modifie le titre de l'object Tag
+   * @brief Modifie le titre de l'objet Tag
    *
    * @param string $titre Représentation du titre(nom) que possède un tag
    */
