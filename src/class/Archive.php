@@ -13,7 +13,10 @@
 /**
  * Super classe de l'archivage qui vas gérer le nom, la taille, et le chemin de la classe dossier et fichier
  */
-class Archive {
+
+ include_once "interfaceUtilisateur.php";
+
+class Archive implements interfaceUtilisateur {
   // ATTRIBUTS
 
   /**
@@ -41,7 +44,7 @@ class Archive {
  
   // CONSTRUCTEUR
   /**
-   * constructeur de la classe Archive demandant en paramètre le nom, la taille et le type de l'object Fichier ou dossier à créer
+   * constructeur de la classe Archive demandant en paramètre le nom, la taille et le type de l'objet Fichier ou dossier à créer
    *
    * @param string  $nom      Représentation du nom que va posséder l'objet
    * @param integer $taille   Représentation de la taille que va avoir l'objet
@@ -68,6 +71,7 @@ class Archive {
   // MÉTHODE USUELLE
 
   /**
+
    * @brief Récupération de l'identifiant de l'objet
    * 
    * @return integer
@@ -75,6 +79,7 @@ class Archive {
   public function getId(){return $this->id;}
 
   /**
+
    * @brief Récupération du Nom de l'objet
    * 
    * @return string
@@ -91,7 +96,7 @@ class Archive {
   /**
    * @brief Récupération du Chemin de l'objet
    *
-   * @return string
+   * @return string $chemin Représentaton du chemin que va posséder l'objet
    */
   public function getChemin(){return $this->chemin;}
 
@@ -111,23 +116,41 @@ class Archive {
   public function setNom($nom){$this->nom = $nom;}
   
   /**
-   * @brief Modifie l'attribut Taille de l'object
+   * @brief Modifie l'attribut Taille de l'objet
    * 
    * @param integer $taille Représentation de la taille que va avoir l'objet
    */
   public function setTaille($taille){$this->taille = $taille;}
   
   /**
-   * @brief Modifie l'attribut chemin de l'object
+   * @brief Modifie l'attribut chemin de l'objet
    * 
    * @param string $chemin Représentaton du chemin que va posséder l'objet
    */
   public function setChemin($chemin){$this->chemin = $chemin;}
   
-  // MÉTHODE SPÉCIFIQUE : NON
+  // MÉTHODE SPÉCIFIQUE : 
    
- 
+  public function afficher() {
+    return false;
   }
+
+  public function rechercheListeStockageATraiter($listeStockage, $restructuration = false){
+    return false;
+  }
+
+  public function rechercheMeilleurEmplacement(&$meilleurEmplacement = null, &$score = 0, &$trouver = false, $dossierTraiter) {
+    return false;
+  }
+
+  public function meRanger($listStockage, $restructurationEnCour = false){
+      return false;
+  }
+  
+  public function meRenommer($meilleurEmplacement){
+    return false;
+  }
+}
  
  
  
