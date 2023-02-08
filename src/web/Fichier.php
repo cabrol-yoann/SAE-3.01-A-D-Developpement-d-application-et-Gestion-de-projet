@@ -8,7 +8,6 @@
  
 
 include_once "../code/baseDeDonneePhysique.php";
-include_once "../code/debutRecherche.php";
 
 echo '<!DOCTYPE html>
     <html lang="fr">
@@ -116,7 +115,9 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
     $enfantsFich->rewind();
     while($enfantsFich->valid()){
         if($enfantsFich->current() == $ajout){
-            echo "<p style='color: red;'>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType();
+            echo "<p style='color: red;'>
+                <img src='img/icon/".$enfantsFich->current()->getType().".png' alt='icone fichier'>
+                ".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType();
             $enfantTag=$enfantsFich->current()->getMesTags();
             if ($enfantTag->valid()) {
                 echo ' | Tag : ';
@@ -129,8 +130,7 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
             }
         }
         else{
-            echo "<img src='img/tmp.png' alt='icone fichier'>";
-            echo "<p>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType()."<p>";
+            echo "<p><img src='img/icon/".$enfantsFich->current()->getType().".png' alt='icone fichier'>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType()."<p>";
         }
         $enfantsFich->next();
     }
