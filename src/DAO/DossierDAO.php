@@ -44,12 +44,12 @@ require_once "../class/Dossier.php";
          * @param integer $id identifiant du dossier à récupérer
          */
         public function getDossierById($id) {
-            $query = "SELECT * FROM disque WHERE id = :id";
+            $query = "SELECT * FROM Dossier WHERE ID_Dossier = :id";
             $stmt = $this->getConnection()->prepare($query);
             $stmt->bindValue(":id", $id);
             $stmt->execute();
             $result = $stmt->fetch();
-            return new Dossier($result["titre"], $result["auteur"], $result["id"]);
+            return new Dossier($result["nom"], $result["chemin"], $result["ID_dossier"]);
         }
 
           /**
@@ -58,13 +58,13 @@ require_once "../class/Dossier.php";
          * @return Dossier
          */
         public function getAllDossiers() {
-            $query = "SELECT * FROM disque";
+            $query = "SELECT * FROM Dossier";
             $stmt = $this->getConnection()->prepare($query);
             $stmt->execute();
             $results = $stmt->fetchAll();
             $dossiers = array();
             foreach ($results as $result) {
-            $dossiers[] = new Dossier($result["titre"], $result["auteur"], $result["id"]);
+            $dossiers[] = new Dossier($result["nom"], $result["chemin"], $result["ID_dossier"]);
             }
             return $dossiers;
             }
@@ -75,10 +75,11 @@ require_once "../class/Dossier.php";
              * @param Dossier $dossier dossier à ajouter à la BDD
              */
             public function addDossier(Dossier $dossier) {
-                $query = "INSERT INTO disque (titre, auteur, genre, prix, image) VALUES (:nom, :chemin, null, null, null)";
+                $query = "INSERT INTO Dossier (nom, chemin, racine, ID_pere, ID_tag) VALUES (:nom, :chemin, :racine, null, null)";
                 $stmt = $this->getConnection()->prepare($query);
                 $stmt->bindValue(":nom", $dossier->getNom());
                 $stmt->bindValue(":chemin", $dossier->getChemin());
+                $stmt->bindValue(":racine", 'false');
                 $stmt->execute();
             }
 
@@ -89,10 +90,10 @@ require_once "../class/Dossier.php";
              */
             public function updateDossier(Dossier $dossier) {
                 //$dossier->setId($this->getConnection()->lastInsertId());
-                $query = "UPDATE disque SET titre = :nom, auteur = :date_modification WHERE id = :id";
+                $query = "UPDATE Dossier SET nom = :nom, chemin = :chemin WHERE ID_dossier = :id";
                 $stmt = $this->getConnection()->prepare($query);
                 $stmt->bindValue(":nom", $dossier->getNom());
-                $stmt->bindValue(":date_modification", $dossier->getChemin());
+                $stmt->bindValue(":chemin", $dossier->getChemin());
                 $stmt->bindValue(":id", $dossier->getId());
                 $stmt->execute();
             }
@@ -103,7 +104,7 @@ require_once "../class/Dossier.php";
              * @param Dossier $dossier dossier à supprimer de BDD
              */
             public function deleteDossier(Dossier $dossier) {
-                $query = "DELETE FROM disque WHERE id = :id";
+                $query = "DELETE FROM Dossier WHERE ID_Dossier = :id";
                 $stmt = $this->getConnection()->prepare($query);
                 $stmt->bindValue(":id", $dossier->getId());
                 $stmt->execute();
