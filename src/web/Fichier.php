@@ -41,9 +41,13 @@ echo '<!DOCTYPE html>
         echo '<br></p><hr>';
 
         echo "<h2>Contenu</h2>";
+        echo '</p>';
 
+        echo '<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+        <a href="#" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+            <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-5 fw-semibold">'.$stockage->current()->getNom();
         // Affichage de la racine
-        echo "<p> <strong>".$stockage->current()->getMaRacine()->getNom().'</strong>';
         if ($stockage->current()->getMaRacine()->getMesTags() != null) {
             echo ' | Tag : ';
             $racineTag = $stockage->current()->getMaRacine()->getMesTags();
@@ -52,12 +56,13 @@ echo '<!DOCTYPE html>
                 $racineTag->next();
             }
         }
-        echo '</p>';
-
+        echo '</span>
+        </a>
+        <ul class="list-unstyled ps-0">';
         // affichage de l'arborésence
-        affichageContenu($stockage->current()->getMaRacine(), $ajout);
+        affichageContenu($stockage->current()->getMaRacine());
 
-        echo '<hr>';
+        echo  '<hr>';
         $stockage->next();
     } 
     
@@ -80,24 +85,17 @@ echo '</body>
  * @param int $espace : espacement pour l'affichage de l'arborésence (0 par défaut, pas obligatoire)
  * @return void
  */
-function affichageContenu($racine, $ajout, &$espace = 0) {
+function affichageContenu($racine) {
     // Gestion de l'espacement pour l'affichage de l'arborésence (décalage à droite des sous-dossiers / sous-fichiers)
-    /**
-     * @var int $i : compteur pour l'espacement
-     * @var string $espacement : espacement à afficher
-     * @var int $espace : nombre d'$espacement à ajouter
-     */
-    $espace += 1;
-    $espacement = "";
-    for ($i = 0; $i < $espace; $i++) {
-        $espacement = $espacement . "--";
-    }
 
     // Affichage des sous-dossiers -> récursif : rappel de la fonction pour chaque sous dossier
     $enfantsDoss = $racine->getListeEnfantDossier();
     $enfantsDoss->rewind();
     while($enfantsDoss->valid()){
-        echo "<p>".$espacement." <strong>".$enfantsDoss->current()->getNom().'</strong>';
+        echo '<li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#'.$racine->getNom().'" aria-expanded="false">
+            <img src="img/icon/dossier.png" alt="icone fichier">'.$enfantsDoss->current()->getNom();
+            
     if ($enfantsDoss->current()->getMesTags() != null) {
         echo ' | Tag : ';
         $DossTag = $enfantsDoss->current()->getMesTags();
@@ -107,34 +105,21 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
             $DossTag->next();
         }
     }
-        affichageContenu($enfantsDoss->current(), $ajout, $espace);
+        affichageContenu($enfantsDoss->current());
         $enfantsDoss->next();
     }
-
+    echo '</button>
+    <div class="collapse show" id="'.$racine->getNom().'" style="">
+    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"';
     // Affichage des sous-fichiers  
     $enfantsFich = $racine->getListeEnfantFichier();
     $enfantsFich->rewind();
     while($enfantsFich->valid()){
-        if($enfantsFich->current() == $ajout){
-            echo "<p style='color: red;'>
-                <img src='img/icon/".$enfantsFich->current()->getType().".png' alt='icone fichier'>
-                ".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType();
-            $enfantTag=$enfantsFich->current()->getMesTags();
-            if ($enfantTag->valid()) {
-                echo ' | Tag : ';
-                $FichTag = $enfantsFich->current()->getMesTags();
-                $FichTag->rewind();
-                while($FichTag->valid()){
-                    echo '  '.$FichTag->current()->getTitre();
-                    $FichTag->next();
-                }
-            }
-        }
-        else{
-            echo "<p><img src='img/icon/".$enfantsFich->current()->getType().".png' alt='icone fichier'>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType()."<p>";
-        }
+        echo '<li><a class="link-dark d-inline-flex text-decoration-none rounded"><img src="img/icon/'.$enfantsFich->current()->getType().'.png" alt="icone fichier">'.$enfantsFich->current()->getNom().'.'.$enfantsFich->current()->getType().'</a></li>';
         $enfantsFich->next();
     }
+    echo '</ul>
+    </div>';
 }
 
 echo '<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
