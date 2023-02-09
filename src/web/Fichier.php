@@ -8,6 +8,9 @@
  
 
 include_once "../code/baseDeDonneePhysique.php";
+include_once "header_footer.php";
+
+echo $header;
 
 echo '<!DOCTYPE html>
     <html lang="fr">
@@ -19,8 +22,6 @@ echo '<!DOCTYPE html>
         <link rel="stylesheet" href="">
     </head>
     <body>';
-
-    $ajout = ajoutFichier($stockage, $tags); // Vérifier si un fichier a été ajouté, faire le nécessaire si c'est le cas
 
     // Afficher les stockages et leurs arborésences -> Ici les stockages sont passé en paramètre depuis l'import d'un fichier
     $stockage->rewind();
@@ -136,76 +137,53 @@ function affichageContenu($racine, $ajout, &$espace = 0) {
     }
 }
 
-/**
- * @brief Ajout d'un fichier dans un stockage
- * @param SplObjectStorage $stockage : stockage dans lequel on veut ajouter un fichier
- * @param SplObjectStorage $tags : liste des tags
- * @return Fichier $ajout : fichier ajouté
- * @return null : si aucun fichier n'a été ajouté
- */
-function ajoutFichier($stockage, $tags){
-    /**
-     * @var Fichier $file : fichier ajouté récupéré depuis le formulaire
-     * @var SplObjectStorage $tag : tag récupéré depuis le formulaire
-     * @var SplObjectStorage $listeTag : liste des tags récupéré depuis la base de données
-     * @var SplObjectStorage $stockage : liste des stockages récupéré depuis la base de données
-     * @var bool $restructuration : initialise un booléen pour savoir si la restructuration a été effectuée
-     * @var FILES $ajout : fichier ajouté récupéré depuis le formulaire 
-     */
-    if(isset($_FILES["fichier"])){
-        // Lecture du fichier dans lequel sont situés ses informations
-        $file = file($_FILES['fichier']['tmp_name']);
+echo '<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+<a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+  <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+  <span class="fs-5 fw-semibold">Collapsible</span>
+</a>
+<ul class="list-unstyled ps-0">
+  <li class="mb-1">
+    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+      Home
+    </button>
+    <div class="collapse show" id="home-collapse" style="">
+      <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Overview</a></li>
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Updates</a></li>
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Reports</a></li>
+      </ul>
+    </div>
+  </li>
+  <li class="mb-1">
+    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+      Dashboard
+    </button>
+    <div class="collapse" id="dashboard-collapse">
+      <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Overview</a></li>
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Weekly</a></li>
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Monthly</a></li>
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Annually</a></li>
+      </ul>
+    </div>
+  </li>
+  <li class="mb-1">
+    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+      Orders
+    </button>
+    <div class="collapse" id="orders-collapse">
+      <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New</a></li>
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Processed</a></li>
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Shipped</a></li>
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Returned</a></li>
+      </ul>
+    </div>
+  </li>
+</ul>
+</div>';
 
-        // 1er paramètre : type du fichier (dossier ou fichier)
 
-        // Création d'un objet 
-        // 2e paramètre : nom 
-        // 3e paramètre : taille   
-        // 4e paramètre : type 
-
-        // if($file[0] == "fichier"){
-        //     echo "création du fichier";
-        // $ajout = new Fichier($file[1], intval($file[2]), "", $file[3]);
-        // }
-        // else{
-        //     echo "création du dossier";
-        //     $ajout = new Dossier($file[1], intval($file[2]), "", $file[3]);
-        // }
-
-        $ajout = new Fichier(trim($file[1]), intval($file[2]), "", $file[3]);
-
-        // GESTION DS TAGS
-        if(isset($_POST["tag"])){
-            // Récupérer les différents tags séparés par des points-virgules dans un array
-            $tags_recuperes = explode(";", $_POST["tag"]);
-            foreach($tags_recuperes as $tag){
-                $tags->rewind();
-                while ($tags->valid()) {
-                    // Si le tag existe, l'ajouter
-                    if($tags->current()->getTitre() == $tag){
-                        $ajout->ajouterTags($tags->current());
-                        break;
-                    }
-                    $tags->next();
-                }
-                if(!$tags->valid()) {
-                // Si pas trouver, le créer et l'ajouter
-                $newTag = new Tag($tag);
-                $ajout->ajouterTags($newTag);
-                }
-            }
-        }
-
-        // choix du stockage dans lequel le fichier sera ajouté
-        $restructuration = false;
-        debutRecherche($stockage, $ajout, $nomEspaceStockageTrouver, $nomDossierTrouver, $restructuration);
-
-        $nomDossierTrouver->ajouterEnfantFichier($ajout);
-
-        return $ajout;
-    }
-
-    
-}
-
+  echo $footer
 ?>
