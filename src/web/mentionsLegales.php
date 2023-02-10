@@ -66,7 +66,7 @@ echo $header;
                 données comme les préférences et les statistiques seront conservées moins longtemps.</p>
             <p>Il n’y aura pas de transfert de données hors Union Européenne. Toutes nos données seront
                 traitées en interne.</p>
-    
+
 
 <?php
 include_once "header_footer.php";

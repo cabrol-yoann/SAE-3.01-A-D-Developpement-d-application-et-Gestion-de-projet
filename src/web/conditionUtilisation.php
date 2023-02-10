@@ -77,7 +77,7 @@ echo $header;
             ne pas être responsable des retards
             ou des interruptions dans le service causés par des problèmes techniques ou autres imprévus.</p>
         <br>
-    
+
 
 <?php
 include_once "header_footer.php";
