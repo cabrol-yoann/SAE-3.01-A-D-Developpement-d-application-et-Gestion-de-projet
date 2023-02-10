@@ -51,7 +51,7 @@
             $stmt->bindValue(":id", $id);
             $stmt->execute();
             $result = $stmt->fetch();
-            return new Stockage($result["nom"], $result["chemin"], $result["ID_Stockage"]);
+            return new Stockage($result["ID_Stockage"], $result["nom"], $result["chemin_acces"], $result["tailleMax"], $result["restructurable"]);
         }
 
           /**
@@ -66,7 +66,7 @@
             $results = $stmt->fetchAll();
             $Stockages = array();
             foreach ($results as $result) {
-            $Stockages[] = new Stockage($result["nom"], $result["chemin"], $result["ID_Stockage"]);
+            $Stockages[] = new Stockage($result["ID_Stockage"], $result["nom"], $result["chemin_acces"], $result["tailleMax"], $result["restructurable"]);
             }
             return $Stockages;
             }
@@ -77,11 +77,12 @@
              * @param Stockage $Stockage Stockage à ajouter à la BDD
              */
             public function addStockage(Stockage $Stockage) {
-                $query = "INSERT INTO Stockage (nom, chemin, racine, ID_pere, ID_tag) VALUES (:nom, :chemin, :racine, null, null)";
+                $query = "INSERT INTO Stockage (nom, taille, chemin_acces, type, restructurable, nom_utilisateur, ID_dossier, ID_utilisateur, tailleMax) VALUES (:nom, 0, :chemin, null, :restruct, null, null, null, :tailleMax)";
                 $stmt = $this->getConnection()->prepare($query);
                 $stmt->bindValue(":nom", $Stockage->getNom());
                 $stmt->bindValue(":chemin", $Stockage->getChemin());
-                $stmt->bindValue(":racine", 'false');
+                $stmt->bindValue(":restruct", 'false');
+                $stmt->bindValue(":tailleMax", $Stockage->getTailleMax());
                 $stmt->execute();
             }
 

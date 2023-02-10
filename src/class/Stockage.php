@@ -17,6 +17,12 @@
 class Stockage{
  
   // Attributs
+  
+   /**
+   * @property int $nom Représentation de l'identifiant que va posséder l'objet
+   */
+  public $id;
+
   /**
    * @property string $nom Représentation du nom que va posséder l'objet
    */
@@ -57,8 +63,9 @@ class Stockage{
    * @param string $chemin        Représentation du chemin que va posséder l'objet
    * @param bool $restructurable  Représentation de la restructuration que va posséder l'objet
    */
-  public function __construct($nom, $chemin, $tailleMax ,$restructurable)
+  public function __construct($id = null, $nom, $chemin, $tailleMax ,$restructurable)
   {
+    $this->id = $id;
     $this->restructurable = $restructurable;
     $this->nom = $nom;
     $this->taille = 0;
@@ -73,6 +80,7 @@ class Stockage{
    */
   public function Clone($Stockage)
   {
+    $this->id = $Stockage->id;
     $this->restructurable = $Stockage->restructurable;
     $this->nom = $Stockage->nom;
     $this->taille = $Stockage->taille;
@@ -91,6 +99,16 @@ class Stockage{
   
   // ENCAPSULATION
   //public
+
+  /**
+
+   * @brief Récupération de l'identifiant de l'objet
+   * 
+   * @return integer
+   */
+  public function getId(){return $this->id;}
+
+
   /**
    * @brief Retourne le nom de l'objet Stockage
    *
@@ -134,6 +152,13 @@ class Stockage{
    * @return Dossier
    */
   public function getMaRacine(){return $this->maRacine;}
+
+  /**
+ * @brief Modifiue l'attribut id de l'objet
+ * 
+ * @param integer $id représente l'identifiant que va posséder l'objet
+ */
+  public function setId($id){$this->id = $id;}
  
   /**
    * @brief Modifie le nom de l'objet Stockage
