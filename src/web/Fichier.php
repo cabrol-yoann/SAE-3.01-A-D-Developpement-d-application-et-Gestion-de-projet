@@ -44,7 +44,7 @@ echo '<!DOCTYPE html>
         echo '</p>';
 
         echo '<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
-        <a href="#" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+        <a class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
             <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
             <span class="fs-5 fw-semibold">'.$stockage->current()->getNom();
         // Affichage de la racine
@@ -85,41 +85,50 @@ echo '</body>
  * @param int $espace : espacement pour l'affichage de l'arborésence (0 par défaut, pas obligatoire)
  * @return void
  */
-function affichageContenu($racine) {
+function affichageContenu($racine, $espace = 0) {
     // Gestion de l'espacement pour l'affichage de l'arborésence (décalage à droite des sous-dossiers / sous-fichiers)
+    /**
+     * @var int $i : compteur pour l'espacement
+     * @var string $espacement : espacement à afficher
+     * @var int $espace : nombre d'$espacement à ajouter
+     */
+    $espace ++;
+    
 
     // Affichage des sous-dossiers -> récursif : rappel de la fonction pour chaque sous dossier
     $enfantsDoss = $racine->getListeEnfantDossier();
     $enfantsDoss->rewind();
     while($enfantsDoss->valid()){
         echo '<li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#'.$racine->getNom().'" aria-expanded="false">
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'" aria-expanded="false">
             <img src="img/icon/dossier.png" alt="icone fichier">'.$enfantsDoss->current()->getNom();
             
-    if ($enfantsDoss->current()->getMesTags() != null) {
-        echo ' | Tag : ';
-        $DossTag = $enfantsDoss->current()->getMesTags();
-        $DossTag->rewind();
-        while($DossTag->valid()){
-            echo '  '.$DossTag->current()->getTitre();
-            $DossTag->next();
+        if ($enfantsDoss->current()->getMesTags() != null) {
+            echo ' | Tag : ';
+            $DossTag = $enfantsDoss->current()->getMesTags();
+            $DossTag->rewind();
+            while($DossTag->valid()){
+                echo '  '.$DossTag->current()->getTitre();
+                $DossTag->next();
+            }
         }
-    }
-        affichageContenu($enfantsDoss->current());
+        echo '</button>
+        <div class="collapse show pl-'.$espace.'" id="'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'" style="">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">';
+        affichageContenu($enfantsDoss->current(), $espace);
         $enfantsDoss->next();
     }
-    echo '</button>
-    <div class="collapse show" id="'.$racine->getNom().'" style="">
-    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"';
     // Affichage des sous-fichiers  
     $enfantsFich = $racine->getListeEnfantFichier();
     $enfantsFich->rewind();
     while($enfantsFich->valid()){
-        echo '<li><a class="link-dark d-inline-flex text-decoration-none rounded"><img src="img/icon/'.$enfantsFich->current()->getType().'.png" alt="icone fichier">'.$enfantsFich->current()->getNom().'.'.$enfantsFich->current()->getType().'</a></li>';
+        echo '<li><a class="link-dark d-inline-flex text-decoration-none rounded "><img src="img/icon/'.$enfantsFich->current()->getType().'.png" alt="icone fichier">'.$enfantsFich->current()->getNom().'.'.$enfantsFich->current()->getType().'</a></li>';
         $enfantsFich->next();
     }
-    echo '</ul>
-    </div>';
+    echo '
+    </div>
+    </li>
+    </ul>';
 }
 
   echo $footer
