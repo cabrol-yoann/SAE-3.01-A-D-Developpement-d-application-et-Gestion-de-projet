@@ -19,7 +19,7 @@ echo '<!DOCTYPE html>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Duolcloud</title>
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/basic.min.css"/>
     </head>
     <body>';
 
@@ -27,22 +27,14 @@ echo '<!DOCTYPE html>
     $stockage->rewind();
     while($stockage->valid()) {
         echo '<h1>'.$stockage->current()->getNom().'</h1>';
-        echo '<h2>Caractéristiques</h2>';
+        echo '<div class="pictos">
+        <a class="picto-item" href="#" aria-label="navigation super cool"><img src="img/icon/infoBulle.png" alt="information supplémentaire"></a>
+        </div>';
         echo '<p> Nom : '.$stockage->current()->getNom().' | '.
         'Taille : '.$stockage->current()->getTaille().' | '.
-        ' Taille maximale : '.$stockage->current()->getTailleMax().' | '.
-        'Restructurable  : ';
-        if ($stockage->current()->getRestructurable()){
-            echo 'oui';
-        }
-        else{
-            echo "non";
-        }
+        ' Taille maximale : '.$stockage->current()->getTailleMax();
         echo '<br></p><hr>';
-
-        echo "<h2>Contenu</h2>";
         echo '</p>';
-
         echo '<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
         <a class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
             <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
@@ -67,15 +59,13 @@ echo '<!DOCTYPE html>
     } 
     
     // formulaire du fichier à ajouter (possibilité de choisir un fichier .txt)
-    echo '<form action="#" method="post" enctype="multipart/form-data">
-        <label for="fichier">Fichier à ajouter :</label>
-        <input type="file" name="fichier" id="fichier"> <br>
-        <label for="tag">Tag :</label>
-        <input type="text" name="tag" id="tag" placeholder="Tag">
-        <input type="submit" value="Ajouter">
-    </form>';
-        
-echo '</body>
+    echo '<form action="nv" class="dropzone" id="dropzone-area" ></form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js" integrity="sha512-U2WE1ktpMTuRBPoCFDzomoIorbOyUv0sP8B+INA3EzNAhehbzED1rOJg6bCqPf/Tuposxb5ja/MAUnC8THSbLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js”></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+
+    </body>
     </html>';
 
 /**
@@ -113,7 +103,7 @@ function affichageContenu($racine, $espace = 0) {
             }
         }
         echo '</button>
-        <div class="collapse show pl-'.$espace.'" id="'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'" style="">
+        <div class="collapse pl-'.$espace.'" id="'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'" style="">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">';
         affichageContenu($enfantsDoss->current(), $espace);
         $enfantsDoss->next();
