@@ -16,8 +16,8 @@ echo $header;
         <img class="bd-placeholder-img" width="100%" height="700px" src="img/drives.png" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></img>
         <div class="container">
           <div class="carousel-caption text-start">
-            <h1>Connecter plusieurs Stockage</h1>
-            <p>Avec Duolcloud vous pouvez connecter plusieurs espace de stockage afin d'avoir un seul stockage</p>
+            <h1>Connectez plusieurs Stockage avec Duolcloud.</h1>
+            <p>Vous pouvez connecter plusieurs espaces de stockage afin d'avoir une vue sur l'ensemble de vos espaces de stockage.</p>
             <p><a class="btn btn-lg btn-primary" href="inscription.php">Inscrivez-vous</a></p>
           </div>
         </div>
@@ -105,7 +105,7 @@ echo $header;
               </svg>
             </div>
             <h4 class="fw-semibold mb-0">Rapide</h4>
-            <p class="text-muted">Connexion rapide et facile de tous vos drives</p>
+            <p class="text-muted">Connexion rapide et facile à tous vos espaces de stockage</p>
           </div>
 
           <div class="col d-flex flex-column gap-2">
@@ -125,7 +125,7 @@ echo $header;
               </svg>
             </div>
             <h4 class="fw-semibold mb-0">Sécurité</h4>
-            <p class="text-muted">Sécurité maximale pour vos fichiers en ligne</p>
+            <p class="text-muted">Sécurité maximale pour vos données en ligne</p>
           </div>
 
           <div class="col d-flex flex-column gap-2">
@@ -134,7 +134,7 @@ echo $header;
                 <use xlink:href="#table"></use>
               </svg>
             </div>
-            <h4 class="fw-semibold mb-0">Accès</h4>
+            <h4 class="fw-semibold mb-0">Accessible</h4>
             <p class="text-muted">Accès depuis n'importe où, sur n'importe quel appareil</p>
           </div>
         </div>
