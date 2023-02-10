@@ -51,7 +51,7 @@
             $stmt->bindValue(":id", $id);
             $stmt->execute();
             $result = $stmt->fetch();
-            return new Stockage($result["ID_Stockage"], $result["nom"], $result["chemin_acces"], $result["tailleMax"], $result["restructurable"]);
+            return new Stockage($result["nom"], $result["chemin_acces"], $result["tailleMax"], $result["restructurable"], $result["ID_Stockage"]);
         }
 
           /**
@@ -66,7 +66,7 @@
             $results = $stmt->fetchAll();
             $Stockages = array();
             foreach ($results as $result) {
-            $Stockages[] = new Stockage($result["ID_Stockage"], $result["nom"], $result["chemin_acces"], $result["tailleMax"], $result["restructurable"]);
+            $Stockages[] = new Stockage( $result["nom"], $result["chemin_acces"], $result["tailleMax"], $result["restructurable"], $result["ID_Stockage"]);
             }
             return $Stockages;
             }
@@ -93,11 +93,14 @@
              */
             public function updateStockage(Stockage $Stockage) {
                 //$Stockage->setId($this->getConnection()->lastInsertId());
-                $query = "UPDATE Stockage SET nom = :nom, chemin = :chemin WHERE ID_Stockage = :id";
+                $str = ($Stockage->getRestructurable()) ? 'true' : 'false';
+                $query = "UPDATE Stockage SET nom = :nom, chemin_acces = :chemin, restructurable = :restruct, tailleMax = :tailleMax  WHERE ID_Stockage = :id";
                 $stmt = $this->getConnection()->prepare($query);
                 $stmt->bindValue(":nom", $Stockage->getNom());
                 $stmt->bindValue(":chemin", $Stockage->getChemin());
                 $stmt->bindValue(":id", $Stockage->getId());
+                $stmt->bindValue(":restruct", $str);
+                $stmt->bindValue(":tailleMax", $Stockage->getTailleMax());
                 $stmt->execute();
             }
 

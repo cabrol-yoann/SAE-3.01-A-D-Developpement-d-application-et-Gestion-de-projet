@@ -14,7 +14,7 @@
 /**
  * Classe représentent un espace de stockage physique à partir d'un nom, d'une taille, d'une tailleMax, d'un chemin et d'une restructuration
  */
-class Stockage{
+class Stockage extends Archive{
  
   // Attributs
   
@@ -63,7 +63,7 @@ class Stockage{
    * @param string $chemin        Représentation du chemin que va posséder l'objet
    * @param bool $restructurable  Représentation de la restructuration que va posséder l'objet
    */
-  public function __construct($id = null, $nom, $chemin, $tailleMax ,$restructurable)
+  public function __construct($nom, $chemin, $tailleMax ,$restructurable, $id = null)
   {
     $this->id = $id;
     $this->restructurable = $restructurable;
@@ -347,5 +347,9 @@ public function Restructuration($ObjetAPlacer,$nomDossierTrouver,$Stockage){
     $listeFichierARestructurer->current()->meRanger($Stockage,$restructurationEnCours);
     $listeFichierARestructurer->next();
   }
+}
+
+public function afficher(){
+  
 }
 }
