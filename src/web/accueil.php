@@ -13,7 +13,7 @@ echo $header;
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img class="bd-placeholder-img" width="100%" height=100% src="img/drives.png" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></img>
+        <img class="bd-placeholder-img" width="100%" height="700px" src="img/drives.png" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></img>
         <div class="container">
           <div class="carousel-caption text-start">
             <h1>Connecter plusieurs Stockage</h1>
@@ -23,22 +23,22 @@ echo $header;
         </div>
       </div>
       <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+        <img class="bd-placeholder-img" width="100%" height="700px" src="img/twoServers.png" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></img>
         <div class="container">
-          <div class="carousel-caption">
-            <h1>Another example headline.</h1>
-            <p>Some representative placeholder content for the second slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+          <div class="carousel-caption text-secondary">
+            <h1>Connecter vous à vos serveurs local</h1>
+            <p>Vous pouvez aussi vous connecter à vos serveurs locaux </p>
+            <p><a class="btn btn-lg btn-primary" href="connexionStockage.php">Connexion</a></p>
           </div>
         </div>
       </div>
       <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+        <img class="bd-placeholder-img" width="100%" height="700px" src="img/partage.png" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></img>
         <div class="container">
-          <div class="carousel-caption text-end">
-            <h1>One more for good measure.</h1>
-            <p>Some representative placeholder content for the third slide of this carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+          <div class="carousel-caption text-secondary text-end">
+            <h1>Partager vos fichiers</h1>
+            <p>Vous pouvez partager des fichiers, des dossiers et des stockages</p>
+            <p><a class="btn btn-lg btn-primary" href="partage.php">Partage</a></p>
           </div>
         </div>
       </div>
@@ -66,11 +66,11 @@ echo $header;
 
     <div class="row featurette">
       <div class="col-md-7">
-        <h2 class="featurette-heading fw-normal lh-1">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-        <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.</p>
+        <h2 class="featurette-heading fw-normal lh-1">Connectez jusqu'à 10 comptes de stockage en ligne avec Drive Connect !</h2>
+        <p class="lead">Avec la version gratuite de Drive Connect, vous pouvez connecter jusqu'à 3 comptes de stockage en ligne. Mais pour une expérience encore plus complète, upgradez vers la version payante et connectez jusqu'à 10 comptes en même temps ! Fini les allers-retours entre différents services de stockage, accédez à tous vos fichiers importants en un seul endroit.</p> 
       </div>
       <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" src="img/versDuolCloud.png" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#eee"></rect></img>
       </div>
     </div>
 
@@ -78,11 +78,11 @@ echo $header;
 
     <div class="row featurette">
       <div class="col-md-7 order-md-2">
-        <h2 class="featurette-heading fw-normal lh-1">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-        <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
+        <h2 class="featurette-heading fw-normal lh-1">Rangez facilement vos nouveaux fichiers avec Drive Connect</h2>
+        <p class="lead">Ajoutez régulièrement de nouveaux fichiers à vos comptes de stockage en ligne ? Drive Connect vous permet de ranger facilement ces fichiers en un seul endroit. Vous pouvez choisir où ranger ces nouveaux fichiers parmi vos comptes connectés, ou même créer de nouveaux dossiers pour mieux les organiser. Avec Drive Connect, vous n'aurez plus à vous soucier de trouver vos fichiers parmi de nombreux services de stockage en ligne.</p>
       </div>
       <div class="col-md-5 order-md-1">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" src="img/files.png" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#eee"></rect></img>
       </div>
     </div>
 
@@ -93,7 +93,7 @@ echo $header;
       <div class="col d-flex flex-column align-items-start gap-2">
         <h3 class="fw-bold">Simplifiez votre vie numérique avec notre plateforme de connexion de drives</h3>
         <p class="text-muted">Inscrivez-vous maintenant pour découvrir la simplicité de la gestion de vos drives en ligne.</p>
-        <a href="inscription.php" class="btn btn-primary btn-lg">Se connecter</a>
+        <a href="inscription.php" class="btn btn-primary btn-lg">S'inscrire</a>
       </div>
 
       <div class="col">
