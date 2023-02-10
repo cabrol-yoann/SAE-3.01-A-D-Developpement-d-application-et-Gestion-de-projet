@@ -12,28 +12,18 @@ include_once "header_footer.php";
 
 echo $header;
 
-echo '<!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Duolcloud</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/basic.min.css"/>
-    </head>
-    <body>';
+echo '<body>';
 
     // Afficher les stockages et leurs arborésences -> Ici les stockages sont passé en paramètre depuis l'import d'un fichier
     $stockage->rewind();
     while($stockage->valid()) {
-        echo '<h1>'.$stockage->current()->getNom().'</h1>';
         echo '<div class="pictos">
-        <a class="picto-item" href="#" aria-label="navigation super cool"><img src="img/icon/infoBulle.png" alt="information supplémentaire"></a>
-        </div>';
-        echo '<p> Nom : '.$stockage->current()->getNom().' | '.
+        <h1>'.$stockage->current()->getNom().'</h1>
+        <a class="picto-item" href="#" aria-label=" Nom : '.$stockage->current()->getNom().' | '.
         'Taille : '.$stockage->current()->getTaille().' | '.
-        ' Taille maximale : '.$stockage->current()->getTailleMax();
-        echo '<br></p><hr>';
+        ' Taille maximale : '.$stockage->current()->getTailleMax(). '"><img src="img/icon/infoBulle.png" alt="information supplémentaire"></a>
+        </div>';
+        echo '<hr>';
         echo '</p>';
         echo '<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
         <a class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
@@ -59,7 +49,7 @@ echo '<!DOCTYPE html>
     } 
     
     // formulaire du fichier à ajouter (possibilité de choisir un fichier .txt)
-    echo '<form action="nv" class="dropzone" id="dropzone-area" ></form>
+    echo '<form action="texte.txt" class="dropzone" id="dropzone-area" ></form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js" integrity="sha512-U2WE1ktpMTuRBPoCFDzomoIorbOyUv0sP8B+INA3EzNAhehbzED1rOJg6bCqPf/Tuposxb5ja/MAUnC8THSbLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js”></script>
