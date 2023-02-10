@@ -9,19 +9,19 @@
 
 include_once "../code/baseDeDonneePhysique.php";
 include_once "header_footer.php";
+include_once "../DAO/StockageDAO.php";
 
 echo $header;
+$so = new StockageDAO();
+$tab = $so->getAllStockages();
+$stockage = new \SplObjectStorage();
+$cpt = 0;
+while(count($tab)-1 == $cpt){
+    $stockage->attach($tab[$cpt]);
+    $cpt++;
+}
 
-echo '<!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Duolcloud</title>
-        <link rel="stylesheet" href="">
-    </head>
-    <body>';
+echo '<body>';
 
     // Afficher les stockages et leurs arborésences -> Ici les stockages sont passé en paramètre depuis l'import d'un fichier
     $stockage->rewind();

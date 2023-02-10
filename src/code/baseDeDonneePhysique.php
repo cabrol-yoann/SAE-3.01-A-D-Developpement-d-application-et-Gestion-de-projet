@@ -1,5 +1,5 @@
 <?php
-
+/*
 include_once "../class/Stockage.php";
 include_once "../class/Dossier.php";
 include_once "../class/Fichier.php";
@@ -102,5 +102,5 @@ $fichier5->ajouterTags($tag2);
 // Object a ajouter
 
 $objetAPlacer = new Fichier("sapin",6841000000,"","png");
-$objetAPlacer->ajouterTags($tag1);
+$objetAPlacer->ajouterTags($tag1);*/
 ?>
