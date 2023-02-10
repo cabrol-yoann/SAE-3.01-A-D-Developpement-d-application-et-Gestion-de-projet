@@ -84,11 +84,10 @@ function affichageContenu($racine, $espace = 0) {
             <img src="img/icon/dossier.png" alt="icone fichier">'.$enfantsDoss->current()->getNom();
             
         if ($enfantsDoss->current()->getMesTags() != null) {
-            echo ' | Tag : ';
             $DossTag = $enfantsDoss->current()->getMesTags();
             $DossTag->rewind();
             while($DossTag->valid()){
-                echo '  '.$DossTag->current()->getTitre();
+                echo '<a>'.$DossTag->current()->getTitre().'</a>';
                 $DossTag->next();
             }
         }
