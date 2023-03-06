@@ -1,4 +1,7 @@
 <?php
+
+include_once "Archive.php";
+
 /**
  * @file Stockage.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)

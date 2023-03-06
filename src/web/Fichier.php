@@ -9,6 +9,8 @@
 
 include_once "../code/baseDeDonneePhysique.php";
 include_once "header_footer.php";
+include_once "../DAO/Database.php";
+include_once "../DAO/StockageDAO.php";
 
 echo $header;
 
@@ -24,6 +26,12 @@ echo '<!DOCTYPE html>
     <body>';
 
     // Afficher les stockages et leurs arborésences -> Ici les stockages sont passé en paramètre depuis l'import d'un fichier
+
+    $test = new StockageDAO();
+    $stockage = new SplObjectStorage;
+    $stockage=$test->getAllStockages();
+    var_dump($stockage);
+
     $stockage->rewind();
     while($stockage->valid()) {
         echo '<h1>'.$stockage->current()->getNom().'</h1>';
