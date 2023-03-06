@@ -19,6 +19,10 @@
          * @property PDO $link Représentation la connexion à la base de données
          */
         protected $link;
+        /**
+         * @property string $utilisateur Représentation de l'utilisateur en base de données
+         */
+        protected $utilisateur;
 
 
         /**
@@ -33,6 +37,7 @@
             try {
                 $this->link = new PDO("mysql:host={$dbConfig['host']};dbname={$dbConfig['database']}", $dbConfig['username'], $dbConfig['password']);
                 $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->utilisateur = $_SESSION['utilisateur'];
 
             } catch (PDOException $e) {
                 echo $e->getMessage();

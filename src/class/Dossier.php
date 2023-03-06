@@ -22,7 +22,6 @@ include_once "Tag.php";
 class Dossier extends Archive {
   
   // ATTRIBUTS
-
   /**
    * @property integer $nbFichier Représentation du nombre de Fichier que possède l'objet
    */
@@ -43,9 +42,6 @@ class Dossier extends Archive {
    */
   public $mesTags;
 
-
-  //private $id;
-
   // CONSTRUCTEUR
   /**
    * @brief Constructeur de la classe
@@ -53,13 +49,12 @@ class Dossier extends Archive {
    * @param string $nom        Représentation du nom que va posséder l'objet
    * @param string $chemin     Représentaton du chemin que va posséder l'objet
    */
-  public function __construct($nom, $chemin, $id = null)
+  public function __construct($nom, $chemin)
   {
-    
-      $this->listeEnfantDossier = new \SplObjectStorage();
-      $this->listEnfantFichier = new \SplObjectStorage();
-      $this->mesTags = new \SplObjectStorage();
-    parent::__construct($nom, 0, $chemin, $id);        
+    $this->listeEnfantDossier = new \SplObjectStorage();
+    $this->listEnfantFichier = new \SplObjectStorage();
+    $this->mesTags = new \SplObjectStorage();
+    parent::__construct($nom, 0, $chemin);        
   }
 
   // DESTRUCTEUR
@@ -73,7 +68,6 @@ class Dossier extends Archive {
   // ENCASPULATION
   //public
   // MÉTHODE USUELLE
-
   /**
    * @brief retourne le nombre de Fichier du Dossier
    *
@@ -398,7 +392,7 @@ class Dossier extends Archive {
    * @param Dossier $DossierTraiter Dossier dans lequel on cherche le meilleur emplacement
    * @return void
    */
-  public function rechercheMeilleurEmplacement(&$meilleurEmplacement = null, &$score = 0, &$trouver = false, $DossierTraiter) {
+  public function rechercheMeilleurEmplacement($DossierTraiter ,&$meilleurEmplacement = null,&$trouver = false, &$score = 0) {
     //echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$DossierTraiter->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur

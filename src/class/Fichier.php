@@ -44,11 +44,11 @@ class Fichier extends Archive {
    * @param integer $taille     Représentation de la taille que va avoir l'objet
    * @param string $chemin  Représentaton du chemin que va posséder l'objet
    */
-  public function __construct($nom, $taille, $chemin, $type, $id = null)
+  public function __construct($nom, $taille, $chemin, $type)
   {
     $this->mesTags = new \SplObjectStorage();
     $this->type = $type;
-    parent::__construct($nom, $taille, $chemin, $id);
+    parent::__construct($nom, $taille, $chemin);
   }
   
   // DESTRUCTEUR
@@ -105,7 +105,7 @@ class Fichier extends Archive {
   // MÉTHODE SPÉCIFIQUE :
 
   public function afficher() {
-    echo "Fichier : ". $this->getId() ." ".$this->getNom()." ".$this->getTaille()." ".$this->getChemin()." ".$this->getType()."\n";
+    echo "Fichier : ".$this->getNom()." ".$this->getTaille()." ".$this->getChemin()." ".$this->getType()."\n";
     $this->mesTags->rewind();
     while ($this->mesTags->valid()) {
       $tagTraiter = $this->mesTags->current();
@@ -256,7 +256,7 @@ class Fichier extends Archive {
    * @param Dossier $DossierTraiter Dossier dans lequel on cherche à placer le fichier
    * @return void
    */
-  public function rechercheMeilleurEmplacement(&$meilleurEmplacement = null, &$score = 0, &$trouver = false, $DossierTraiter) {
+  public function rechercheMeilleurEmplacement($DossierTraiter ,&$meilleurEmplacement = null,&$trouver = false, &$score = 0) {
     echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$DossierTraiter->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur
