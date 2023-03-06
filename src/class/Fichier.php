@@ -256,7 +256,9 @@ class Fichier extends Archive {
    * @param Dossier $DossierTraiter Dossier dans lequel on cherche à placer le fichier
    * @return void
    */
-  public function rechercheMeilleurEmplacement($DossierTraiter, &$meilleurEmplacement = null,  &$trouver = false, &$score = 0) {
+
+  public function rechercheMeilleurEmplacement($DossierTraiter, &$meilleurEmplacement = null, &$trouver = false, &$score = 0) {
+
     echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$DossierTraiter->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur
