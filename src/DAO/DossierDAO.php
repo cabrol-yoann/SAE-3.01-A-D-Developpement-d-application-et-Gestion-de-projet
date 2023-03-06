@@ -57,14 +57,24 @@ require_once "../class/Dossier.php";
          *
          * @return Dossier
          */
-        public function getAllDossiers() {
-            $query = "SELECT * FROM Dossier";
+        public function getAllRacines($parent) {
+            $query = "SELECT * FROM Dossier WHERE ID_pere = $parent->getId()";
             $stmt = $this->getConnection()->prepare($query);
             $stmt->execute();
             $results = $stmt->fetchAll();
-            $dossiers = array();
             foreach ($results as $result) {
-            $dossiers[] = new Dossier($result["nom"], $result["chemin"], $result["ID_dossier"]);
+            $parent->setMaRacine(new Dossier($result["nom"], $result["chemin"], $result["ID_dossier"]));
+            }
+            return $dossiers;
+            }
+
+        public function getAllDossier($parent) {
+            $query = "SELECT * FROM Dossier WHERE ID_pere = $parent->getId()";
+            $stmt = $this->getConnection()->prepare($query);
+            $stmt->execute();
+            $results = $stmt->fetchAll();
+            foreach ($results as $result) {
+                $parent->ajouterEnfantFichier(Dossier($result["nom"], $result["chemin"], $result["ID_dossier"]));
             }
             return $dossiers;
             }

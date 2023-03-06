@@ -1,4 +1,7 @@
 <?php
+
+include_once "Archive.php";
+
 /**
  * @file Stockage.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
@@ -14,7 +17,7 @@
 /**
  * Classe représentent un espace de stockage physique à partir d'un nom, d'une taille, d'une tailleMax, d'un chemin et d'une restructuration
  */
-class Stockage{
+class Stockage extends Archive{
  
   // Attributs
   
@@ -347,6 +350,10 @@ public function Restructuration($ObjetAPlacer,$nomDossierTrouver,$Stockage){
     $listeFichierARestructurer->current()->meRanger($Stockage,$restructurationEnCours);
     $listeFichierARestructurer->next();
   }
+}
+
+public function afficher(){
+  
 }
 }
 ?>
