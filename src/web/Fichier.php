@@ -12,14 +12,14 @@ include_once "header_footer.php";
 include_once "../DAO/StockageDAO.php";
 
 echo $header;
-$so = new StockageDAO();
-$tab = $so->getAllStockages();
-$stockage = new \SplObjectStorage();
-$cpt = 0;
-while(count($tab)-1 == $cpt){
-    $stockage->attach($tab[$cpt]);
-    $cpt++;
-}
+// $so = new StockageDAO();
+// $tab = $so->getAllStockages();
+// $stockage = new \SplObjectStorage();
+// $cpt = 0;
+// while(count($tab)-1 == $cpt){
+//     $stockage->attach($tab[$cpt]);
+//     $cpt++;
+// }
 
 echo '<body>';
 

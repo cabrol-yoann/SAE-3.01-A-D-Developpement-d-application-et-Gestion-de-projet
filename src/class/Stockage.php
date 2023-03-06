@@ -63,7 +63,7 @@ class Stockage{
    * @param string $chemin        Représentation du chemin que va posséder l'objet
    * @param bool $restructurable  Représentation de la restructuration que va posséder l'objet
    */
-  public function __construct($id = null, $nom, $chemin, $tailleMax ,$restructurable)
+  public function __construct($nom, $chemin, $tailleMax ,$restructurable, $id = null)
   {
     $this->id = $id;
     $this->restructurable = $restructurable;
@@ -349,3 +349,4 @@ public function Restructuration($ObjetAPlacer,$nomDossierTrouver,$Stockage){
   }
 }
 }
+?>

@@ -114,7 +114,7 @@ class Archive implements interfaceUtilisateur {
     return false;
   }
 
-  public function rechercheMeilleurEmplacement(&$meilleurEmplacement = null, &$score = 0, &$trouver = false, $dossierTraiter) {
+  public function rechercheMeilleurEmplacement($DossierTraiter ,&$meilleurEmplacement = null,&$trouver = false, &$score = 0) {
     return false;
   }
 
