@@ -68,14 +68,14 @@
             foreach ($results as $result) {
             $Stockages->attach(new Stockage( $result["nom"], $result["chemin_acces"], $result["tailleMax"], $result["restructurable"], $result["ID_Stockage"]));
             }
-            $Stockages->rewind();
-            while($Stockages->valid()){
-                $this->getAllRacines($Stockages->current());
-            }
-            $Stockages->rewind();
-            while($Stockages->valid()){
-                $this->getAllDossiers($Stockages->current()->getMaRacine());
-            }
+            // $Stockages->rewind();
+            // while($Stockages->valid()){
+            //     $this->getAllRacines($Stockages->current());
+            // }
+            // $Stockages->rewind();
+            // while($Stockages->valid()){
+            //     $this->getAllDossiers($Stockages->current()->getMaRacine());
+            // }
             
             return $Stockages;
             }
