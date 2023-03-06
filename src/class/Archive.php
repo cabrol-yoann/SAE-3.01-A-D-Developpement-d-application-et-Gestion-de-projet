@@ -35,6 +35,12 @@ class Archive implements interfaceUtilisateur {
    * Représentaton du chemin que va posséder l'objet
    */
   public $chemin;
+
+  /**
+   * @property integer $id 
+   * Représentation de l'id de l'objet
+   */
+  public $id;
  
   // CONSTRUCTEUR
   /**
@@ -44,11 +50,12 @@ class Archive implements interfaceUtilisateur {
    * @param integer $taille   Représentation de la taille que va avoir l'objet
    * @param string  $chemin   Représentaton du chemin que va posséder l'objet
    */
-  public function __construct($nom, $taille, $chemin)
+  public function __construct($nom, $taille, $chemin, $id)
   {
     $this->nom = $nom;        
     $this->taille = $taille;  
     $this->chemin = $chemin;
+    $this->id = $id;
   }
 
   //  DESTRUCTEUR
