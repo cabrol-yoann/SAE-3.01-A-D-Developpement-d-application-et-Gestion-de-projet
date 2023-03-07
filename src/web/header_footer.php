@@ -18,13 +18,13 @@ $header = '
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
         <a href="accueil.php" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
           <img class="bi me-2" width="50" height="50" role="img" src="img/logo_DuolCloud.png">
-          <p style="margin-bottom: 0; font-weight:bold; color:white ;">DuolCloud</p>
+          <p class="fs-5" style="margin-bottom: 0; font-weight:bold; color:white ;">DuolCloud</p>
         </a>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li class="nav-item"><a href="Fichier.php" class="nav-link" style="color:white ;">Fichiers</a></li>
-        <li class="nav-item"><a href="connexionStockage.php" class="nav-link" style="color:white ;">Connexion stockage</a></li>
-        <li class="nav-item"><a href="partage.php" class="nav-link" style="color:white ;">Partage</a></li>
+        <li class="nav-item"><a href="Fichier.php" class="nav-link fs-5" style="color:white;">Fichiers</a></li>
+        <li class="nav-item"><a href="connexionStockage.php" class="nav-link fs-5" style="color:white ;">Connexion stockage</a></li>
+        <li class="nav-item"><a href="partage.php" class="nav-link fs-5" style="color:white ;">Partage</a></li>
         </ul>
 
         <div class="dropdown col-md-3 text-end">
