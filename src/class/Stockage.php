@@ -21,21 +21,6 @@ class Stockage extends Archive{
  
   // Attributs
   
-   /**
-   * @property int $nom Représentation de l'identifiant que va posséder l'objet
-   */
-  public $id;
-
-  /**
-   * @property string $nom Représentation du nom que va posséder l'objet
-   */
-  public $nom; 
-  
-  /**
-   * @property integer $taille Représentation de la taille que va posséder l'objet
-   */
-  public $taille;
-  
   /**
    * @property integer $tailleMax Représentation de la tailleMax que va posséder l'objet
    */
@@ -54,7 +39,12 @@ class Stockage extends Archive{
   /**
    * @property Dossier $maRacine Représentaion de l'enfant de l'objet
    */
-  protected $maRacine;
+  private $maRacine;
+
+  /**
+   * @property int $id_utilisateur ID de l'utilisateur propriétaire du stockage
+   */
+  private $id_utilisateur;
   
   
   // CONSTRUCTEUR
@@ -65,15 +55,17 @@ class Stockage extends Archive{
    * @param integer $tailleMax    Représentation de la tailleMax que va posséder l'objet
    * @param string $chemin        Représentation du chemin que va posséder l'objet
    * @param bool $restructurable  Représentation de la restructuration que va posséder l'objet
+   * @param integer $id           Représentation de l'id de l'objet en base de données
+   * @param integer $id_utilisateur ID de l'utilisateur propriétaire du stockage
+   * @param Dossier $maRacine     Représentaion de la racine du stockage (equivalent / sous linux)
    */
-  public function __construct($nom, $chemin, $tailleMax ,$restructurable, $id = null)
+  public function __construct($nom, $chemin, $tailleMax, $taille, $restructurable, $id = null, $id_utilisateur, $maRacine)
   {
-    $this->id = $id;
     $this->restructurable = $restructurable;
-    $this->nom = $nom;
-    $this->taille = 0;
-    $this->chemin = $chemin;
     $this->tailleMax = $tailleMax;    
+    $this->$id_utilisateur = $id_utilisateur;
+    $this->$maRacine = $maRacine;
+    parent::__construct($nom, $chemin, $taille ,$restructurable, $id);
   }
   
   /**
@@ -203,7 +195,8 @@ class Stockage extends Archive{
    *
    * @param Dossier $racine Représentaion de l'enfant de l'objet
    */
-  public function setMaRacine($racine){$this->maRacine = $racine;}
+  public function setMaRacine($racine){
+    $this->maRacine = $racine;}
   
   // MÉTHODE USUELLES
 
