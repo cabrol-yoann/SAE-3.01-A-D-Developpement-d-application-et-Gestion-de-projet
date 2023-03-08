@@ -42,9 +42,14 @@ class Stockage extends Archive{
   private $maRacine;
 
   /**
-   * @property int $id_utilisateur ID de l'utilisateur propriétaire du stockage
+   * @property int $idUtilisateur ID de l'utilisateur propriétaire du stockage
    */
-  private $id_utilisateur;
+  private $idUtilisateur;
+
+  /**
+   * @property string $typeStockage Type de stockage (local, distant, ...)
+   */
+  private $typeStockage;
   
   
   // CONSTRUCTEUR
@@ -53,18 +58,21 @@ class Stockage extends Archive{
    *
    * @param string $nom           Représentation du nom que va posséder l'objet
    * @param integer $tailleMax    Représentation de la tailleMax que va posséder l'objet
+   * @param integer $taille       Représentation de la taille que va posséder l'objet
    * @param string $chemin        Représentation du chemin que va posséder l'objet
    * @param bool $restructurable  Représentation de la restructuration que va posséder l'objet
    * @param integer $id           Représentation de l'id de l'objet en base de données
-   * @param integer $id_utilisateur ID de l'utilisateur propriétaire du stockage
+   * @param integer $idUtilisateur ID de l'utilisateur propriétaire du stockage
    * @param Dossier $maRacine     Représentaion de la racine du stockage (equivalent / sous linux)
+   * @param string $typeStockage  Type de stockage (local, distant, ...)
    */
-  public function __construct($nom, $chemin, $tailleMax, $taille, $restructurable, $id = null, $id_utilisateur, $maRacine)
+  public function __construct($nom, $chemin, $tailleMax, $taille, $restructurable, $id = null, $idUtilisateur, $maRacine)
   {
     $this->restructurable = $restructurable;
     $this->tailleMax = $tailleMax;    
-    $this->$id_utilisateur = $id_utilisateur;
+    $this->$idUtilisateur = $idUtilisateur;
     $this->$maRacine = $maRacine;
+    $this->$typeStockage = $typeStockage;
     parent::__construct($nom, $chemin, $taille ,$restructurable, $id);
   }
   
@@ -197,6 +205,40 @@ class Stockage extends Archive{
    */
   public function setMaRacine($racine){
     $this->maRacine = $racine;}
+
+  /**
+   * @brief Modifie l'utilisateur
+   * @param string $utilisateur
+   */
+  public function setUtilisateur($utilisateur){
+    $this->utilisateur = $utilisateur;
+  }
+
+  /**
+   * @brief Retourne l'utilisateur
+   * @return string
+   */
+  public function getUtilisateur(){
+    return $this->utilisateur;
+  }
+
+  /**
+   * @brief Modifie le type de stockage
+   * @param string $typeStockage
+   */
+  public function setTypeStockage($typeStockage){
+    $this->typeStockage = $typeStockage;
+  }
+
+  /**
+   * @brief Retourne le type de stockage
+   * @return string
+   */
+  public function getTypeStockage(){
+    return $this->typeStockage;
+  }
+
+
   
   // MÉTHODE USUELLES
 
