@@ -146,6 +146,7 @@ class Fichier extends Archive {
     }
     if (!isset($espaceStockageTrouver)) {
       echo 'Aucun espace de stockage trouvé';echo '<br>';
+      header ('location: ../web/Fichier.php?erreur=pasDeStockage');
       return;
     }
     else {
@@ -161,6 +162,7 @@ class Fichier extends Archive {
       }
       else if ($restructurationEnCour == true) {
         echo 'on ne peut pas stocker le fichier'.$this->getNom();echo '<br>';
+        header ('location: ../web/Fichier.php?erreur=fichierTropGros');
         return;
       }
       else {
@@ -250,14 +252,14 @@ class Fichier extends Archive {
   /**
    * fonction qui recherche le meilleur emplacement pour le fichier
    *
+   * @param Dossier $dossierTraiter Dossier dans lequel on veut placer le fichier
    * @param Dossier $meilleurEmplacement Dossier dans lequel on veut placer le fichier
    * @param integer $score Score du dossier analysé
    * @param boolean $trouver Indique si on a trouvé un dossier idéal
-   * @param Dossier $DossierTraiter Dossier dans lequel on cherche à placer le fichier
    * @return void
    */
-  public function rechercheMeilleurEmplacement($DossierTraiter ,&$meilleurEmplacement = null,&$trouver = false, &$score = 0) {
-    echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$DossierTraiter->getNom();echo'<br>';
+  public function rechercheMeilleurEmplacement($dossierTraiter, &$meilleurEmplacement = null, &$trouver = false, &$score = 0) {
+    echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$dossierTraiter->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur
 
@@ -270,7 +272,7 @@ class Fichier extends Archive {
 
     //Recherche du meilleur emplacement pour les enfants qui sont des fichiers du dossier courant
     //Récupération de la liste des enfants Fichier.
-    $listeEnfantFichier = $DossierTraiter->getListeEnfantFichier();
+    $listeEnfantFichier = $dossierTraiter->getListeEnfantFichier();
     $listeEnfantFichier->rewind();
     $compteur = 0;
     while ($listeEnfantFichier->valid()) {
@@ -288,7 +290,7 @@ class Fichier extends Archive {
     //Recherche du meilleur emplacement pour les enfants qui sont des dossiers du dossier courant
     // Récupération de la liste des enfants Dossier 
     $compteur = 0;
-    $listeEnfantDossier = $DossierTraiter->getListeEnfantDossier();
+    $listeEnfantDossier = $dossierTraiter->getListeEnfantDossier();
     while ($listeEnfantDossier->valid()) { 
       echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$listeEnfantDossier->current()->getNom();echo '<br>';
       //Recherche à partir du tag
@@ -301,15 +303,15 @@ class Fichier extends Archive {
 
     //Recherche du meilleur emplacement à partir du dossier courant
     //Recherche à partir du tag
-    $point += $this->rechercheTag($DossierTraiter);
+    $point += $this->rechercheTag($dossierTraiter);
     //Recherche à partir du nom
-    $point += $this->rechercheNom($DossierTraiter);
+    $point += $this->rechercheNom($dossierTraiter);
 
     //Enregistrement de valeur trouver
     if ($point > $score) {
-      echo 'Le dossier '.$DossierTraiter->getNom().' a été trouver avec un score de '.$point;echo '<br>';
+      echo 'Le dossier '.$dossierTraiter->getNom().' a été trouver avec un score de '.$point;echo '<br>';
       $score = $point;
-      $meilleurEmplacement = $DossierTraiter;
+      $meilleurEmplacement = $dossierTraiter;
       $trouver = true ;
     }
     
@@ -328,6 +330,9 @@ class Fichier extends Archive {
    * @return 1
    */
   private function rechercheTag($DossierTraiter) {
+    if ($DossierTraiter->getMesTags()->count() == 0) {
+      return 0;
+    }
     $listeTag = $this->getMesTags();
     $listeTagEnfant = $DossierTraiter->getMesTags();
     $listeTagEnfant->rewind();
