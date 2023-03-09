@@ -8,11 +8,10 @@
  
 
 include_once "../code/baseDeDonneePhysique.php";
+include_once "pop_up.php";
 include_once "header_footer.php";
 
 echo $header;
-
-echo '<body>';
 
     // Afficher les stockages et leurs arborésences -> Ici les stockages sont passé en paramètre depuis l'import d'un fichier
     $stockage->rewind();
@@ -24,8 +23,7 @@ echo '<body>';
         ' Taille maximale : '.$stockage->current()->getTailleMax(). '"><img src="img/icon/infoBulle.png" alt="information supplémentaire"></a>
         </div>';
         echo '<hr>';
-        echo '</p>';
-        echo '<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+        echo '<div class="flex-shrink-0 p-3 bg-white">
         <a class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
             <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
             <span class="fs-5 fw-semibold">'.$stockage->current()->getNom();
@@ -44,19 +42,34 @@ echo '<body>';
         // affichage de l'arborésence
         affichageContenu($stockage->current()->getMaRacine());
 
-        echo  '<hr>';
+        echo '<hr>';
         $stockage->next();
     } 
-    
-    // formulaire du fichier à ajouter (possibilité de choisir un fichier .txt)
-    echo '<form action="texte.txt" class="dropzone" id="dropzone-area" ></form>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js" integrity="sha512-U2WE1ktpMTuRBPoCFDzomoIorbOyUv0sP8B+INA3EzNAhehbzED1rOJg6bCqPf/Tuposxb5ja/MAUnC8THSbLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js”></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 
-    </body>
-    </html>';
+    // formulaire du fichier à ajouter (possibilité de choisir un fichier .txt)
+    echo '<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <form action="../code/upload.php" method="post" enctype="multipart/form-data" class="dropzone" id="myDropzone">
+        Sélectionnez le fichier à télécharger:<br>
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="text" name="tag" hint="Donner vos tags">
+        <input type="submit" value="Télécharger le fichier" name="submit">
+    </form>';
+   echo $footer;
+
+    var_dump($drive);
+
+    if(isset($_GET['error'])) {
+        if($_GET['error'] == "upload")
+            echo $pop_up_upload;
+        else if($_GET['error'] == "exist")
+            echo $pop_up_exist;
+        else if($_GET['error'] == "error")
+            echo $pop_up_error;
+        else if($_GET['error'] == "fichierTropGros")
+            echo $pop_up_size;
+        else if($_GET['error'] == "pasDeStockage")
+            echo $pop_up_pasTrouver;
+    }
 
 /**
  * @brief Affichage de l'arborésence d'un stockage
@@ -72,7 +85,6 @@ function affichageContenu($racine, $espace = 0) {
      * @var string $espacement : espacement à afficher
      * @var int $espace : nombre d'$espacement à ajouter
      */
-    $espace ++;
     
 
     // Affichage des sous-dossiers -> récursif : rappel de la fonction pour chaque sous dossier
@@ -80,20 +92,23 @@ function affichageContenu($racine, $espace = 0) {
     $enfantsDoss->rewind();
     while($enfantsDoss->valid()){
         echo '<li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'" aria-expanded="false">
-            <img src="img/icon/dossier.png" alt="icone fichier">'.$enfantsDoss->current()->getNom();
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'" aria-expanded="false">';
+            for($i=$espace; $i >= 0; $i--){echo'<a style="margin-right: '.strval(16.5).'px;">||</a>';}echo'<img src="img/icon/dossier.png" alt="icone fichier">'.$enfantsDoss->current()->getNom();
             
         if ($enfantsDoss->current()->getMesTags() != null) {
             $DossTag = $enfantsDoss->current()->getMesTags();
             $DossTag->rewind();
+            echo '<a>'.' | Tag : ';
             while($DossTag->valid()){
-                echo '<a>'.$DossTag->current()->getTitre().'</a>';
+                echo $DossTag->current()->getTitre().' ';
                 $DossTag->next();
             }
+            echo '</a>';
         }
         echo '</button>
-        <div class="collapse pl-'.$espace.'" id="'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'" style="">
+        <div class="collapse pl-'.$espace.'" id="'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">';
+        $espace++;
         affichageContenu($enfantsDoss->current(), $espace);
         $enfantsDoss->next();
     }
@@ -101,14 +116,13 @@ function affichageContenu($racine, $espace = 0) {
     $enfantsFich = $racine->getListeEnfantFichier();
     $enfantsFich->rewind();
     while($enfantsFich->valid()){
-        echo '<li><a class="link-dark d-inline-flex text-decoration-none rounded "><img src="img/icon/'.$enfantsFich->current()->getType().'.png" alt="icone fichier">'.$enfantsFich->current()->getNom().'.'.$enfantsFich->current()->getType().'</a></li>';
+        echo '<li><a class="link-dark d-inline-flex text-decoration-none rounded ">';
+        for($i=$espace; $i >= 0; $i--){echo'<a style="margin-right: '.strval(5).'px; margin-left: 13.5px;">||</a>';}echo'<img src="img/icon/'.$enfantsFich->current()->getType().'.png" alt="icone fichier">'.$enfantsFich->current()->getNom().'.'.$enfantsFich->current()->getType().'</a></li>';
         $enfantsFich->next();
     }
     echo '
+    </ul>
     </div>
-    </li>
-    </ul>';
+    </li>';
 }
-
-  echo $footer
 ?>
