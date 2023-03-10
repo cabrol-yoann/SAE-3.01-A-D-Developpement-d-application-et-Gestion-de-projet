@@ -51,7 +51,8 @@ Class UtilisateurDAO {
         $query = "SELECT * FROM utilisateur WHERE ID_Utilisateur = :id";
         $stmt = $this->link->prepare($query);
         $stmt->bindValue(":id", $id);
-        $stmt->execute();
+        if(!$stmt->exec())
+            return null;
         $result = $stmt->fetch();
         return new Utilisateur($result["id"], $result[""], $result[""], $result[""], $result[""]);
     }
@@ -62,8 +63,7 @@ Class UtilisateurDAO {
      * @return Utilisateur
      */
     public function getAllUtilisateur() {
-        $query = "SELECT * FROM Utilisateur";
-        $stmt = $this->link->prepare($query);
+        $stmt = $this->link->prepare("SELECT * FROM Utilisateur", array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         $stmt->execute();
         $results = $stmt->fetchAll();
         $Utilisateurs = new SplObjectStorage;
