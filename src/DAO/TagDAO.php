@@ -19,7 +19,6 @@ class TagDAO{
      */
     public function __construct(Database $database)
     {
-        $database = parent::getInstance();
         $this->link = $database->getConnection();
     }
 
@@ -28,7 +27,8 @@ class TagDAO{
      */
     public function __destruct()
     {
-        parent::__destruct();
+        // Fermeture de la connexion PDO
+        $this->link = null;
     }
 
     /**
