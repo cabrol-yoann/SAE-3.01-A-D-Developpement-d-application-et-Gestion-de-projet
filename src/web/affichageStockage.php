@@ -8,42 +8,35 @@
  
 
 include_once "../code/baseDeDonneePhysique.php";
-include_once "../code/debutRecherche.php";
+include_once "pop_up.php";
+include_once "header_footer.php";
+include_once "../DAO/StockageDAO.php";
 
-echo '<!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Duolcloud</title>
-        <link rel="stylesheet" href="">
-    </head>
-    <body>';
-
-    $ajout = ajoutFichier($stockage, $tags); // Vérifier si un fichier a été ajouté, faire le nécessaire si c'est le cas
+echo $header;
+// $so = new StockageDAO();
+// $tab = $so->getAllStockages();
+// $stockage = new \SplObjectStorage();
+// $cpt = 0;
+// while(count($tab)-1 == $cpt){
+//     $stockage->attach($tab[$cpt]);
+//     $cpt++;
+// }
 
     // Afficher les stockages et leurs arborésences -> Ici les stockages sont passé en paramètre depuis l'import d'un fichier
     $stockage->rewind();
     while($stockage->valid()) {
-        echo '<h1>'.$stockage->current()->getNom().'</h1>';
-        echo '<h2>Caractéristiques</h2>';
-        echo '<p> Nom : '.$stockage->current()->getNom().' | '.
+        echo '<div class="pictos">
+        <h1>'.$stockage->current()->getNom().'</h1>
+        <a class="picto-item" href="#" aria-label=" Nom : '.$stockage->current()->getNom().' | '.
         'Taille : '.$stockage->current()->getTaille().' | '.
-        ' Taille maximale : '.$stockage->current()->getTailleMax().' | '.
-        'Restructurable  : ';
-        if ($stockage->current()->getRestructurable()){
-            echo 'oui';
-        }
-        else{
-            echo "non";
-        }
-        echo '<br></p><hr>';
-
-        echo "<h2>Contenu</h2>";
-
+        ' Taille maximale : '.$stockage->current()->getTailleMax(). '"><img src="img/icon/infoBulle.png" alt="information supplémentaire"></a>
+        </div>';
+        echo '<hr>';
+        echo '<div class="flex-shrink-0 p-3 bg-white">
+        <a class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+            <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-5 fw-semibold">'.$stockage->current()->getNom();
         // Affichage de la racine
-        echo "<p> <strong>".$stockage->current()->getMaRacine()->getNom().'</strong>';
         if ($stockage->current()->getMaRacine()->getMesTags() != null) {
             echo ' | Tag : ';
             $racineTag = $stockage->current()->getMaRacine()->getMesTags();
@@ -52,26 +45,40 @@ echo '<!DOCTYPE html>
                 $racineTag->next();
             }
         }
-        echo '</p>';
-
+        echo '</span>
+        </a>
+        <ul class="list-unstyled ps-0">';
         // affichage de l'arborésence
-        affichageContenu($stockage->current()->getMaRacine(), $ajout);
+        affichageContenu($stockage->current()->getMaRacine());
 
         echo '<hr>';
         $stockage->next();
     } 
-    
+
     // formulaire du fichier à ajouter (possibilité de choisir un fichier .txt)
-    echo '<form action="#" method="post" enctype="multipart/form-data">
-        <label for="fichier">Fichier à ajouter :</label>
-        <input type="file" name="fichier" id="fichier"> <br>
-        <label for="tag">Tag :</label>
-        <input type="text" name="tag" id="tag" placeholder="Tag">
-        <input type="submit" value="Ajouter">
+    echo '
+    <form action="../code/upload.php" method="post" enctype="multipart/form-data" id="myDropzone">
+        Sélectionnez le fichier à télécharger:<br>
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="text" name="tag" hint="Donner vos tags">
+        <input type="submit" value="Télécharger le fichier" name="submit">
     </form>';
-        
-echo '</body>
-    </html>';
+   echo $footer;
+
+
+
+    if(isset($_GET['error'])) {
+        if($_GET['error'] == "upload")
+            echo $pop_up_upload;
+        else if($_GET['error'] == "exist")
+            echo $pop_up_exist;
+        else if($_GET['error'] == "error")
+            echo $pop_up_error;
+        else if($_GET['error'] == "fichierTropGros")
+            echo $pop_up_size;
+        else if($_GET['error'] == "pasDeStockage")
+            echo $pop_up_pasTrouver;
+    }
 
 /**
  * @brief Affichage de l'arborésence d'un stockage
@@ -80,132 +87,51 @@ echo '</body>
  * @param int $espace : espacement pour l'affichage de l'arborésence (0 par défaut, pas obligatoire)
  * @return void
  */
-function affichageContenu($racine, $ajout, &$espace = 0) {
+function affichageContenu($racine, $espace = 0) {
     // Gestion de l'espacement pour l'affichage de l'arborésence (décalage à droite des sous-dossiers / sous-fichiers)
     /**
      * @var int $i : compteur pour l'espacement
      * @var string $espacement : espacement à afficher
      * @var int $espace : nombre d'$espacement à ajouter
      */
-    $espace += 1;
-    $espacement = "";
-    for ($i = 0; $i < $espace; $i++) {
-        $espacement = $espacement . "--";
-    }
+    
 
     // Affichage des sous-dossiers -> récursif : rappel de la fonction pour chaque sous dossier
     $enfantsDoss = $racine->getListeEnfantDossier();
     $enfantsDoss->rewind();
     while($enfantsDoss->valid()){
-        echo "<p>".$espacement." <strong>".$enfantsDoss->current()->getNom().'</strong>';
-    if ($enfantsDoss->current()->getMesTags() != null) {
-        echo ' | Tag : ';
-        $DossTag = $enfantsDoss->current()->getMesTags();
-        $DossTag->rewind();
-        while($DossTag->valid()){
-            echo '  '.$DossTag->current()->getTitre();
-            $DossTag->next();
+        echo '<li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'" aria-expanded="false">';
+            for($i=$espace; $i >= 0; $i--){echo'<a style="margin-right: '.strval(16.5).'px;">||</a>';}echo'<img src="img/icon/dossier.png" alt="icone fichier">'.$enfantsDoss->current()->getNom();
+            
+        if ($enfantsDoss->current()->getMesTags() != null) {
+            $DossTag = $enfantsDoss->current()->getMesTags();
+            $DossTag->rewind();
+            echo '<a>'.' | Tag : ';
+            while($DossTag->valid()){
+                echo $DossTag->current()->getTitre().' ';
+                $DossTag->next();
+            }
+            echo '</a>';
         }
-    }
-        affichageContenu($enfantsDoss->current(), $ajout, $espace);
+        echo '</button>
+        <div class="collapse pl-'.$espace.'" id="'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">';
+        $espace++;
+        affichageContenu($enfantsDoss->current(), $espace);
         $enfantsDoss->next();
     }
-
     // Affichage des sous-fichiers  
     $enfantsFich = $racine->getListeEnfantFichier();
     $enfantsFich->rewind();
     while($enfantsFich->valid()){
-        if($enfantsFich->current() == $ajout){
-            echo "<p style='color: red;'>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType();
-            $enfantTag=$enfantsFich->current()->getMesTags();
-            if ($enfantTag->valid()) {
-                echo ' | Tag : ';
-                $FichTag = $enfantsFich->current()->getMesTags();
-                $FichTag->rewind();
-                while($FichTag->valid()){
-                    echo '  '.$FichTag->current()->getTitre();
-                    $FichTag->next();
-                }
-            }
-        }
-        else{
-            echo "<img src='img/tmp.png' alt='icone fichier'>";
-            echo "<p>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType()."<p>";
-        }
+        echo '<li><a class="link-dark d-inline-flex text-decoration-none rounded ">';
+        for($i=$espace; $i >= 0; $i--){echo'<a style="margin-right: '.strval(5).'px; margin-left: 13.5px;">||</a>';}echo'<img src="img/icon/'.$enfantsFich->current()->getType().'.png" alt="icone fichier">'.$enfantsFich->current()->getNom().'.'.$enfantsFich->current()->getType().'</a></li>';
         $enfantsFich->next();
     }
+    echo '
+    </ul>
+    </div>
+    </li>';
 }
-
-/**
- * @brief Ajout d'un fichier dans un stockage
- * @param SplObjectStorage $stockage : stockage dans lequel on veut ajouter un fichier
- * @param SplObjectStorage $tags : liste des tags
- * @return Fichier $ajout : fichier ajouté
- * @return null : si aucun fichier n'a été ajouté
- */
-function ajoutFichier($stockage, $tags){
-    /**
-     * @var Fichier $file : fichier ajouté récupéré depuis le formulaire
-     * @var SplObjectStorage $tag : tag récupéré depuis le formulaire
-     * @var SplObjectStorage $listeTag : liste des tags récupéré depuis la base de données
-     * @var SplObjectStorage $stockage : liste des stockages récupéré depuis la base de données
-     * @var bool $restructuration : initialise un booléen pour savoir si la restructuration a été effectuée
-     * @var FILES $ajout : fichier ajouté récupéré depuis le formulaire 
-     */
-    if(isset($_FILES["fichier"])){
-        // Lecture du fichier dans lequel sont situés ses informations
-        $file = file($_FILES['fichier']['tmp_name']);
-
-        // 1er paramètre : type du fichier (dossier ou fichier)
-
-        // Création d'un objet 
-        // 2e paramètre : nom 
-        // 3e paramètre : taille   
-        // 4e paramètre : type 
-
-        // if($file[0] == "fichier"){
-        //     echo "création du fichier";
-        // $ajout = new Fichier($file[1], intval($file[2]), "", $file[3]);
-        // }
-        // else{
-        //     echo "création du dossier";
-        //     $ajout = new Dossier($file[1], intval($file[2]), "", $file[3]);
-        // }
-
-        $ajout = new Fichier(trim($file[1]), intval($file[2]), "", $file[3]);
-
-        // GESTION DS TAGS
-        if(isset($_POST["tag"])){
-            // Récupérer les différents tags séparés par des points-virgules dans un array
-            $tags_recuperes = explode(";", $_POST["tag"]);
-            foreach($tags_recuperes as $tag){
-                $tags->rewind();
-                while ($tags->valid()) {
-                    // Si le tag existe, l'ajouter
-                    if($tags->current()->getTitre() == $tag){
-                        $ajout->ajouterTags($tags->current());
-                        break;
-                    }
-                    $tags->next();
-                }
-                if(!$tags->valid()) {
-                // Si pas trouver, le créer et l'ajouter
-                $newTag = new Tag($tag);
-                $ajout->ajouterTags($newTag);
-                }
-            }
-        }
-
-        // choix du stockage dans lequel le fichier sera ajouté
-        $restructuration = false;
-        debutRecherche($stockage, $ajout, $nomEspaceStockageTrouver, $nomDossierTrouver, $restructuration);
-
-        $nomDossierTrouver->ajouterEnfantFichier($ajout);
-
-        return $ajout;
-    }
-
-    
-}
-
 ?>
