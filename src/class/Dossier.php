@@ -16,6 +16,10 @@ include_once "Tag.php";
  * 
  */
 
+ /**
+  * @todo Faire en sorte que les ID des objets soient générés automatiquement et synchronisé avec la base de données
+  */
+
 /**
  * Classe représentant d'un dossier physique la forme d'une classe
  */
@@ -41,6 +45,11 @@ class Dossier extends Archive {
    * @property ObjectStorage $mesTags liste de tag associé à l'objet
    */
   public $mesTags;
+
+  /**
+   * @property integer $idPere Représentation de l'id du dossier père de l'objet
+   */
+  public $idPere;
 
   // CONSTRUCTEUR
   /**
@@ -113,6 +122,31 @@ class Dossier extends Archive {
     return $this->mesTags;
   }
 
+  /**
+   * @brief retourne l'id du dossier père de l'objet Dossier
+   * 
+   * @return int id du dossier père
+   */
+
+  public function getIdPere() {
+    return $this->idPere;
+  }
+
+  /**
+   * @brief Modifie l'attribut idPere de l'objet Dossier
+   * 
+   * @param int $idPere Représentation de l'id du dossier père de l'objet
+   */
+  public function setIdPere($idPere) {
+    $this->idPere = $idPere;
+  }
+
+  /**
+   * 
+   */
+  public function getId(){
+    return $this->id;
+  }
 
   /**
    * @brief Retourne la valeur de la taille de l'objet Dossier en mettant à jour sa taille
