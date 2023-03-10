@@ -22,9 +22,10 @@ Class UtilisateurDAO {
      * @brief Constructeur de la classe UtilisateurDAO qui démarre la connexion à la base de données
      *
      */
-    public function __construct(Database $database)
+    public function __construct()
     {
-        $this->link = $database->getConnection();
+        $database = new Database();
+        $this->link = $database->getInstance();
     }
 
      // DESTRUCTEUR
@@ -77,7 +78,7 @@ Class UtilisateurDAO {
      * @param Utilisateur $Utilisateur Utilisateur à ajouter à la BDD
     */
     public function addUtilisateur(Utilisateur $Utilisateur) {
-        $query = "INSERT INTO Utilisateur (id, nom, email, mdp, role) VALUES (:id, :nom, :email, :mdp, :role)";
+        $query = "INSERT INTO Utilisateur (ID_utilisateur , nom, email, mdp, role) VALUES (:id, :nom, :email, :mdp, :role)";
         $stmt = $this->link->prepare($query);
         $stmt->bindValue(":id", $Utilisateur->getID());
         $stmt->bindValue(":nom", $Utilisateur->getNom());
@@ -93,14 +94,13 @@ Class UtilisateurDAO {
      * @param Utilisateur $Utilisateur Utilisateur à mettre à jour sur la BDD
     */
     public function updateUtilisateur(Utilisateur $Utilisateur) {
-        $str = ($Utilisateur->getRole()) ? 'true' : 'false';
-        $query = "UPDATE Utilisateur SET id = :id, nom = :nom, email = :email mdp = :mdp role = :role WHERE ID_Utilisateur = :id";
+        $query = "UPDATE Utilisateur SET ID_utilisateur  = :id, nom = :nom, email = :email mdp = :mdp role = :role WHERE ID_Utilisateur = :id";
         $stmt = $this->link->prepare($query);
         $stmt->bindValue(":id", $Utilisateur->getID());
         $stmt->bindValue(":nom", $Utilisateur->getNom());
         $stmt->bindValue(":email", $Utilisateur->getEmail());
         $stmt->bindValue(":mdp", $Utilisateur->getMdp());
-        $stmt->bindValue(":role", $str);
+        $stmt->bindValue(":role", $Utilisateur->getRole());
         $stmt->execute();
     }
     /**

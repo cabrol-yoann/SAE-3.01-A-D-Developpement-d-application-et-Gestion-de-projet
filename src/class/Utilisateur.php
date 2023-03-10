@@ -45,28 +45,28 @@ class Utilisateur{
     public $mdp;
 
     /**
-     * role de l'utilisateur
+     * type_abonnement de l'utilisateur
      *
-     * @var boolean
+     * @var string
      */
-    public $role;
+    public $type_abonnement;
 
     // CONSTRUCTEUR
     /**
      * @brief Constructeur de la classe
-     * @param string $id        id de l'utilisateur
-     * @param string $nom       nom de l'utilisateur
-     * @param string $email     email de l'utilisateur
-     * @param string $mdp       mot de passe de l'utilisateur
-     * @param string $role      role de l'utilisateur premium ou non
+     * @param string $id                    id de l'utilisateur
+     * @param string $nom                   nom de l'utilisateur
+     * @param string $email                 email de l'utilisateur
+     * @param string $mdp                   mot de passe de l'utilisateur
+     * @param string $type_abonnement       type_abonnement de l'utilisateur premium ou non
      */
-    public function __construct($id, $nom, $email, $mdp, $role = false)
+    public function __construct($id, $nom, $email, $mdp, $type_abonnement = 'gratuit')
     {
         $this->id = $id;
         $this->nom = $nom;
         $this->email = $email;
         $this->mdp = $mdp;
-        $this->role = $role;
+        $this->type_abonnement = $type_abonnement;
     }
     
     // DESTRUCTEUR
@@ -113,7 +113,7 @@ class Utilisateur{
      *
      * @return boolean
      */
-    public function getRole(){return  $this->role;}
+    public function getType_abonnement(){return  $this->type_abonnement;}
 
     /**
      * @brief Modifie le titre de l'objet Tag
@@ -148,7 +148,7 @@ class Utilisateur{
      *
      * @param boolean $role Représentation du role de l'utilisateur
      */
-    public function setRole($role){$this->role = $role;}
+    public function setType_abonnement($role){$this->type_abonnement = $type_abonnemente;}
 
     // MÉTHODE USUELLE : NON
     
