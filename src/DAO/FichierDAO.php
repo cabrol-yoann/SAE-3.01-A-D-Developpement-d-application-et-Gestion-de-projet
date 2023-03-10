@@ -13,7 +13,13 @@ include_once "../class/Fichier.php";
  */
 
 
-class FichierDao extends Database{
+class FichierDao {
+
+    // ATTRIBUTS
+    /**
+     * @property PDO $link Représentation de la connexion à la base de données
+     */
+    protected $link;
 
     /**
      * @var string $TABLE Nom de la table fichier
@@ -23,14 +29,15 @@ class FichierDao extends Database{
     /**
      * @brief Constructeur de la classe FichierDAO
      */
-    public function __construct(){
-        parent::__construct();
+    public function __construct(Database $database){
+        $this->link = $database->getConnection();
     }
     /**
      * @brief Destructeur de la classe FichierDAO
      */
     public function __destruct(){
-        parent::__destruct();
+        // Fermeture de la connexion PDO
+        $this->link = null;
     }
 
 
