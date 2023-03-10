@@ -12,12 +12,12 @@
 include_once "Database.php";
 include_once "../class/Tag.php";
 
-class TagDAO extends Database{
+class TagDAO{
     
     /**
      * @brief Constructeur de la classe TagDAO qui démarre la connexion à la base de données
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
         $database = parent::getInstance();
         $this->link = $database->getConnection();
