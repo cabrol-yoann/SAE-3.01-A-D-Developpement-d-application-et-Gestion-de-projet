@@ -22,9 +22,9 @@ Class UtilisateurDAO {
      * @brief Constructeur de la classe UtilisateurDAO qui démarre la connexion à la base de données
      *
      */
-    public function __construct()
+    public function __construct(Database $database)
     {
-        $database = new Database();
+        // Démarre la connexion à la base de données
         $this->link = $database->getInstance();
     }
 
@@ -84,7 +84,7 @@ Class UtilisateurDAO {
         $stmt->bindValue(":nom", $Utilisateur->getNom());
         $stmt->bindValue(":email", $Utilisateur->getEmail());
         $stmt->bindValue(":mdp", $Utilisateur->getMdp());
-        $stmt->bindValue(":role", $Utilisateur->getRole());
+        $stmt->bindValue(":type_abonnement", $Utilisateur->getType_abonnement());
         $stmt->execute();
     }
 
@@ -94,13 +94,13 @@ Class UtilisateurDAO {
      * @param Utilisateur $Utilisateur Utilisateur à mettre à jour sur la BDD
     */
     public function updateUtilisateur(Utilisateur $Utilisateur) {
-        $query = "UPDATE Utilisateur SET ID_utilisateur  = :id, nom = :nom, email = :email mdp = :mdp role = :role WHERE ID_Utilisateur = :id";
+        $query = "UPDATE Utilisateur SET ID_utilisateur  = :id, nom = :nom, email = :email mdp = :mdp type_abonnement = :type_abonnement WHERE ID_Utilisateur = :id";
         $stmt = $this->link->prepare($query);
         $stmt->bindValue(":id", $Utilisateur->getID());
         $stmt->bindValue(":nom", $Utilisateur->getNom());
         $stmt->bindValue(":email", $Utilisateur->getEmail());
         $stmt->bindValue(":mdp", $Utilisateur->getMdp());
-        $stmt->bindValue(":role", $Utilisateur->getRole());
+        $stmt->bindValue(":type_abonnement", $Utilisateur->getType_abonnement());
         $stmt->execute();
     }
     /**

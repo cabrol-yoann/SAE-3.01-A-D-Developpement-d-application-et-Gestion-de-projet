@@ -144,11 +144,11 @@ class Utilisateur{
     public function setMdp($mdp){$this->mdp = $mdp;}
 
     /**
-     * @brief Modifie le role de l'objet Utilisateur
+     * @brief Modifie le type_abonnement de l'objet Utilisateur
      *
-     * @param boolean $role Représentation du role de l'utilisateur
+     * @param boolean $type_abonnement Représentation du type_abonnement de l'utilisateur
      */
-    public function setType_abonnement($role){$this->type_abonnement = $type_abonnemente;}
+    public function setType_abonnement($type_abonnement){$this->type_abonnement = $type_abonnement;}
 
     // MÉTHODE USUELLE : NON
     
