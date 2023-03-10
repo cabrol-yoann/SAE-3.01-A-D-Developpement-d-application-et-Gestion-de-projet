@@ -56,8 +56,8 @@ echo $header;
     } 
 
     // formulaire du fichier à ajouter (possibilité de choisir un fichier .txt)
-    echo '<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <form action="../code/upload.php" method="post" enctype="multipart/form-data" class="dropzone" id="myDropzone">
+    echo '
+    <form action="../code/upload.php" method="post" enctype="multipart/form-data" id="myDropzone">
         Sélectionnez le fichier à télécharger:<br>
         <input type="file" name="fileToUpload" id="fileToUpload">
         <input type="text" name="tag" hint="Donner vos tags">
@@ -65,7 +65,7 @@ echo $header;
     </form>';
    echo $footer;
 
-    var_dump($drive);
+
 
     if(isset($_GET['error'])) {
         if($_GET['error'] == "upload")

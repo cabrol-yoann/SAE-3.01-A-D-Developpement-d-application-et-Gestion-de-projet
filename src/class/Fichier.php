@@ -146,7 +146,7 @@ class Fichier extends Archive {
     }
     if (!isset($espaceStockageTrouver)) {
       echo 'Aucun espace de stockage trouvé';echo '<br>';
-      header ('location: ../web/Fichier.php?erreur=pasDeStockage');
+      header ('location: ../web/affichageStockage.php?erreur=pasDeStockage');
       return;
     }
     else {
@@ -162,7 +162,7 @@ class Fichier extends Archive {
       }
       else if ($restructurationEnCour == true) {
         echo 'on ne peut pas stocker le fichier'.$this->getNom();echo '<br>';
-        header ('location: ../web/Fichier.php?erreur=fichierTropGros');
+        header ('location: ../web/affichageStockage.php?erreur=fichierTropGros');
         return;
       }
       else {

@@ -19,7 +19,7 @@ if(isset($_POST['submit'])) {
 
     // Vérifiez si le fichier a été correctement téléchargé
     if ($uploadOk == 0) {
-        header("Location: ../web/Fichier.php?error=error");
+        header("Location: ../web/affichageStockage.php?error=error");
     } else {
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
             $fileSize = filesize("../../uploads/$file_name");
@@ -48,9 +48,9 @@ if(isset($_POST['submit'])) {
             }
             $nouveauFichier->meRanger($stockage);
             echo '<script>alert("fin_ranger")</script>';
-            header("Location: ../web/Fichier.php?error=upload");
+            header("Location: ../web/affichageStockage.php?error=upload");
         } else {
-            header("Location: ../web/Fichier.php?error=exist");
+            header("Location: ../web/affichageStockage.php?error=exist");
         }
     }
 }
