@@ -1,210 +1,154 @@
 <?php
-/**
- * @file index.php
- * @author Gouaud Romain
- * @details Page affichant les stockages et leurs arborésences avec un formulaire pour tester les ajouts
- * @version 4.0
- */
- 
+include_once "header_footer.php";
 
-include_once "../code/baseDeDonneePhysique.php";
-include_once "../code/debutRecherche.php";
+echo $header;
 
-echo '<!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Duolcloud</title>
-        <link rel="stylesheet" href="">
-    </head>
-    <body>';
+?>
 
-    $ajout = ajoutFichier($stockage, $tags); // Vérifier si un fichier a été ajouté, faire le nécessaire si c'est le cas
+<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img class="bd-placeholder-img" width="100%" height="700px" src="img/drives.png" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></img>
+        <div class="container">
+          <div class="carousel-caption text-start">
+            <h1>Connecter plusieurs Stockage</h1>
+            <p>Avec DuolCloud vous pouvez connecter plusieurs espace de stockage afin d'avoir un seul stockage</p>
+            <p><a class="btn btn-lg btn-primary" href="inscription.php">Inscrivez-vous</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img class="bd-placeholder-img" width="100%" height="700px" src="img/twoServers.png" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></img>
+        <div class="container">
+          <div class="carousel-caption text-secondary">
+            <h1>Connecter vous à vos serveurs local</h1>
+            <p>Vous pouvez aussi vous connecter à vos serveurs locaux </p>
+            <p><a class="btn btn-lg btn-primary" href="connexionStockage.php">Connexion</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img class="bd-placeholder-img" width="100%" height="700px" src="img/partage.png" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></img>
+        <div class="container">
+          <div class="carousel-caption text-secondary text-end">
+            <h1>Partager vos fichiers</h1>
+            <p>Vous pouvez partager des fichiers, des dossiers et des stockages</p>
+            <p><a class="btn btn-lg btn-primary" href="partage.php">Partage</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 
-    // Afficher les stockages et leurs arborésences -> Ici les stockages sont passé en paramètre depuis l'import d'un fichier
-    $stockage->rewind();
-    while($stockage->valid()) {
-        echo '<h1>'.$stockage->current()->getNom().'</h1>';
-        echo '<h2>Caractéristiques</h2>';
-        echo '<p> Nom : '.$stockage->current()->getNom().' | '.
-        'Taille : '.$stockage->current()->getTaille().' | '.
-        ' Taille maximale : '.$stockage->current()->getTailleMax().' | '.
-        'Restructurable  : ';
-        if ($stockage->current()->getRestructurable()){
-            echo 'oui';
-        }
-        else{
-            echo "non";
-        }
-        echo '<br></p><hr>';
 
-        echo "<h2>Contenu</h2>";
+  <!-- Marketing messaging and featurettes
+  ================================================== -->
+  <!-- Wrap the rest of the page in another container to center all the content. -->
 
-        // Affichage de la racine
-        echo "<p> <strong>".$stockage->current()->getMaRacine()->getNom().'</strong>';
-        if ($stockage->current()->getMaRacine()->getMesTags() != null) {
-            echo ' | Tag : ';
-            $racineTag = $stockage->current()->getMaRacine()->getMesTags();
-            while($racineTag->valid()){
-                echo '  '.$racineTag->current()->getTitre();
-                $racineTag->next();
-            }
-        }
-        echo '</p>';
+  <div class="container marketing">
 
-        // affichage de l'arborésence
-        affichageContenu($stockage->current()->getMaRacine(), $ajout);
+    <!-- START THE FEATURETTES -->
 
-        echo '<hr>';
-        $stockage->next();
-    } 
-    
-    // formulaire du fichier à ajouter (possibilité de choisir un fichier .txt)
-    echo '<form action="#" method="post" enctype="multipart/form-data">
-        <label for="fichier">Fichier à ajouter :</label>
-        <input type="file" name="fichier" id="fichier"> <br>
-        <label for="tag">Tag :</label>
-        <input type="text" name="tag" id="tag" placeholder="Tag">
-        <input type="submit" value="Ajouter">
-    </form>';
-        
-echo '</body>
-    </html>';
+    <hr class="featurette-divider">
 
-/**
- * @brief Affichage de l'arborésence d'un stockage
- * @param Dossier $racine : dossier racine du stockage
- * @param Fichier $ajout : fichier ajouté (si il y en a un)
- * @param int $espace : espacement pour l'affichage de l'arborésence (0 par défaut, pas obligatoire)
- * @return void
- */
-function affichageContenu($racine, $ajout, &$espace = 0) {
-    // Gestion de l'espacement pour l'affichage de l'arborésence (décalage à droite des sous-dossiers / sous-fichiers)
-    /**
-     * @var int $i : compteur pour l'espacement
-     * @var string $espacement : espacement à afficher
-     * @var int $espace : nombre d'$espacement à ajouter
-     */
-    $espace += 1;
-    $espacement = "";
-    for ($i = 0; $i < $espace; $i++) {
-        $espacement = $espacement . "--";
-    }
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading fw-normal lh-1">Connectez jusqu'à 10 comptes de stockage en ligne avec DuolCloud !</h2>
+        <p class="lead">Avec la version gratuite de DuolCloud, vous pouvez connecter jusqu'à 3 comptes de stockage en ligne. Mais pour une expérience encore plus complète, upgradez vers la version payante et connectez jusqu'à 10 comptes en même temps ! Fini les allers-retours entre différents services de stockage, accédez à tous vos fichiers importants en un seul endroit.</p> 
+      </div>
+      <div class="col-md-5">
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" src="img/versDuolCloud.png" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#eee"></rect></img>
+      </div>
+    </div>
 
-    // Affichage des sous-dossiers -> récursif : rappel de la fonction pour chaque sous dossier
-    $enfantsDoss = $racine->getListeEnfantDossier();
-    $enfantsDoss->rewind();
-    while($enfantsDoss->valid()){
-        echo "<p>".$espacement." <strong>".$enfantsDoss->current()->getNom().'</strong>';
-    if ($enfantsDoss->current()->getMesTags() != null) {
-        echo ' | Tag : ';
-        $DossTag = $enfantsDoss->current()->getMesTags();
-        $DossTag->rewind();
-        while($DossTag->valid()){
-            echo '  '.$DossTag->current()->getTitre();
-            $DossTag->next();
-        }
-    }
-        affichageContenu($enfantsDoss->current(), $ajout, $espace);
-        $enfantsDoss->next();
-    }
+    <hr class="featurette-divider">
 
-    // Affichage des sous-fichiers  
-    $enfantsFich = $racine->getListeEnfantFichier();
-    $enfantsFich->rewind();
-    while($enfantsFich->valid()){
-        if($enfantsFich->current() == $ajout){
-            echo "<p style='color: red;'>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType();
-            $enfantTag=$enfantsFich->current()->getMesTags();
-            if ($enfantTag->valid()) {
-                echo ' | Tag : ';
-                $FichTag = $enfantsFich->current()->getMesTags();
-                $FichTag->rewind();
-                while($FichTag->valid()){
-                    echo '  '.$FichTag->current()->getTitre();
-                    $FichTag->next();
-                }
-            }
-        }
-        else{
-        echo "<p>".$espacement."- ".$enfantsFich->current()->getNom().".".$enfantsFich->current()->getType()."<p>";
-        }
-        $enfantsFich->next();
-    }
-}
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading fw-normal lh-1">Rangez facilement vos nouveaux fichiers avec DuolCloud</h2>
+        <p class="lead">Ajoutez régulièrement de nouveaux fichiers à vos comptes de stockage en ligne ? DuolCloud vous permet de ranger facilement ces fichiers en un seul endroit. Vous pouvez choisir où ranger ces nouveaux fichiers parmi vos comptes connectés, ou même créer de nouveaux dossiers pour mieux les organiser. Avec DuolCloud, vous n'aurez plus à vous soucier de trouver vos fichiers parmi de nombreux services de stockage en ligne.</p>
+      </div>
+      <div class="col-md-5 order-md-1">
+        <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" src="img/files.png" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#eee"></rect></img>
+      </div>
+    </div>
 
-/**
- * @brief Ajout d'un fichier dans un stockage
- * @param SplObjectStorage $stockage : stockage dans lequel on veut ajouter un fichier
- * @param SplObjectStorage $tags : liste des tags
- * @return Fichier $ajout : fichier ajouté
- * @return null : si aucun fichier n'a été ajouté
- */
-function ajoutFichier($stockage, $tags){
-    /**
-     * @var Fichier $file : fichier ajouté récupéré depuis le formulaire
-     * @var SplObjectStorage $tag : tag récupéré depuis le formulaire
-     * @var SplObjectStorage $listeTag : liste des tags récupéré depuis la base de données
-     * @var SplObjectStorage $stockage : liste des stockages récupéré depuis la base de données
-     * @var bool $restructuration : initialise un booléen pour savoir si la restructuration a été effectuée
-     * @var FILES $ajout : fichier ajouté récupéré depuis le formulaire 
-     */
-    if(isset($_FILES["fichier"])){
-        // Lecture du fichier dans lequel sont situés ses informations
-        $file = file($_FILES['fichier']['tmp_name']);
+    <div class="container px-4 py-5">
+    <h2 class="pb-2 border-bottom">Avantages</h2>
 
-        // 1er paramètre : type du fichier (dossier ou fichier)
+    <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
+      <div class="col d-flex flex-column align-items-start gap-2">
+        <h3 class="fw-bold">Simplifiez votre vie numérique avec notre plateforme de connexion de drives</h3>
+        <p class="text-muted">Inscrivez-vous maintenant pour découvrir la simplicité de la gestion de vos drives en ligne.</p>
+        <a href="inscription.php" class="btn btn-primary btn-lg">S'inscrire</a>
+      </div>
 
-        // Création d'un objet 
-        // 2e paramètre : nom 
-        // 3e paramètre : taille   
-        // 4e paramètre : type 
+      <div class="col">
+        <div class="row row-cols-1 row-cols-sm-2 g-4">
+          <div class="col d-flex flex-column gap-2">
+            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-4 rounded-3">
+              <svg class="bi" width="1em" height="1em">
+                <use xlink:href="#collection"></use>
+              </svg>
+            </div>
+            <h4 class="fw-semibold mb-0">Rapide</h4>
+            <p class="text-muted">Connexion rapide et facile de tous vos drives</p>
+          </div>
 
-        // if($file[0] == "fichier"){
-        //     echo "création du fichier";
-        // $ajout = new Fichier($file[1], intval($file[2]), "", $file[3]);
-        // }
-        // else{
-        //     echo "création du dossier";
-        //     $ajout = new Dossier($file[1], intval($file[2]), "", $file[3]);
-        // }
+          <div class="col d-flex flex-column gap-2">
+            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-4 rounded-3">
+              <svg class="bi" width="1em" height="1em">
+                <use xlink:href="#gear-fill"></use>
+              </svg>
+            </div>
+            <h4 class="fw-semibold mb-0">Centralisé</h4>
+            <p class="text-muted">Accès centralisé à toutes vos données importantes</p>
+          </div>
 
-        $ajout = new Fichier(trim($file[1]), intval($file[2]), "", $file[3]);
+          <div class="col d-flex flex-column gap-2">
+            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-4 rounded-3">
+              <svg class="bi" width="1em" height="1em">
+                <use xlink:href="#speedometer"></use>
+              </svg>
+            </div>
+            <h4 class="fw-semibold mb-0">Sécurité</h4>
+            <p class="text-muted">Sécurité maximale pour vos fichiers en ligne</p>
+          </div>
 
-        // GESTION DS TAGS
-        if(isset($_POST["tag"])){
-            // Récupérer les différents tags séparés par des points-virgules dans un array
-            $tags_recuperes = explode(";", $_POST["tag"]);
-            foreach($tags_recuperes as $tag){
-                $tags->rewind();
-                while ($tags->valid()) {
-                    // Si le tag existe, l'ajouter
-                    if($tags->current()->getTitre() == $tag){
-                        $ajout->ajouterTags($tags->current());
-                        break;
-                    }
-                    $tags->next();
-                }
-                if(!$tags->valid()) {
-                // Si pas trouver, le créer et l'ajouter
-                $newTag = new Tag($tag);
-                $ajout->ajouterTags($newTag);
-                }
-            }
-        }
+          <div class="col d-flex flex-column gap-2">
+            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-4 rounded-3">
+              <svg class="bi" width="1em" height="1em">
+                <use xlink:href="#table"></use>
+              </svg>
+            </div>
+            <h4 class="fw-semibold mb-0">Accès</h4>
+            <p class="text-muted">Accès depuis n'importe où, sur n'importe quel appareil</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
 
-        // choix du stockage dans lequel le fichier sera ajouté
-        $restructuration = false;
-        debutRecherche($stockage, $ajout, $nomEspaceStockageTrouver, $nomDossierTrouver, $restructuration);
+    <!-- /END THE FEATURETTES -->
 
-        $nomDossierTrouver->ajouterEnfantFichier($ajout);
+  </div><!-- /.container -->
 
-        return $ajout;
-    }
+<?php
+include_once "header_footer.php";
 
-    
-}
+echo $footer;
 
 ?>

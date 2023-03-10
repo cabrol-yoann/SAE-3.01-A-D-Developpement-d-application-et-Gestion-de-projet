@@ -60,8 +60,8 @@ echo $header;
                     </div>
 
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                      <button type="button" class="btn btn-primary btn-lg me-3">S'inscrire</button>
-                      <a class="btn-lg btn btn-outline-primary" href="connexion.php" role="button">Se connecter</a>
+                      <button type="submit" class="btn btn-primary btn-lg me-3">S'inscrire</button>
+                      <a class="btn-lg btn btn-outline-primary" href="page_Connexion.php" role="button">Se connecter</a>
                     </div>
 
                   </form>

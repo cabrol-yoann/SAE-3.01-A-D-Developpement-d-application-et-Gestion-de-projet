@@ -25,7 +25,7 @@ echo $header;
     </div>
     <button class="w-50 btn btn-lg btn-primary" type="submit">Se connecter</button>
     <hr class="m-4">
-    <a class="w-50 btn-lg btn btn-outline-primary" href="inscription.php" role="button">Créer un compte</a>
+    <a class="w-50 btn-lg btn btn-outline-primary" href="page_Inscription.php" role="button">Créer un compte</a>
   </form>
 
 <?php
