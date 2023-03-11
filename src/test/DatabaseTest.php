@@ -5,7 +5,7 @@ include_once "../DAO/DossierDAO.php";
 session_start();
 $_SESSION['utilisateur'] = 'test';
 
-$bd = Database::getInstance();
+$BD=Database::getInstance();
 
 session_destroy();
 ?>

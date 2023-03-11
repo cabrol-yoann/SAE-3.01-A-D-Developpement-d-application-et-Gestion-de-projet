@@ -37,7 +37,7 @@
             try {
                 $this->link = new PDO("mysql:host={$dbConfig['host']};dbname={$dbConfig['database']}", $dbConfig['username'], $dbConfig['password']);
                 $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $this->utilisateur = $_SESSION['utilisateur'];
+                //$this->utilisateur = $_SESSION['utilisateur'];
 
             } catch (PDOException $e) {
                 echo $e->getMessage();
