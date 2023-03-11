@@ -25,7 +25,7 @@ Class UtilisateurDAO {
     public function __construct(Database $database)
     {
         // Démarre la connexion à la base de données
-        $this->link = $database->getInstance();
+        $this->link = $database->getInstance()->getConnection();
     }
 
      // DESTRUCTEUR
@@ -48,12 +48,49 @@ Class UtilisateurDAO {
      * @param integer $id identifiant du Utilisateur à récupérer
      */
     public function getUtilisateurById($id) {
-        $query = "SELECT * FROM utilisateur WHERE ID_Utilisateur = :id";
-        $stmt = $this->link->prepare($query);
+        $stmt = $this->link->prepare("SELECT * FROM Utilisateur WHERE ID_utilisateur = :id", [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
         $stmt->bindValue(":id", $id);
         $stmt->execute();
         $result = $stmt->fetch();
-        return new Utilisateur($result["id"], $result[""], $result[""], $result[""], $result[""]);
+        $newUtilisateur = new Utilisateur($result["ID_utilisateur"], $result["nom"], $result["mail"], $result["mdp"], $result["type_abonnement"]);
+        var_dump($newUtilisateur);
+        $stmt->close();
+        return $newUtilisateur;
+    }
+
+    /**
+     * Fonction qui va chercher un Utilisateur sur la BDD en fonction de son mail et mot de passe pour une connexion
+     *
+     * @param string $mail email de l'utilisateur
+     * @param string $mdp mot de passe de l'utilisateur
+     */
+    public function getUtilisateurForConnexion($mail, $mdp) {
+        $stmt = $this->link->prepare("SELECT ID_utilisateur,nom,type_abonnement FROM Utilisateur WHERE mail  = :mail AND mdp = :mdp");
+        $stmt->bindValue("mail",$mail);
+        $stmt->bindValue("mdp",$mdp);
+        if($stmt->execute() == true) {
+            $result= $stmt->fetch();
+            $stmt->close();
+            return $result;
+        }
+        $stmt->close();
+        return false;
+        
+    }
+
+    /**
+     * Fonction qui va chercher un Utilisateur sur la BDD en fonction de son id
+     *
+     * @param string $nom nom de l'utilisateur
+     * @param string $mail email de l'utilisateur
+     * @param string $mdp mot de passe de l'utilisateur
+     */
+    public function getUtilisateurForInscription($nom,$mail, $mdp) {
+        $stmt = $this->link->prepare("INSERT INTO Utilisateur (nom,mail,mdp,type_abonnement) VALUES (:nom,:mail,:mdp, 'gratuit')");
+        $stmt->bindvalue("nom",$nom);
+        $stmt->bindValue("mail",$mail);
+        $stmt->bindValue("mdp",$mdp);
+        return $stmt->execute();
     }
 
     /**
