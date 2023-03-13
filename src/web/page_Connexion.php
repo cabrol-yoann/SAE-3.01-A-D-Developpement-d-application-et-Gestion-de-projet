@@ -31,10 +31,7 @@ echo $header;
 include_once "header_footer.php";
 include_once "pop_up.php";
 if(isset($_GET['error'])) {
-  if ($_GET['error']=="InscriptionValide") {
-    echo $pop_up_inscription;
-  }
-  if($_GET['error']=="connexionValide") {
+  if ($_GET['error']=="Errorconnexion") {
     echo $pop_up_errorConnexion;
   }
 }

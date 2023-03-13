@@ -85,7 +85,7 @@ echo $header;
 include_once "header_footer.php";
 include_once "pop_up.php";
 if(isset($_GET['error'])) {
-  echo $pop_up_validationMdp;
+  echo $pop_up_MdpNonvalide;
 }
 echo $footer;
 

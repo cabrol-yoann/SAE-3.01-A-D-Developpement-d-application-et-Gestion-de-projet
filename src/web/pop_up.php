@@ -67,7 +67,7 @@ btnClosePopup.addEventListener("click", () => {
 });
 </script>';
 
-$pop_up_validationMdp = '
+$pop_up_MdpNonvalide = '
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <div id="popup-container" class="modal" style="background-color: rgba(0,0,0,0.5);" tabindex="-1">
@@ -108,10 +108,10 @@ $pop_up_inscription = '
     <div id="popup" class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 style="align-self: center;" class="modal-title">Beivenue</h5>
+                <h5 style="align-self: center;" class="modal-title">Bienvenue</h5>
             </div>
             <div class="modal-body">
-                <p>L\'inscription c bien passer bienvenue sur Duolcloud</p>
+                <p>L\'inscription c\'est bien passer bienvenue sur Duolcloud</p>
                 <button id="close-popup" type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" data-bs-dismiss="modal"
                     aria-label="Close">fermer</button>
             </div>

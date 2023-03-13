@@ -14,10 +14,10 @@ else {
     $bd = new UtilisateurDAO(Database::getInstance());
     $resultat = $bd->getUtilisateurForInscription($nom,$mail, $psw);
     if($resultat == false)
-        header('Location: ../web/pageInscription.php?error="ErrorInscription"');
+        header('Location: ../web/pageInscription.php?error=ErrorInscription');
     else {
         //$_SESSION['utilisateur']=$utilisateur;
-        header('Location: ../web/accueil.php?error="InscriptionValide"');
+        header('Location: ../web/accueil.php?error=InscriptionValide');
     }
 }
 ?>

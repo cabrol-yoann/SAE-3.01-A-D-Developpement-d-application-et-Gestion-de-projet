@@ -65,15 +65,14 @@ Class UtilisateurDAO {
      * @param string $mdp mot de passe de l'utilisateur
      */
     public function getUtilisateurForConnexion($mail, $mdp) {
+        $mdp = hash('sha3-512', $mdp);
         $stmt = $this->link->prepare("SELECT ID_utilisateur,nom,type_abonnement FROM Utilisateur WHERE mail  = :mail AND mdp = :mdp");
         $stmt->bindValue("mail",$mail);
         $stmt->bindValue("mdp",$mdp);
         if($stmt->execute() == true) {
             $result= $stmt->fetch();
-            $stmt->close();
             return $result;
         }
-        $stmt->close();
         return false;
         
     }
@@ -86,6 +85,7 @@ Class UtilisateurDAO {
      * @param string $mdp mot de passe de l'utilisateur
      */
     public function getUtilisateurForInscription($nom,$mail, $mdp) {
+        $mdp = hash('sha3-512', $mdp);
         $stmt = $this->link->prepare("INSERT INTO Utilisateur (nom,mail,mdp,type_abonnement) VALUES (:nom,:mail,:mdp, 'gratuit')");
         $stmt->bindvalue("nom",$nom);
         $stmt->bindValue("mail",$mail);
