@@ -16,8 +16,8 @@ echo $header;
         <img class="bd-placeholder-img" width="100%" height="700px" src="img/drives.png" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></img>
         <div class="container">
           <div class="carousel-caption text-start">
-            <h1>Connectez plusieurs Stockage avec Duolcloud.</h1>
-            <p>Vous pouvez connecter plusieurs espaces de stockage afin d'avoir une vue sur l'ensemble de vos espaces de stockage.</p>
+            <h1>Connecter plusieurs Stockage</h1>
+            <p>Avec DuolCloud vous pouvez connecter plusieurs espace de stockage afin d'avoir un seul stockage</p>
             <p><a class="btn btn-lg btn-primary" href="inscription.php">Inscrivez-vous</a></p>
           </div>
         </div>
@@ -66,8 +66,8 @@ echo $header;
 
     <div class="row featurette">
       <div class="col-md-7">
-        <h2 class="featurette-heading fw-normal lh-1">Connectez jusqu'à 10 comptes de stockage en ligne avec Drive Connect !</h2>
-        <p class="lead">Avec la version gratuite de Drive Connect, vous pouvez connecter jusqu'à 3 comptes de stockage en ligne. Mais pour une expérience encore plus complète, upgradez vers la version payante et connectez jusqu'à 10 comptes en même temps ! Fini les allers-retours entre différents services de stockage, accédez à tous vos fichiers importants en un seul endroit.</p> 
+        <h2 class="featurette-heading fw-normal lh-1">Connectez jusqu'à 10 comptes de stockage en ligne avec DuolCloud !</h2>
+        <p class="lead">Avec la version gratuite de DuolCloud, vous pouvez connecter jusqu'à 3 comptes de stockage en ligne. Mais pour une expérience encore plus complète, upgradez vers la version payante et connectez jusqu'à 10 comptes en même temps ! Fini les allers-retours entre différents services de stockage, accédez à tous vos fichiers importants en un seul endroit.</p> 
       </div>
       <div class="col-md-5">
         <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" src="img/versDuolCloud.png" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#eee"></rect></img>
@@ -78,8 +78,8 @@ echo $header;
 
     <div class="row featurette">
       <div class="col-md-7 order-md-2">
-        <h2 class="featurette-heading fw-normal lh-1">Rangez facilement vos nouveaux fichiers avec Drive Connect</h2>
-        <p class="lead">Ajoutez régulièrement de nouveaux fichiers à vos comptes de stockage en ligne ? Drive Connect vous permet de ranger facilement ces fichiers en un seul endroit. Vous pouvez choisir où ranger ces nouveaux fichiers parmi vos comptes connectés, ou même créer de nouveaux dossiers pour mieux les organiser. Avec Drive Connect, vous n'aurez plus à vous soucier de trouver vos fichiers parmi de nombreux services de stockage en ligne.</p>
+        <h2 class="featurette-heading fw-normal lh-1">Rangez facilement vos nouveaux fichiers avec DuolCloud</h2>
+        <p class="lead">Ajoutez régulièrement de nouveaux fichiers à vos comptes de stockage en ligne ? DuolCloud vous permet de ranger facilement ces fichiers en un seul endroit. Vous pouvez choisir où ranger ces nouveaux fichiers parmi vos comptes connectés, ou même créer de nouveaux dossiers pour mieux les organiser. Avec DuolCloud, vous n'aurez plus à vous soucier de trouver vos fichiers parmi de nombreux services de stockage en ligne.</p>
       </div>
       <div class="col-md-5 order-md-1">
         <img class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" src="img/files.png" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#eee"></rect></img>
@@ -105,7 +105,7 @@ echo $header;
               </svg>
             </div>
             <h4 class="fw-semibold mb-0">Rapide</h4>
-            <p class="text-muted">Connexion rapide et facile à tous vos espaces de stockage</p>
+            <p class="text-muted">Connexion rapide et facile de tous vos drives</p>
           </div>
 
           <div class="col d-flex flex-column gap-2">
@@ -125,7 +125,7 @@ echo $header;
               </svg>
             </div>
             <h4 class="fw-semibold mb-0">Sécurité</h4>
-            <p class="text-muted">Sécurité maximale pour vos données en ligne</p>
+            <p class="text-muted">Sécurité maximale pour vos fichiers en ligne</p>
           </div>
 
           <div class="col d-flex flex-column gap-2">
@@ -134,7 +134,7 @@ echo $header;
                 <use xlink:href="#table"></use>
               </svg>
             </div>
-            <h4 class="fw-semibold mb-0">Accessible</h4>
+            <h4 class="fw-semibold mb-0">Accès</h4>
             <p class="text-muted">Accès depuis n'importe où, sur n'importe quel appareil</p>
           </div>
         </div>
