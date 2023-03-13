@@ -12,16 +12,21 @@
     require_once "Database.php";
     require_once "../class/Stockage.php";
 
-    Class StockageDAO extends Database {
+    Class StockageDAO {
+
+        // ATTRIBUTS
+        /**
+         * @property PDO $link Représentation de la connexion à la base de données
+         */
+        private $link;
 
          // CONSTRUCTEUR
          /**
          * @brief Constructeur de la classe StockageDAO qui démarre la connexion à la base de données
          *
          */
-        public function __construct()
+        public function __construct(Database $database)
         {
-            $database = parent::getInstance();
             $this->link = $database->getConnection();
         }
 
@@ -32,7 +37,8 @@
          */
         public function __destruct()
         {
-            parent::__destruct();
+            // Fermeture de la connexion PDO
+            $this->link = null;
         }
 
         // MÉTHODE USUELLE :NON
@@ -47,11 +53,11 @@
          */
         public function getStockageById($id) {
             $query = "SELECT * FROM Stockage WHERE ID_Stockage = :id";
-            $stmt = $this->getConnection()->prepare($query);
+            $stmt = $this->link->prepare($query);
             $stmt->bindValue(":id", $id);
             $stmt->execute();
             $result = $stmt->fetch();
-            return new Stockage($result["ID_Stockage"], $result["nom"], $result["chemin_acces"], $result["tailleMax"], $result["restructurable"]);
+            return new Stockage($result["nom"], $result["chemin_acces"], $result["tailleMax"], $result["restructurable"], $result["ID_Stockage"]);
         }
 
           /**
@@ -61,13 +67,22 @@
          */
         public function getAllStockages() {
             $query = "SELECT * FROM Stockage";
-            $stmt = $this->getConnection()->prepare($query);
+            $stmt = $this->link->prepare($query);
             $stmt->execute();
             $results = $stmt->fetchAll();
-            $Stockages = array();
+            $Stockages = new SplObjectStorage;
             foreach ($results as $result) {
-            $Stockages[] = new Stockage($result["ID_Stockage"], $result["nom"], $result["chemin_acces"], $result["tailleMax"], $result["restructurable"]);
+            $Stockages->attach(new Stockage( $result["nom"], $result["chemin_acces"], $result["tailleMax"], $result["restructurable"], $result["ID_Stockage"]));
             }
+            // $Stockages->rewind();
+            // while($Stockages->valid()){
+            //     $this->getAllRacines($Stockages->current());
+            // }
+            // $Stockages->rewind();
+            // while($Stockages->valid()){
+            //     $this->getAllDossiers($Stockages->current()->getMaRacine());
+            // }
+            
             return $Stockages;
             }
 
@@ -78,7 +93,7 @@
              */
             public function addStockage(Stockage $Stockage) {
                 $query = "INSERT INTO Stockage (nom, taille, chemin_acces, type, restructurable, nom_utilisateur, ID_dossier, ID_utilisateur, tailleMax) VALUES (:nom, 0, :chemin, null, :restruct, null, null, null, :tailleMax)";
-                $stmt = $this->getConnection()->prepare($query);
+                $stmt = $this->link->prepare($query);
                 $stmt->bindValue(":nom", $Stockage->getNom());
                 $stmt->bindValue(":chemin", $Stockage->getChemin());
                 $stmt->bindValue(":restruct", 'false');
@@ -93,11 +108,14 @@
              */
             public function updateStockage(Stockage $Stockage) {
                 //$Stockage->setId($this->getConnection()->lastInsertId());
-                $query = "UPDATE Stockage SET nom = :nom, chemin = :chemin WHERE ID_Stockage = :id";
-                $stmt = $this->getConnection()->prepare($query);
+                $str = ($Stockage->getRestructurable()) ? 'true' : 'false';
+                $query = "UPDATE Stockage SET nom = :nom, chemin_acces = :chemin, restructurable = :restruct, tailleMax = :tailleMax  WHERE ID_Stockage = :id";
+                $stmt = $this->link->prepare($query);
                 $stmt->bindValue(":nom", $Stockage->getNom());
                 $stmt->bindValue(":chemin", $Stockage->getChemin());
                 $stmt->bindValue(":id", $Stockage->getId());
+                $stmt->bindValue(":restruct", $str);
+                $stmt->bindValue(":tailleMax", $Stockage->getTailleMax());
                 $stmt->execute();
             }
 
@@ -108,7 +126,7 @@
              */
             public function deleteStockage(Stockage $Stockage) {
                 $query = "DELETE FROM Stockage WHERE ID_Stockage = :id";
-                $stmt = $this->getConnection()->prepare($query);
+                $stmt = $this->link->prepare($query);
                 $stmt->bindValue(":id", $Stockage->getId());
                 $stmt->execute();
             }

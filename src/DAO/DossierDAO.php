@@ -10,16 +10,21 @@
 require_once "Database.php";
 require_once "../class/Dossier.php";
 
-     Class DossierDAO extends Database{
+     Class DossierDAO {
+
+        // ATTRIBUTS
+        /**
+         * @property PDO $link Représentation de la connexion à la base de données
+         */
+        protected $link;
 
         // CONSTRUCTEUR
          /**
          * @brief Constructeur de la classe DossierDAO qui démarre la connexion à la base de données
          *
          */
-        public function __construct()
+        public function __construct(Database $database)
         {
-            $database = parent::getInstance();
             $this->link = $database->getConnection();
         }
 
@@ -30,7 +35,8 @@ require_once "../class/Dossier.php";
          */
         public function __destruct()
         {
-            parent::__destruct();
+            // Fermeture de la connexion PDO
+            $this->link = null;
         }
 
     // MÉTHODE USUELLE :NON
@@ -45,7 +51,7 @@ require_once "../class/Dossier.php";
          */
         public function getDossierById($id) {
             $query = "SELECT * FROM Dossier WHERE ID_Dossier = :id";
-            $stmt = $this->getConnection()->prepare($query);
+            $stmt = $this->link->prepare($query);
             $stmt->bindValue(":id", $id);
             $stmt->execute();
             $result = $stmt->fetch();
@@ -57,14 +63,24 @@ require_once "../class/Dossier.php";
          *
          * @return Dossier
          */
-        public function getAllDossiers() {
-            $query = "SELECT * FROM Dossier";
-            $stmt = $this->getConnection()->prepare($query);
+        public function getAllRacines($parent) {
+            $query = "SELECT * FROM Dossier WHERE ID_pere = $parent->getId()";
+            $stmt = $this->link->prepare($query);
             $stmt->execute();
             $results = $stmt->fetchAll();
-            $dossiers = array();
             foreach ($results as $result) {
-            $dossiers[] = new Dossier($result["nom"], $result["chemin"], $result["ID_dossier"]);
+                $parent->setMaRacine(new Dossier($result["nom"], $result["chemin"], $result["ID_dossier"]));
+            }
+            return $dossiers;
+            }
+
+        public function getAllDossier($parent) {
+            $query = "SELECT * FROM Dossier WHERE ID_pere = $parent->getId()";
+            $stmt = $this->link->prepare($query);
+            $stmt->execute();
+            $results = $stmt->fetchAll();
+            foreach ($results as $result) {
+                $parent->ajouterEnfantFichier(new Dossier($result["nom"], $result["chemin"], $result["ID_dossier"]));
             }
             return $dossiers;
             }
@@ -76,7 +92,7 @@ require_once "../class/Dossier.php";
              */
             public function addDossier(Dossier $dossier) {
                 $query = "INSERT INTO Dossier (nom, chemin, racine, ID_pere, ID_tag) VALUES (:nom, :chemin, :racine, null, null)";
-                $stmt = $this->getConnection()->prepare($query);
+                $stmt = $this->link->prepare($query);
                 $stmt->bindValue(":nom", $dossier->getNom());
                 $stmt->bindValue(":chemin", $dossier->getChemin());
                 $stmt->bindValue(":racine", 'false');
@@ -91,7 +107,7 @@ require_once "../class/Dossier.php";
             public function updateDossier(Dossier $dossier) {
                 //$dossier->setId($this->getConnection()->lastInsertId());
                 $query = "UPDATE Dossier SET nom = :nom, chemin = :chemin WHERE ID_dossier = :id";
-                $stmt = $this->getConnection()->prepare($query);
+                $stmt = $this->link->prepare($query);
                 $stmt->bindValue(":nom", $dossier->getNom());
                 $stmt->bindValue(":chemin", $dossier->getChemin());
                 $stmt->bindValue(":id", $dossier->getId());
@@ -105,7 +121,7 @@ require_once "../class/Dossier.php";
              */
             public function deleteDossier(Dossier $dossier) {
                 $query = "DELETE FROM Dossier WHERE ID_Dossier = :id";
-                $stmt = $this->getConnection()->prepare($query);
+                $stmt = $this->link->prepare($query);
                 $stmt->bindValue(":id", $dossier->getId());
                 $stmt->execute();
             }

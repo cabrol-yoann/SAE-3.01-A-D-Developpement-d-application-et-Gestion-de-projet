@@ -148,7 +148,15 @@ echo $header;
 
 <?php
 include_once "header_footer.php";
-
+include_once "pop_up.php";
+if(isset($_GET['error'])) {
+  if($_GET['error']=="InscriptionValide") {
+    echo $pop_up_inscription;
+  }
+  if($_GET['error']=="connexionValide") {
+    echo $pop_up_connexion;
+  }
+}
 echo $footer;
 
 ?>
