@@ -50,7 +50,8 @@ Class UtilisateurDAO {
     public function getUtilisateurById($id) {
         $stmt = $this->link->prepare("SELECT * FROM Utilisateur WHERE ID_utilisateur = :id", [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
         $stmt->bindValue(":id", $id);
-        $stmt->execute();
+        if(!$stmt->exec())
+            return null;
         $result = $stmt->fetch();
         $newUtilisateur = new Utilisateur($result["ID_utilisateur"], $result["nom"], $result["mail"], $result["mdp"], $result["type_abonnement"]);
         var_dump($newUtilisateur);
@@ -99,8 +100,7 @@ Class UtilisateurDAO {
      * @return Utilisateur
      */
     public function getAllUtilisateur() {
-        $query = "SELECT * FROM Utilisateur";
-        $stmt = $this->link->prepare($query);
+        $stmt = $this->link->prepare("SELECT * FROM Utilisateur", array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         $stmt->execute();
         $results = $stmt->fetchAll();
         $Utilisateurs = new SplObjectStorage;
