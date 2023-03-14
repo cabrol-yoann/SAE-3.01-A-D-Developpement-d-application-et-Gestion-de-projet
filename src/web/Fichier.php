@@ -5,24 +5,12 @@
  * @details Page affichant les stockages et leurs arborésences avec un formulaire pour tester les ajouts
  * @version 4.0
  */
- 
+session_start();
 
 include_once "../code/baseDeDonneePhysique.php";
 include_once "header_footer.php";
 
-include_once "../DAO/Database.php";
-
-include_once "../DAO/StockageDAO.php";
-
 echo $header;
-// $so = new StockageDAO();
-// $tab = $so->getAllStockages();
-// $stockage = new \SplObjectStorage();
-// $cpt = 0;
-// while(count($tab)-1 == $cpt){
-//     $stockage->attach($tab[$cpt]);
-//     $cpt++;
-// }
 
 echo '<body>';
 

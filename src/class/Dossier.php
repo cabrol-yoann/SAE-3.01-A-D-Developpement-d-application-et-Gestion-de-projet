@@ -46,11 +46,6 @@ class Dossier extends Archive {
    */
   public $mesTags;
 
-  /**
-   * @property integer $idPere Représentation de l'id du dossier père de l'objet
-   */
-  public $idPere;
-
   // CONSTRUCTEUR
   /**
    * @brief Constructeur de la classe
@@ -58,12 +53,13 @@ class Dossier extends Archive {
    * @param string $nom        Représentation du nom que va posséder l'objet
    * @param string $chemin     Représentaton du chemin que va posséder l'objet
    */
-  public function __construct($nom, $chemin)
+  public function __construct($id ,$nom, $chemin, $nbFichier=0)
   {
     $this->listeEnfantDossier = new \SplObjectStorage();
     $this->listEnfantFichier = new \SplObjectStorage();
     $this->mesTags = new \SplObjectStorage();
-    parent::__construct($nom, 0, $chemin);        
+    $this->NbFichier = $nbFichier;
+    parent::__construct($nom, 0, $chemin, $id);        
   }
 
   // DESTRUCTEUR
@@ -139,13 +135,6 @@ class Dossier extends Archive {
    */
   public function setIdPere($idPere) {
     $this->idPere = $idPere;
-  }
-
-  /**
-   * 
-   */
-  public function getId(){
-    return $this->id;
   }
 
   /**

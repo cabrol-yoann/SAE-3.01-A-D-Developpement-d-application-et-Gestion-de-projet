@@ -11,6 +11,7 @@
 
     require_once "Database.php";
     require_once "../class/Stockage.php";
+    require_once "DossierDAO.php";
 
     Class StockageDAO {
 
@@ -65,70 +66,68 @@
          *
          * @return Stockage
          */
-        public function getAllStockages() {
-            $query = "SELECT * FROM Stockage";
+        public function getAllStockages($idUtilisateur) {
+            $query = "SELECT * FROM _stockage WHERE id_utilisateur = :id";
             $stmt = $this->link->prepare($query);
+            $stmt->bindValue(":id", $idUtilisateur);
             $stmt->execute();
             $results = $stmt->fetchAll();
-            $Stockages = new SplObjectStorage;
+            $listeStockage = new SplObjectStorage();
+            $bd=new DossierDAO(Database::getInstance());
             foreach ($results as $result) {
-            $Stockages->attach(new Stockage( $result["nom"], $result["chemin_acces"], $result["tailleMax"], $result["restructurable"], $result["ID_Stockage"]));
+                $nouveauStockage = new Stockage($result["nom"], $result["taille"], $result["tailleMax"], $result["restructurable"], $result["chemin"], $result["id_utilisateur"], $result["dossierRacine"], $result["id"]);
+                $listeStockage->attach($nouveauStockage);
+                
+                $listeStockage->current()->setMaRacine($bd->getRacineById($result["dossierRacine"]));
+                $listeStockage->next();
             }
-            // $Stockages->rewind();
-            // while($Stockages->valid()){
-            //     $this->getAllRacines($Stockages->current());
-            // }
-            // $Stockages->rewind();
-            // while($Stockages->valid()){
-            //     $this->getAllDossiers($Stockages->current()->getMaRacine());
-            // }
-            
-            return $Stockages;
-            }
+            $bd->__destruct();
+            return $listeStockage;
+        }
 
-              /**
-             * Fonction qui va ajouter un Stockage à la BDD
-             *
-             * @param Stockage $Stockage Stockage à ajouter à la BDD
-             */
-            public function addStockage(Stockage $Stockage) {
-                $query = "INSERT INTO Stockage (nom, taille, chemin_acces, type, restructurable, nom_utilisateur, ID_dossier, ID_utilisateur, tailleMax) VALUES (:nom, 0, :chemin, null, :restruct, null, null, null, :tailleMax)";
-                $stmt = $this->link->prepare($query);
-                $stmt->bindValue(":nom", $Stockage->getNom());
-                $stmt->bindValue(":chemin", $Stockage->getChemin());
-                $stmt->bindValue(":restruct", 'false');
-                $stmt->bindValue(":tailleMax", $Stockage->getTailleMax());
-                $stmt->execute();
-            }
+        /**
+         * Fonction qui va ajouter un Stockage à la BDD
+         *
+         * @param Stockage $Stockage Stockage à ajouter à la BDD
+         */
+        public function addStockage(Stockage $Stockage) {
+            $query = "INSERT INTO Stockage (nom, taille, chemin_acces, type, restructurable, nom_utilisateur, ID_dossier, ID_utilisateur, tailleMax) VALUES (:nom, 0, :chemin, null, :restruct, null, null, null, :tailleMax)";
+            $stmt = $this->link->prepare($query);
+            $stmt->bindValue(":nom", $Stockage->getNom());
+            $stmt->bindValue(":chemin", $Stockage->getChemin());
+            $stmt->bindValue(":restruct", 'false');
+            $stmt->bindValue(":tailleMax", $Stockage->getTailleMax());
+            $stmt->execute();
+        }
 
-              /**
-             * Fonction qui va mettre à jour un Stockage sur la BDD
-             *
-             * @param Stockage $Stockage Stockage à mettre à jour sur la BDD
-             */
-            public function updateStockage(Stockage $Stockage) {
-                //$Stockage->setId($this->getConnection()->lastInsertId());
-                $str = ($Stockage->getRestructurable()) ? 'true' : 'false';
-                $query = "UPDATE Stockage SET nom = :nom, chemin_acces = :chemin, restructurable = :restruct, tailleMax = :tailleMax  WHERE ID_Stockage = :id";
-                $stmt = $this->link->prepare($query);
-                $stmt->bindValue(":nom", $Stockage->getNom());
-                $stmt->bindValue(":chemin", $Stockage->getChemin());
-                $stmt->bindValue(":id", $Stockage->getId());
-                $stmt->bindValue(":restruct", $str);
-                $stmt->bindValue(":tailleMax", $Stockage->getTailleMax());
-                $stmt->execute();
-            }
+        /**
+         * Fonction qui va mettre à jour un Stockage sur la BDD
+         *
+         * @param Stockage $Stockage Stockage à mettre à jour sur la BDD
+         */
+        public function updateStockage(Stockage $Stockage) {
+            //$Stockage->setId($this->getConnection()->lastInsertId());
+            $str = ($Stockage->getRestructurable()) ? 'true' : 'false';
+            $query = "UPDATE Stockage SET nom = :nom, chemin_acces = :chemin, restructurable = :restruct, tailleMax = :tailleMax  WHERE ID_Stockage = :id";
+            $stmt = $this->link->prepare($query);
+            $stmt->bindValue(":nom", $Stockage->getNom());
+            $stmt->bindValue(":chemin", $Stockage->getChemin());
+            $stmt->bindValue(":id", $Stockage->getId());
+            $stmt->bindValue(":restruct", $str);
+            $stmt->bindValue(":tailleMax", $Stockage->getTailleMax());
+            $stmt->execute();
+        }
 
-             /**
-             * Fonction qui va supprimer un Stockage de la BDD
-             *
-             * @param Stockage $Stockage Stockage à supprimer de BDD
-             */
-            public function deleteStockage(Stockage $Stockage) {
-                $query = "DELETE FROM Stockage WHERE ID_Stockage = :id";
-                $stmt = $this->link->prepare($query);
-                $stmt->bindValue(":id", $Stockage->getId());
-                $stmt->execute();
-            }
+        /**
+         * Fonction qui va supprimer un Stockage de la BDD
+         *
+         * @param Stockage $Stockage Stockage à supprimer de BDD
+         */
+        public function deleteStockage(Stockage $Stockage) {
+            $query = "DELETE FROM Stockage WHERE ID_Stockage = :id";
+            $stmt = $this->link->prepare($query);
+            $stmt->bindValue(":id", $Stockage->getId());
+            $stmt->execute();
+        }
     }
 ?>

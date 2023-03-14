@@ -3,6 +3,8 @@
 
 include_once "Database.php";
 include_once "../class/Fichier.php";
+include_once "TagDAO.php";
+
 /**
  * @file FichierDAO.php
  * @author GOUAUD Romain
@@ -66,6 +68,23 @@ class FichierDao {
             $result[$key] = new Fichier($value);
         }
         return $result;
+    }
+
+    public function getAllEnfant($parent) {
+        $query = "SELECT * FROM _fichier WHERE idPere = :id";
+        $stmt = $this->link->prepare($query);
+        $stmt->bindValue(":id", $parent->getId());
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        foreach ($results as $result) {
+            $enfant = new Fichier($result['id'], $result["nom"], $result['taille'] ,$result["chemin"], $result['typeFichier']);
+            $parent->ajouterEnfantFichier($enfant);
+            //recupération des tags
+            $bd=new TagDAO(Database::getInstance());
+            $bd->getTagByID($enfant);
+            $bd->__destruct();
+        }
+        return;
     }
 
     /**

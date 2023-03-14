@@ -37,13 +37,16 @@ class TagDAO{
      * @param Tag $tag
      * @return void
      */
-    public function getTagByID($id) {
-        $query = "SELECT * FROM Tag WHERE ID_Tag = :id";
-        $stmt = $this->getConnection()->prepare($query);
-        $stmt->bindValue(":id", $id);
+    public function getTagByID($possesseur) {
+        $query = "SELECT * FROM _assoTagDossier WHERE idDossier = :id";
+        $stmt = $this->link->prepare($query);
+        $stmt->bindValue(":id", $possesseur->getId());
         $stmt->execute();
-        $result = $stmt->fetch();
-        return new Tag($result["nom"], $result["ID_tag"]);
+        $results = $stmt->fetchAll();
+        foreach ($results as $result) {
+            $possesseur->ajouterTags(new Tag($result["id"], $result["libelle"]));
+        }
+        return;
     }
 
     /**
