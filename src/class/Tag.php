@@ -21,16 +21,23 @@ class Tag{
    * @property string $titre Représentation du titre(nom) que possède un tag
    */
   public $titre;
+
+  /**
+   * @property int $id Représentation de l'id d'un tag en base de donées
+   */
+  public $id;
   
   // CONSTRUCTEUR
   /**
    * @brief Constructeur de la classe
    *
    * @param string $titre Représentation du titre(nom) que possède un tag
+   * @param int $id Représentation de l'id d'un tag en base de donées
    */
-  public function __construct($titre)
+  public function __construct($titre, $id =  null)
   {
-    $this->titre = $titre;       
+    $this->titre = $titre;
+    $this->id = $id;       
   }
   
   // DESTRUCTEUR
@@ -55,6 +62,28 @@ class Tag{
    * @param string $titre Représentation du titre(nom) que possède un tag
    */
   public function setTitre($titre){$this->titre = $titre;}
+
+  /**
+   * @brief Retourne l'id de l'objet Tag
+   *
+   * @return int
+   */
+  public function getId()
+  {
+    return  $this->id;
+  }
+
+  /**
+   * @brief Modifie l'id de l'objet Tag
+   *
+   * @param int $id Représentation de l'id d'un tag en base de donées
+   */
+
+  public function setId($id)
+  {
+    $this->id = $id;
+  }
+
   
   // MÉTHODE USUELLE : NON
   

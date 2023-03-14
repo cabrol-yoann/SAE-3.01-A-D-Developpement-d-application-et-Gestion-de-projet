@@ -17,10 +17,19 @@ include_once "Archive.php";
 /**
  * Classe représentent un espace de stockage physique à partir d'un nom, d'une taille, d'une tailleMax, d'un chemin et d'une restructuration
  */
-class Stockage extends Archive{
+class Stockage {
  
   // Attributs
   
+  public $id;
+
+  /**
+   * 
+   */
+  public $nom;
+
+  public $taille;
+
   /**
    * @property integer $tailleMax Représentation de la tailleMax que va posséder l'objet
    */
@@ -39,17 +48,12 @@ class Stockage extends Archive{
   /**
    * @property Dossier $maRacine Représentaion de l'enfant de l'objet
    */
-  private $maRacine;
+  public $maRacine;
 
   /**
    * @property int $idUtilisateur ID de l'utilisateur propriétaire du stockage
    */
-  private $idUtilisateur;
-
-  /**
-   * @property string $typeStockage Type de stockage (local, distant, ...)
-   */
-  private $typeStockage;
+  public $idUtilisateur;
   
   
   // CONSTRUCTEUR
@@ -64,16 +68,17 @@ class Stockage extends Archive{
    * @param integer $id           Représentation de l'id de l'objet en base de données
    * @param integer $idUtilisateur ID de l'utilisateur propriétaire du stockage
    * @param Dossier $maRacine     Représentaion de la racine du stockage (equivalent / sous linux)
-   * @param string $typeStockage  Type de stockage (local, distant, ...)
    */
-  public function __construct($nom, $chemin, $tailleMax, $taille, $restructurable, $id = null, $idUtilisateur, $maRacine)
+  public function __construct($nom, $taille, $tailleMax, $restructurable, $chemin, $idUtilisateur, $maRacine, $id = null)
   {
+    $this->id = $id;
+    $this->nom = $nom;
+    $this->taille = $taille;
+    $this->tailleMax = $tailleMax;  
     $this->restructurable = $restructurable;
-    $this->tailleMax = $tailleMax;    
+    $this->chemin = $chemin;
     $this->$idUtilisateur = $idUtilisateur;
     $this->$maRacine = $maRacine;
-    $this->$typeStockage = $typeStockage;
-    parent::__construct($nom, $chemin, $taille ,$restructurable, $id);
   }
   
   /**
@@ -221,23 +226,6 @@ class Stockage extends Archive{
   public function getUtilisateur(){
     return $this->utilisateur;
   }
-
-  /**
-   * @brief Modifie le type de stockage
-   * @param string $typeStockage
-   */
-  public function setTypeStockage($typeStockage){
-    $this->typeStockage = $typeStockage;
-  }
-
-  /**
-   * @brief Retourne le type de stockage
-   * @return string
-   */
-  public function getTypeStockage(){
-    return $this->typeStockage;
-  }
-
 
   
   // MÉTHODE USUELLES

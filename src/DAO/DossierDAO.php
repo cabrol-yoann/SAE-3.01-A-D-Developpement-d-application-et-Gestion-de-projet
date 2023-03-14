@@ -9,6 +9,8 @@
      */
 require_once "Database.php";
 require_once "../class/Dossier.php";
+require_once "FichierDAO.php";
+require_once "TagDAO.php";
 
      Class DossierDAO {
 
@@ -58,21 +60,50 @@ require_once "../class/Dossier.php";
             return new Dossier($result["nom"], $result["chemin"], $result["ID_dossier"]);
         }
 
-          /**
-         * Fonction qui va chercher tous les dossiers de la BDD
+        public function getRacineById($idRacine) {
+            $test='true';
+            $query = "SELECT * FROM _dossier WHERE id = :id AND Racine = 'true';";
+            $stmt = $this->link->prepare($query);
+            $stmt->bindValue(":id", $idRacine);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $racine =new Dossier($result["id"], $result["nom"], $result["chemin"], $result["nbFichier"]);
+            return $racine;
+        }
+
+        /**
+         * @brief Fonction qui va chercher tous les dossiers de la BDD
          *
          * @return Dossier
          */
-        public function getAllRacines($parent) {
-            $query = "SELECT * FROM Dossier WHERE ID_pere = $parent->getId()";
+        public function getAllEnfant($parent) {
+            $query = "SELECT * FROM _dossier WHERE idPere = :id";
             $stmt = $this->link->prepare($query);
+            $stmt->bindValue(":id", $parent->getId());
             $stmt->execute();
             $results = $stmt->fetchAll();
             foreach ($results as $result) {
-                $parent->setMaRacine(new Dossier($result["nom"], $result["chemin"], $result["ID_dossier"]));
+                $enfant = new Dossier($result['id'], $result["nom"], $result["chemin"], $result['nbFichier']);
+                $parent->ajouterEnfantDossier($enfant);
+                //recupère les enfants fichier
+                if ($result['nbFichier']) {
+                    //ajout enfant dossier
+                    $bd=new DossierDAO(Database::getInstance());
+                    $bd->getAllEnfant($enfant);
+                    $bd->__destruct();
+                    //ajout enfant Fichier
+                    $bd=new FichierDAO(Database::getInstance());
+                    $bd->getAllEnfant($enfant);
+                    $bd->__destruct();
+                }
+                //ajout des tags
+                $bd=new TagDAO(Database::getInstance());
+                $bd->getTagByID($parent);
+                $bd->__destruct();
+
             }
-            return $dossiers;
-            }
+            return;
+        }
 
         public function getAllDossier($parent) {
             $query = "SELECT * FROM Dossier WHERE ID_pere = $parent->getId()";
