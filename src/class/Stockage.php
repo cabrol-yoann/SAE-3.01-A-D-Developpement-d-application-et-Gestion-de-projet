@@ -293,7 +293,7 @@ class Stockage {
     $listeEnfantDossier->rewind();
     if (isset($listeEnfantDossier)) {
       while ($listeEnfantDossier->valid()) {
-        $objetAPlacer->rechercheMeilleurEmplacement($meilleurEmplacement, $score, $trouver, $listeEnfantDossier->current());
+        $objetAPlacer->rechercheMeilleurEmplacement($listeEnfantDossier->current(), $meilleurEmplacement, $trouver, $score);
         $listeEnfantDossier->next();
       }
     }
