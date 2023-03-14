@@ -18,7 +18,7 @@ echo $header;
           <div class="carousel-caption text-start">
             <h1>Connecter plusieurs Stockage</h1>
             <p>Avec DuolCloud vous pouvez connecter plusieurs espace de stockage afin d'avoir un seul stockage</p>
-            <p><a class="btn btn-lg btn-primary" href="inscription.php">Inscrivez-vous</a></p>
+            <p><a class="btn btn-lg btn-primary" href="page_inscription.php">Inscrivez-vous</a></p>
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@ echo $header;
           <div class="carousel-caption text-secondary">
             <h1>Connecter vous à vos serveurs local</h1>
             <p>Vous pouvez aussi vous connecter à vos serveurs locaux </p>
-            <p><a class="btn btn-lg btn-primary" href="connexionStockage.php">Connexion</a></p>
+            <p><a class="btn btn-lg btn-primary" href="page_connexionStockage.php">Connexion</a></p>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@ echo $header;
           <div class="carousel-caption text-secondary text-end">
             <h1>Partager vos fichiers</h1>
             <p>Vous pouvez partager des fichiers, des dossiers et des stockages</p>
-            <p><a class="btn btn-lg btn-primary" href="partage.php">Partage</a></p>
+            <p><a class="btn btn-lg btn-primary" href="page_partage.php">Partage</a></p>
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@ echo $header;
       <div class="col d-flex flex-column align-items-start gap-2">
         <h3 class="fw-bold">Simplifiez votre vie numérique avec notre plateforme de connexion de drives</h3>
         <p class="text-muted">Inscrivez-vous maintenant pour découvrir la simplicité de la gestion de vos drives en ligne.</p>
-        <a href="inscription.php" class="btn btn-primary btn-lg">S'inscrire</a>
+        <a href="page_inscription.php" class="btn btn-primary btn-lg">S'inscrire</a>
       </div>
 
       <div class="col">
