@@ -18,9 +18,9 @@ echo $header;
     </div>
 
     <div class="checkbox my-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Se souvenir de moi
-      </label>
+      <!-- <label>
+        <input type="checkbox" value="remember-me"> Se souvenir de moi 
+      </label> -->
     </div>
     <button class="w-50 btn btn-lg btn-primary" type="submit">Se connecter</button>
     <hr class="m-4">
