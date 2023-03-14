@@ -69,6 +69,10 @@ class Archive implements interfaceUtilisateur {
   // ENCASPULATION
   //public
   // MÉTHODE USUELLE
+
+  public function getId(){return $this->id;}
+  public function setId($id){$this->id = $id;}
+
   /**
    * @brief Récupération du Nom de l'objet
    * 
