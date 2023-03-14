@@ -67,12 +67,13 @@ Class UtilisateurDAO {
      */
     public function getUtilisateurForConnexion($mail, $mdp) {
         $mdp = hash('sha3-512', $mdp);
-        $stmt = $this->link->prepare("SELECT id,nom,typeUtilisateur FROM _utilisateur WHERE mail  = :mail AND password = :mdp");
+        $stmt = $this->link->prepare("SELECT id,nom,typeUtilisateur, mail FROM _utilisateur WHERE mail  = :mail AND password = :mdp");
         $stmt->bindValue("mail",$mail);
         $stmt->bindValue("mdp",$mdp);
         if($stmt->execute() == true) {
             $result= $stmt->fetch();
-            return $result;
+            $newUtilisateur = new Utilisateur($result["id"], $result["nom"], $result["mail"], null, $result["typeUtilisateur"]);
+            return $newUtilisateur;
         }
         return false;
         

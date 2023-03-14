@@ -1,5 +1,16 @@
 <?php
-$header = '
+$header = headerIf();
+
+function headerIf() {
+  include_once "../class/Utilisateur.php";
+  session_start();
+  $connexion = '<li><a class="dropdown-item" href="page_Connexion.php">Connexion</a></li>';
+  $pseudo = 'Connectez-vous !';
+  if (isset($_SESSION['utilisateur'])) {
+    $connexion = '<li><a class="dropdown-item" href="../code/deconnexion.php">Deconnexion</a></li>';
+    $pseudo = $_SESSION['utilisateur']->getNom();
+  }
+    return '
 <!DOCTYPE html>
 <html lang="FR">
 <meta charset="utf-8">
@@ -29,16 +40,16 @@ $header = '
         </ul>
 
         <div class="text-end d-flex align-items-center">
-          <p class="fs-5 text-white" style="margin-bottom: 0; font-weight:bold; width: 100px; height: 30px;">Pseudo</p>
+          <p class="fs-5 text-white" style="margin-bottom: 0; font-weight:bold; width: 100px; height: 30px;">'. $pseudo .'</p>
           <div class="dropdown">
             <a class="d-block text-decoration-none" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="img/avatar PP.png" alt="Profil" width="40" height="40" class="rounded-circle">
             </a>
             <ul class="dropdown-menu dropdown-menu-end text-small">
               <li><a class="dropdown-item" href="page_Parametres.php">Paramètres</a></li>
-              <li><a class="dropdown-item" href="page_Connexion.php">Connexion</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Deconnexion</a></li>
+              <li><hr class="dropdown-divider"></li> '.
+              $connexion
+              .'
             </ul>
           </div>
           </div>
@@ -48,6 +59,7 @@ $header = '
     <main role="main">
     
 ';    
+}
       $footer = '
 </main>
 <footer class="py-4 my-4 px-5">

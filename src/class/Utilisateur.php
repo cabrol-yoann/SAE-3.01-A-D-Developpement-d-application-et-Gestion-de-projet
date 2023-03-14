@@ -60,7 +60,7 @@ class Utilisateur{
      * @param string $mdp                   mot de passe de l'utilisateur
      * @param string $type_abonnement       type_abonnement de l'utilisateur premium ou non
      */
-    public function __construct($id, $nom, $email, $mdp, $type_abonnement = 'gratuit')
+    public function __construct($id, $nom, $email, $mdp = null, $type_abonnement = 'gratuit')
     {
         $this->id = $id;
         $this->nom = $nom;
