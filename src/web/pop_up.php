@@ -283,7 +283,7 @@ $pop_up_inscription = '
                 <h5 style="align-self: center;" class="modal-title">Bienvenue</h5>
             </div>
             <div class="modal-body">
-                <p>L\'inscription c\'est bien passer bienvenue sur Duolcloud</p>
+                <p>L\'inscription s\'est bien passer bienvenue sur Duolcloud</p>
                 <button id="close-popup" type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" data-bs-dismiss="modal"
                     aria-label="Close">fermer</button>
             </div>

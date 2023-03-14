@@ -6,7 +6,7 @@ include_once "../DAO/UtilisateurDAO.php";
 
 $nom = htmlentities($_POST['nom']);
 $mail = htmlentities($_POST['email']);
-$psw = htmlentities($_POST['pasword']);
+$psw = htmlentities($_POST['password']);
 $psw2 = htmlentities($_POST['passwordRepeat']);
 if($psw != $psw2)
     header('Location: ../web/pageInscription.php?error="validationMdp"');
@@ -17,7 +17,7 @@ else {
         header('Location: ../web/pageInscription.php?error=ErrorInscription');
     else {
         //$_SESSION['utilisateur']=$utilisateur;
-        header('Location: ../web/accueil.php?error=InscriptionValide');
+        header('Location: ../web/index.php?error=InscriptionValide');
     }
 }
 ?>

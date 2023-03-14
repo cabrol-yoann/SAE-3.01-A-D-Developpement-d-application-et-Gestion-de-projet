@@ -48,12 +48,12 @@ Class UtilisateurDAO {
      * @param integer $id identifiant du Utilisateur à récupérer
      */
     public function getUtilisateurById($id) {
-        $stmt = $this->link->prepare("SELECT * FROM Utilisateur WHERE ID_utilisateur = :id", [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+        $stmt = $this->link->prepare("SELECT * FROM _utilisateur WHERE id = :id", [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
         $stmt->bindValue(":id", $id);
         if(!$stmt->exec())
             return null;
         $result = $stmt->fetch();
-        $newUtilisateur = new Utilisateur($result["ID_utilisateur"], $result["nom"], $result["mail"], $result["mdp"], $result["type_abonnement"]);
+        $newUtilisateur = new Utilisateur($result["id"], $result["nom"], $result["mail"], $result["mdp"], $result["typeUtilisateur"]);
         var_dump($newUtilisateur);
         $stmt->close();
         return $newUtilisateur;
@@ -67,7 +67,7 @@ Class UtilisateurDAO {
      */
     public function getUtilisateurForConnexion($mail, $mdp) {
         $mdp = hash('sha3-512', $mdp);
-        $stmt = $this->link->prepare("SELECT ID_utilisateur,nom,type_abonnement FROM Utilisateur WHERE mail  = :mail AND mdp = :mdp");
+        $stmt = $this->link->prepare("SELECT id,nom,typeUtilisateur FROM _utilisateur WHERE mail  = :mail AND password = :mdp");
         $stmt->bindValue("mail",$mail);
         $stmt->bindValue("mdp",$mdp);
         if($stmt->execute() == true) {
@@ -87,7 +87,7 @@ Class UtilisateurDAO {
      */
     public function getUtilisateurForInscription($nom,$mail, $mdp) {
         $mdp = hash('sha3-512', $mdp);
-        $stmt = $this->link->prepare("INSERT INTO Utilisateur (nom,mail,mdp,type_abonnement) VALUES (:nom,:mail,:mdp, 'gratuit')");
+        $stmt = $this->link->prepare("INSERT INTO _utilisateur (nom, mail,typeUtilisateur, password) VALUES (:nom,:mail,'gratuit', :mdp)");
         $stmt->bindvalue("nom",$nom);
         $stmt->bindValue("mail",$mail);
         $stmt->bindValue("mdp",$mdp);
@@ -100,7 +100,7 @@ Class UtilisateurDAO {
      * @return Utilisateur
      */
     public function getAllUtilisateur() {
-        $stmt = $this->link->prepare("SELECT * FROM Utilisateur", array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $stmt = $this->link->prepare("SELECT * FROM _utilisateur", array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         $stmt->execute();
         $results = $stmt->fetchAll();
         $Utilisateurs = new SplObjectStorage;
@@ -115,13 +115,13 @@ Class UtilisateurDAO {
      * @param Utilisateur $Utilisateur Utilisateur à ajouter à la BDD
     */
     public function addUtilisateur(Utilisateur $Utilisateur) {
-        $query = "INSERT INTO Utilisateur (ID_utilisateur , nom, email, mdp, role) VALUES (:id, :nom, :email, :mdp, :role)";
+        $query = "INSERT INTO _utilisateur (id , nom, email, password, role) VALUES (:id, :nom, :email, :mdp, :role)";
         $stmt = $this->link->prepare($query);
         $stmt->bindValue(":id", $Utilisateur->getID());
         $stmt->bindValue(":nom", $Utilisateur->getNom());
         $stmt->bindValue(":email", $Utilisateur->getEmail());
         $stmt->bindValue(":mdp", $Utilisateur->getMdp());
-        $stmt->bindValue(":type_abonnement", $Utilisateur->getType_abonnement());
+        $stmt->bindValue(":typeUtilisateur", $Utilisateur->gettypeUtilisateur());
         $stmt->execute();
     }
 
@@ -131,13 +131,13 @@ Class UtilisateurDAO {
      * @param Utilisateur $Utilisateur Utilisateur à mettre à jour sur la BDD
     */
     public function updateUtilisateur(Utilisateur $Utilisateur) {
-        $query = "UPDATE Utilisateur SET ID_utilisateur  = :id, nom = :nom, email = :email mdp = :mdp type_abonnement = :type_abonnement WHERE ID_Utilisateur = :id";
+        $query = "UPDATE _utilisateur SET id  = :id, nom = :nom, email = :email mdp = :mdp typeUtilisateur = :typeUtilisateur WHERE id = :id";
         $stmt = $this->link->prepare($query);
         $stmt->bindValue(":id", $Utilisateur->getID());
         $stmt->bindValue(":nom", $Utilisateur->getNom());
         $stmt->bindValue(":email", $Utilisateur->getEmail());
         $stmt->bindValue(":mdp", $Utilisateur->getMdp());
-        $stmt->bindValue(":type_abonnement", $Utilisateur->getType_abonnement());
+        $stmt->bindValue(":typeUtilisateur", $Utilisateur->gettypeUtilisateur());
         $stmt->execute();
     }
     /**
@@ -146,7 +146,7 @@ Class UtilisateurDAO {
      * @param Utilisateur $Utilisateur Utilisateur à supprimer de BDD
     */
     public function deleteUtilisateur(Utilisateur $Utilisateur) {
-        $query = "DELETE FROM Utilisateur WHERE ID_Utilisateur = :id";
+        $query = "DELETE FROM _utilisateur WHERE id = :id";
         $stmt = $this->link->prepare($query);
         $stmt->bindValue(":id", $Utilisateur->getId());
         $stmt->execute();

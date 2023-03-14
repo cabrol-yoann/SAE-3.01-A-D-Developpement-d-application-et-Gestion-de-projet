@@ -13,6 +13,6 @@ if($id == false)
     header('Location: ../web/page_connexion.php?error=Errorconnexion');
 else {
     $_SESSION['utilisateur']=$id;
-    header('Location: ../web/accueil.php?error=connexionValide');
+    header('Location: ../web/index.php?error=connexionValide');
 }
 ?>
