@@ -243,7 +243,6 @@ class Stockage {
    */
   public function rechercheMeilleurEmplacement($objetAPlacer, &$meilleurEmplacement = null,  &$trouver = false, &$score = 0) {
 
-    echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le stockage '.$this->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur
 
@@ -257,7 +256,6 @@ class Stockage {
     $listeEnfantDossier = $this->getMaRacine()->getListeEnfantDossier();
     //Recherche du meilleur emplacement pour les enfants du dossier courant
     while ($listeEnfantDossier->valid()) { 
-      echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le dossier '.$listeEnfantDossier->current()->getNom();echo '<br>';
       //Recherche du meilleur emplacement pour le dossier courant à partir du tag
       $listTag = $objetAPlacer->getMesTags();
       $listTagEnfant = $listeEnfantDossier->current()->getMesTags();
@@ -267,7 +265,6 @@ class Stockage {
         while ($listTag->valid()) {
         if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
           $point++;
-          echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
         }
         $listTag->next();
         }
@@ -276,14 +273,12 @@ class Stockage {
       //Recherche du meilleur emplacement pour le dossier courant à partir du tag
       if ($listeEnfantDossier->current()->getNom() == $objetAPlacer->getNom()) {
         $point++;
-        echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
       }
       $listeEnfantDossier->next();
     }
 
     // Enregsitrement du meilleur emplacement trouvé a partir du score
     if ($point > $score) {
-        echo 'Le dossier '.$this->getNom().' a été trouver avec un score de '.$point;echo '<br>';
         $score = $point;
         $meilleurEmplacement = $this;
         $trouver = true ;
@@ -367,7 +362,6 @@ public function Restructuration($ObjetAPlacer,$nomDossierTrouver,$Stockage){
   while ($listeFichierARestructurer->valid()) { 
     //Initialisation de variable
     $restructurationEnCours = true;
-    echo 'Restructuration en cours de '.$listeFichierARestructurer->current()->getNom().' dans '.$this->getNom().' <br>';
     //Recherche de l'espace de stockage pour le fichier en cours de restructuration
     //DebutRecherche est une fonction récursive qui prend en paramètre l'espace de stockage, le fichier à restructurer, un booléen pour savoir si on a trouvé un espace de stockage et le nom de l'espace de stockage trouvé
     $listeFichierARestructurer->current()->meRanger($Stockage,$restructurationEnCours);

@@ -5,20 +5,33 @@
  * @details Page affichant les stockages et leurs arborésences avec un formulaire pour tester les ajouts
  * @version 4.0
  */
-session_start();
-
 include_once "../code/baseDeDonneePhysique.php";
 include_once "pop_up.php";
 include_once "header_footer.php";
+include_once "../DAO/Database.php";
+include_once "../DAO/StockageDAO.php";
+include_once "../DAO/DossierDAO.php";
+
+session_start();
+
+
+$listeStockage = new SplObjectStorage();
+$bd=new StockageDAO(Database::getInstance());
+$listeStockage->addAll($bd->getAllStockages(1));
+$bd->__destruct();
+$bd=new DossierDAO(Database::getInstance());
+$listeStockage->rewind();
+while ($listeStockage->valid()) {
+    $parent = $listeStockage->current()->getMaRacine();
+    $bd->getAllEnfant($parent);
+    $listeStockage->next();
+}
 
 echo $header;
 
     // Afficher les stockages et leurs arborésences -> Ici les stockages sont passé en paramètre depuis l'import d'un fichier
-
-    $test = new StockageDAO();
     $stockage = new SplObjectStorage;
-    $stockage=$test->getAllStockages();
-    var_dump($stockage);
+    $stockage->addAll($listeStockage);
 
     $stockage->rewind();
     while($stockage->valid()) {

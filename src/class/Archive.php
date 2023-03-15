@@ -41,6 +41,8 @@ class Archive implements interfaceUtilisateur {
    * Représentation de l'id de l'objet
    */
   public $id;
+
+  public $idPere;
  
   // CONSTRUCTEUR
   /**
@@ -50,12 +52,13 @@ class Archive implements interfaceUtilisateur {
    * @param integer $taille   Représentation de la taille que va avoir l'objet
    * @param string  $chemin   Représentaton du chemin que va posséder l'objet
    */
-  public function __construct($nom, $taille, $chemin, $id)
+  public function __construct($nom, $taille, $chemin, $id, $idPere=NULL)
   {
     $this->nom = $nom;        
     $this->taille = $taille;  
     $this->chemin = $chemin;
     $this->id = $id;
+    $this->idPere = $idPere;
   }
 
   //  DESTRUCTEUR
@@ -72,6 +75,9 @@ class Archive implements interfaceUtilisateur {
 
   public function getId(){return $this->id;}
   public function setId($id){$this->id = $id;}
+
+  public function getIdPere(){return $this->idPere;}
+  public function setIdPere($idPere){$this->idPere = $idPere;}
 
   /**
    * @brief Récupération du Nom de l'objet

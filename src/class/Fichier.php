@@ -132,22 +132,20 @@ class Fichier extends Archive {
     $listeDesStokagesATraiter = $this->rechercheListeStockageATraiter($listeStockage,$restructurationEnCour);
     $listeDesStokagesATraiter->rewind();
     if (!$listeDesStokagesATraiter->valid()) {
-      echo 'Aucun espace de stockage trouvé';echo '<br>';
-      return;
+      //pas despace de stockage trouver
+      return "pasdestockagetrouvé";
     }
     while ($listeDesStokagesATraiter->valid()) {
       $trouver = false;
       $listeDesStokagesATraiter->current()->rechercheMeilleurEmplacement($this, $meilleurEmplacement, $trouver);
       if ($trouver) {
+        //espace de stockage a était trouver
         $espaceStockageTrouver = $listeDesStokagesATraiter->current();
-        echo 'Espace de stockage trouvé : '.$espaceStockageTrouver->getNom();echo '<br>';
       }
       $listeDesStokagesATraiter->next();
     }
     if (!isset($espaceStockageTrouver)) {
-      echo 'Aucun espace de stockage trouvé';echo '<br>';
-      header ('location: ../web/affichageStockage.php?erreur=pasDeStockage');
-      return;
+      return "pasDeStockage";
     }
     else {
       //Regarde si l'on peut stocker le dossier dans l'espace de stockage
@@ -156,20 +154,17 @@ class Fichier extends Archive {
         //Changement de nom si nécéssaire
         $this->meRenommer($meilleurEmplacement);
         //Ajout du dossier dans le dossier
-        echo 'Ajout du fichier '.$this->getNom().' dans le dossier '.$meilleurEmplacement->getNom().' dans l\'espace '.$espaceStockageTrouver->getNom();echo '<br>';
         $meilleurEmplacement->ajouterEnfantFichier($this);
+        $this->setIdPere($meilleurEmplacement->getId());
         return;
       }
       else if ($restructurationEnCour == true) {
-        echo 'on ne peut pas stocker le fichier'.$this->getNom();echo '<br>';
-        header ('location: ../web/affichageStockage.php?erreur=fichierTropGros');
-        return;
+        return "fichierTropGros";
       }
       else {
-        echo 'Espace de stockage '.$espaceStockageTrouver->getNom().' plein';echo '<br>';
-        echo 'Restructuration en cours';echo '<br>';
+        //espace de stockage est plein il faut faire une restructuration
+        //on lance la restructuration
         $espaceStockageTrouver->restructuration($this, $meilleurEmplacement, $listeStockage);
-        return;
       }
     }
   }
@@ -177,7 +172,7 @@ class Fichier extends Archive {
   /**
    * fonction qui recherche les espaces de stockage dans lesquels le dossier peut être rangé
    *
-   * @param objectStorage $listeStockage liste de tous les espaces de stockage de l'utilisateur
+   * @param SplObjectStorage $listeStockage liste de tous les espaces de stockage de l'utilisateur
    * @param boolean $restructuration Indique si on est en restructuration ou non
    * @return void
    */
@@ -190,11 +185,10 @@ class Fichier extends Archive {
      * @var bool $trouver Pour savoir si on a trouvé un dossier
      * @var int $tailleCalculer Taille total calculé du dossier avec le fichier à ajouter
      */
-    $listStockage = new \SplObjectStorage();
+    $listStockage = new SplObjectStorage;
     $tailleCalculer = 0;
     //Recherche de taille
     $listeStockage->rewind(); // placement de l'itérateur au début de la structure
-    
     while($listeStockage->valid()){
       $nomStockage = $listeStockage->current();
       $tailleCalculer = $nomStockage->getTaille() + $this->getTaille();
@@ -259,7 +253,6 @@ class Fichier extends Archive {
    * @return void
    */
   public function rechercheMeilleurEmplacement($dossierTraiter, &$meilleurEmplacement = null, &$trouver = false, &$score = 0) {
-    echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$dossierTraiter->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur
 
@@ -276,7 +269,6 @@ class Fichier extends Archive {
     $listeEnfantFichier->rewind();
     $compteur = 0;
     while ($listeEnfantFichier->valid()) {
-      echo 'recherche d\'un emplacement pour '.$this->getNom().' en le comparent avec le fichier '.$listeEnfantFichier->current()->getNom();echo '<br>';
       //Recherche du meilleur emplacement pour les enfants du dossier courant à partir du tag
       $point += $this->rechercheTag($listeEnfantFichier->current());
       //recherhe du meilleur emplacement pour les enfants du dossier courant à partir du nom
@@ -292,7 +284,6 @@ class Fichier extends Archive {
     $compteur = 0;
     $listeEnfantDossier = $dossierTraiter->getListeEnfantDossier();
     while ($listeEnfantDossier->valid()) { 
-      echo 'recherche d\'un emplacement pour '.$this->getNom().' dans le dossier '.$listeEnfantDossier->current()->getNom();echo '<br>';
       //Recherche à partir du tag
       $point += $this->rechercheTag($listeEnfantDossier->current());
       // Recherche à partir du nom
@@ -309,7 +300,6 @@ class Fichier extends Archive {
 
     //Enregistrement de valeur trouver
     if ($point > $score) {
-      echo 'Le dossier '.$dossierTraiter->getNom().' a été trouver avec un score de '.$point;echo '<br>';
       $score = $point;
       $meilleurEmplacement = $dossierTraiter;
       $trouver = true ;
@@ -340,7 +330,7 @@ class Fichier extends Archive {
       $listeTag->rewind();
       while ($listeTag->valid()) {
         if ($listeTag->current()->getTitre() == $listeTagEnfant->current()->getTitre()) {
-          echo 'tag trouver';echo '<br>';
+          //un tag a était trouvé
           return 1;
         }
         $listeTag->next();
@@ -360,7 +350,7 @@ class Fichier extends Archive {
     if ($listeEnfantDossier->current()->getType() == $this->getType()) {
       $compteur++;
       if ($compteur == $listeEnfantDossier->count()) {
-        echo 'type trouver';echo '<br>';
+        //un type a était trouvé
         return 1;
       } 
     }
@@ -374,7 +364,7 @@ class Fichier extends Archive {
    */
   private function rechercheNom($DossierTraiter) {
     if ($DossierTraiter->getNom() == $this->getNom()) {
-      echo 'nom trouver';echo '<br>';
+      //un nom a était trouvé
       return 1;
     }
   }

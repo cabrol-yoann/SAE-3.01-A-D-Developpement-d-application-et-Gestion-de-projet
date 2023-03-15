@@ -1,8 +1,8 @@
 <?php
-session_start();
-
 include_once "../DAO/Database.php";
 include_once "../DAO/UtilisateurDAO.php";
+
+session_start();
 
 $mail = htmlentities($_POST['email']);
 $psw = htmlentities($_POST['password']);

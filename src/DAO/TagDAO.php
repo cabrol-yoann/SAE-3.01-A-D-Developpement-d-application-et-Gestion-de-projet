@@ -37,16 +37,57 @@ class TagDAO{
      * @param Tag $tag
      * @return void
      */
-    public function getTagByID($possesseur) {
+    public function getTagByIdDossier($possesseur) {
         $query = "SELECT * FROM _assoTagDossier WHERE idDossier = :id";
         $stmt = $this->link->prepare($query);
         $stmt->bindValue(":id", $possesseur->getId());
         $stmt->execute();
         $results = $stmt->fetchAll();
         foreach ($results as $result) {
-            $possesseur->ajouterTags(new Tag($result["id"], $result["libelle"]));
+            $bd=new TagDAO(Database::getInstance());
+            $tag=$bd->getTagById($result["idTag"]);
+            $possesseur->ajouterTag($tag);
         }
         return;
+    }
+
+    public function getTagByIdFichier($possesseur) {
+        $query = "SELECT * FROM _assoTagFichier WHERE :id= idFichier";
+        $stmt = $this->link->prepare($query);
+        $stmt->bindvalue(":id",$possesseur->getId());
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        $listTag = new SplObjectStorage;
+        foreach ($results as $result) {
+            $bd=new TagDAO(Database::setInstance());
+            $tag=$bd->getTagById($result["idTag"]);
+            $possesseur->ajouterTag($tag);
+        }
+    }
+
+    public function getTagById($id) {
+        $query = "SELECT * FROM _tag WHERE id = :id";
+        $stmt = $this->link->prepare($query);
+        $stmt->bindvalue(":id",$id->getId());
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        $listTag = new SplObjectStorage;
+        foreach ($results as $result) {
+            $listTag->attach(new Tag($result["id"], $result["libelle"]));
+        }
+        return $listTag;
+    }
+
+    public function getListeTag() {
+        $query = "SELECT * FROM _tag ";
+        $stmt = $this->link->prepare($query);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        $listTag = new SplObjectStorage;
+        foreach ($results as $result) {
+            $listTag->attach(new Tag($result["id"], $result["libelle"]));
+        }
+        return $listTag;
     }
 
     /**
