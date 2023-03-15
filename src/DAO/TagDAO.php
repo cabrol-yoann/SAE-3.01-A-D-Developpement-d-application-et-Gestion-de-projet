@@ -46,7 +46,11 @@ class TagDAO{
         foreach ($results as $result) {
             $bd=new TagDAO(Database::getInstance());
             $tag=$bd->getTagById($result["idTag"]);
-            $possesseur->ajouterTag($tag);
+            $tag->rewind();
+            while($tag->valid()) {
+                $possesseur->ajouterTags($tag->current());
+                $tag->next();
+            } 
         }
         return;
     }
@@ -59,21 +63,25 @@ class TagDAO{
         $results = $stmt->fetchAll();
         $listTag = new SplObjectStorage;
         foreach ($results as $result) {
-            $bd=new TagDAO(Database::setInstance());
+            $bd=new TagDAO(Database::getInstance());
             $tag=$bd->getTagById($result["idTag"]);
-            $possesseur->ajouterTag($tag);
+            $tag->rewind();
+            while($tag->valid()) {
+                $possesseur->ajouterTags($tag->current());
+                $tag->next();
+            } 
         }
     }
 
     public function getTagById($id) {
         $query = "SELECT * FROM _tag WHERE id = :id";
         $stmt = $this->link->prepare($query);
-        $stmt->bindvalue(":id",$id->getId());
+        $stmt->bindvalue(":id",$id);
         $stmt->execute();
         $results = $stmt->fetchAll();
         $listTag = new SplObjectStorage;
         foreach ($results as $result) {
-            $listTag->attach(new Tag($result["id"], $result["libelle"]));
+            $listTag->attach(new Tag($result["libelle"], $result["id"]));
         }
         return $listTag;
     }
@@ -86,6 +94,7 @@ class TagDAO{
         $listTag = new SplObjectStorage;
         foreach ($results as $result) {
             $listTag->attach(new Tag($result["id"], $result["libelle"]));
+            var_dump($listTag);
         }
         return $listTag;
     }

@@ -39,7 +39,7 @@ echo $header;
         <h1>'.$stockage->current()->getNom().'</h1>
         <a class="picto-item" href="#" aria-label=" Nom : '.$stockage->current()->getNom().' | '.
         'Taille : '.$stockage->current()->getTaille().' | '.
-        ' Taille maximale : '.$stockage->current()->getTailleMax(). '"><img src="img/icon/infoBulle.png" alt="information supplémentaire"></a>
+        ' Taille maximale : '.$stockage->current()->getTailleMax().' octet"><img src="img/icon/infoBulle.png" alt="information supplémentaire"></a>
         </div>';
         echo '<hr>';
         echo '<div class="flex-shrink-0 p-3 bg-white">

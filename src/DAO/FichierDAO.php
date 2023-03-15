@@ -75,9 +75,9 @@ class FichierDao {
             $enfant = new Fichier($result['id'], $result["nom"], $result['taille'] ,$result["chemin"], $result['typeFichier']);
             $parent->ajouterEnfantFichier($enfant);
             //recupération des tags
-            // $bd=new TagDAO(Database::getInstance());
-            // $bd->getTagByID($enfant);
-            // $bd->__destruct();
+            $bd=new TagDAO(Database::getInstance());
+            $bd->getTagByIdFichier($enfant);
+            $bd->__destruct();
         }
         return;
     }
