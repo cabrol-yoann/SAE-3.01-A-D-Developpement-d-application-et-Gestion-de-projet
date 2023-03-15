@@ -167,7 +167,7 @@ class Dossier extends Archive {
   public function ajouterEnfantFichier($fichier){
     $this->listEnfantFichier->attach($fichier);
     $this->taille = $this->taille + $fichier->getTaille();
-    $fichier->setChemin($this->getChemin() . "/" . $this->getNom());
+    $fichier->setChemin($this->getChemin() . "/" . $fichier->getNom());
     $this->setNbFichier();
   }
 
@@ -191,7 +191,7 @@ class Dossier extends Archive {
   public function ajouterEnfantDossier($dossier){
     $this->listeEnfantDossier->attach($dossier);
     $this->taille = $this->taille + $dossier->getTaille();
-    $dossier->setChemin($this->chemin . "/" . $this->nom);
+    $dossier->setChemin($this->chemin . "/" . $dossier->getNom());
     $enfant = $dossier->getListeEnfantDossier();
     $enfant->rewind();
     while ($enfant->valid()) { 
