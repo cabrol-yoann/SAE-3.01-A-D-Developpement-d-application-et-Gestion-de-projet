@@ -23,9 +23,9 @@ $header = '
         </a>
 
         <ul class="text-center nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li class="nav-item"><a href="affichageStockage.php" class="nav-link fs-5 text-white">Stockage</a></li>
-        <li class="nav-item"><a href="page_ConnexionStockage.php" class="nav-link fs-5 text-white">Connexion stockage</a></li>
-        <li class="nav-item"><a href="page_Partage.php" class="nav-link fs-5 text-white">Partage</a></li>
+        <li class="nav-item"><a href="affichageStockage.php" class="nav-link fs-5 text-body-tertiary">Stockage</a></li>
+        <li class="nav-item"><a href="page_ConnexionStockage.php" class="nav-link fs-5 text-body-tertiary">Connexion stockage</a></li>
+        <li class="nav-item"><a href="page_Partage.php" class="nav-link fs-5 text-body-tertiary">Partage</a></li>
         </ul>
 
         <div class="text-end d-flex align-items-center">
@@ -62,6 +62,35 @@ $header = '
 integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
 integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script> 
+let tableau=location .href.split("/") 
+let page=tableau[tableau.length-1]
+let balisePrincipale;
+switch (page) {
+  case "affichageStockage.php":
+    balisePrincipale=document.querySelector("ul").querySelectorAll("a")[0]
+    break;
+  case "page_ConnexionStockage.php":
+    balisePrincipale=document.querySelector("ul").querySelectorAll("a")[1]
+    
+    break;
+  case "page_Partage.php":
+    balisePrincipale=document.querySelector("ul").querySelectorAll("a")[2]
+    
+    break;
+
+  default:
+    break;
+}
+balisePrincipale.classList.add("principal")
+balisePrincipale.classList.remove("text-body-tertiary")
+</script>
+<style>
+.principal{
+color: white;
+background-color: #71d3be;
+}
+</style>
 </body>
 </html>';
 ?>
