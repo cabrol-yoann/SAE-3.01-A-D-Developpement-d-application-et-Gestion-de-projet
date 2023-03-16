@@ -23,9 +23,9 @@ $header = '
         </a>
 
         <ul class="text-center nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li class="nav-item"><a href="affichageStockage.php" class="nav-link fs-5 text-body-tertiary rounded">Stockage</a></li>
-        <li class="nav-item"><a href="page_ConnexionStockage.php" class="nav-link fs-5 text-body-tertiary rounded">Connexion stockage</a></li>
-        <li class="nav-item"><a href="page_Partage.php" class="nav-link fs-5 text-body-tertiary rounded">Partage</a></li>
+        <li class="nav-item"><a href="affichageStockage.php" class="nav-link fs-5 text-white rounded">Stockage</a></li>
+        <li class="nav-item"><a href="page_ConnexionStockage.php" class="nav-link fs-5 text-white rounded">Connexion stockage</a></li>
+        <li class="nav-item"><a href="page_Partage.php" class="nav-link fs-5 text-white rounded">Partage</a></li>
         </ul>
 
         <div class="text-end d-flex align-items-center">
@@ -72,23 +72,19 @@ switch (page) {
     break;
   case "page_ConnexionStockage.php":
     balisePrincipale=document.querySelector("ul").querySelectorAll("a")[1]
-    
     break;
   case "page_Partage.php":
     balisePrincipale=document.querySelector("ul").querySelectorAll("a")[2]
-    
     break;
-
   default:
     break;
 }
 balisePrincipale.classList.add("principal")
-balisePrincipale.classList.remove("text-body-tertiary")
 </script>
 <style>
 .principal{
-color: white;
-background-color: #71d3be;
+  font-weight: bold;
+  background-color: #71d3be;
 }
 </style>
 </body>
