@@ -39,9 +39,9 @@ function headerIf() {
         </a>
 
         <ul class="text-center nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li class="nav-item"><a href="affichageStockage.php" class="nav-link fs-5 text-body-tertiary">Stockage</a></li>
-        <li class="nav-item"><a href="page_ConnexionStockage.php" class="nav-link fs-5 text-body-tertiary">Connexion stockage</a></li>
-        <li class="nav-item"><a href="page_Partage.php" class="nav-link fs-5 text-body-tertiary">Partage</a></li>
+        <li class="nav-item"><a href="affichageStockage.php" class="nav-link fs-5 text-body-tertiary rounded">Stockage</a></li>
+        <li class="nav-item"><a href="page_ConnexionStockage.php" class="nav-link fs-5 text-body-tertiary rounded">Connexion stockage</a></li>
+        <li class="nav-item"><a href="page_Partage.php" class="nav-link fs-5 text-body-tertiary rounded">Partage</a></li>
         </ul>
 
         <div class="text-end d-flex align-items-center">
