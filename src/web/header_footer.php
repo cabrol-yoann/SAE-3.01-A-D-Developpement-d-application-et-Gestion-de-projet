@@ -25,7 +25,7 @@ function headerIf() {
     </head>
 
 <body>
-<header class="p-3 border-bottom">
+  <header class="p-3 border-bottom">
     <div class="container-fluid">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
         <a href="index.php" class="d-flex align-items-center  text-dark text-decoration-none">
