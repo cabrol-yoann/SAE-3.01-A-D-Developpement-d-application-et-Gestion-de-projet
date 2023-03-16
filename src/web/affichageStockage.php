@@ -42,10 +42,10 @@ echo $header;
         ' Taille maximale : '.$stockage->current()->getTailleMax().' octet"><img src="img/icon/infoBulle.png" alt="information supplémentaire"></a>
         </div>';
         echo '<hr>';
-        echo '<div class="flex-shrink-0 p-3 bg-white">
-        <a class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-            <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-            <span class="fs-5 fw-semibold">'.$stockage->current()->getNom();
+
+        echo '<ul class="list-unstyled ps-0">
+        <li class="mb-1">
+        <button id="button" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">'.$stockage->current()->getNom();
         // Affichage de la racine
         if ($stockage->current()->getMaRacine()->getMesTags() != null) {
             echo ' | Tag : ';
@@ -55,13 +55,15 @@ echo $header;
                 $racineTag->next();
             }
         }
-        echo '</span>
-        </a>
-        <ul class="list-unstyled ps-0">';
+        echo '</button>
+        <div class="collapse show" id="home-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">';
         // affichage de l'arborésence
         affichageContenu($stockage->current()->getMaRacine());
-
-        echo '<hr>';
+        echo '</a></li>
+        </ul>
+        <hr>';
         $stockage->next();
     } 
 
@@ -111,8 +113,11 @@ function affichageContenu($racine, $espace = 0) {
     $enfantsDoss->rewind();
     while($enfantsDoss->valid()){
         echo '<li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'" aria-expanded="false">';
-            for($i=$espace; $i >= 0; $i--){echo'<a style="margin-right: '.strval(16.5).'px;">||</a>';}echo'<img src="img/icon/dossier.png" alt="icone fichier">'.$enfantsDoss->current()->getNom();
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'" aria-expanded="false">';
+        for($i=$espace; $i >= 0; $i--) {
+            echo'<a style="margin-right: '.strval(16.5).'px;">||</a>';
+        }
+        echo'<img src="img/icon/dossier.png" alt="icone fichier">'.$enfantsDoss->current()->getNom();
             
         if ($enfantsDoss->current()->getMesTags() != null) {
             $DossTag = $enfantsDoss->current()->getMesTags();
@@ -125,10 +130,12 @@ function affichageContenu($racine, $espace = 0) {
             echo '</a>';
         }
         echo '</button>
-        <div class="collapse pl-'.$espace.'" id="'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'">
-        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">';
+        <div class="collapse" id="'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">';
         $espace++;
         affichageContenu($enfantsDoss->current(), $espace);
+        echo '</a></li>';
         $enfantsDoss->next();
     }
     // Affichage des sous-fichiers  
