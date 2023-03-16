@@ -1,5 +1,7 @@
 <?php
 include_once "header_footer.php";
+include_once "../DAO/UtilisateurDAO.php";
+include_once "../DAO/Database.php";
 
 echo $header;
 
@@ -50,6 +52,9 @@ echo $header;
 
                 // Enregistrer le jeton d'accès pour une utilisation ultérieure
                 // par exemple dans une base de données ou dans une session
+                $bd = new UtilisateurDAO(Database::getInstance());
+                $bd->setToken($_SESSION['id'], $access_token);
+                $bd->__destruct();
                 $_SESSION['dropbox_access_token'] = $access_token;
             }
         ?>

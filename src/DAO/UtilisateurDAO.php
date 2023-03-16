@@ -132,6 +132,13 @@ Class UtilisateurDAO {
         $stmt->execute();
     }
 
+    public function setToken($id, $token) {
+        $stmt = $this->link->prepare("UPDATE _utilisateur SET token = :token WHERE id = :id");
+        $stmt->bindValue(":token", $token);
+        $stmt->bindValue(":id", $id);
+        $stmt->execute();
+    }
+
     /**
      * Fonction qui va mettre à jour un Utilisateur sur la BDD
      *

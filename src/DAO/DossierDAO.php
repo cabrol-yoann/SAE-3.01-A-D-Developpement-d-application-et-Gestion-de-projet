@@ -93,12 +93,12 @@ require_once "TagDAO.php";
                     $bd->__destruct();
                     //ajout enfant Fichier
                     $bd=new FichierDAO(Database::getInstance());
-                    $bd->getAllEnfant($enfant);
+                    $bd->getAllEnfant($enfant, $_SESSION['utilisateur']);
                     $bd->__destruct();
                 }
                 //ajout des tags
                 $bd=new TagDAO(Database::getInstance());
-                $bd->getTagByIdDossier($parent);
+                $bd->getTagByIdDossier($enfant);
                 $bd->__destruct();
 
             }
