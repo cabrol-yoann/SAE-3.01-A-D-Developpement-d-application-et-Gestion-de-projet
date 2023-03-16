@@ -98,7 +98,7 @@ require_once "TagDAO.php";
                 }
                 //ajout des tags
                 $bd=new TagDAO(Database::getInstance());
-                $bd->getTagByID($parent);
+                $bd->getTagByIdDossier($parent);
                 $bd->__destruct();
 
             }

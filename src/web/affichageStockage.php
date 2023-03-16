@@ -5,20 +5,33 @@
  * @details Page affichant les stockages et leurs arborésences avec un formulaire pour tester les ajouts
  * @version 4.0
  */
-session_start();
-
 include_once "../code/baseDeDonneePhysique.php";
 include_once "pop_up.php";
 include_once "header_footer.php";
+include_once "../DAO/Database.php";
+include_once "../DAO/StockageDAO.php";
+include_once "../DAO/DossierDAO.php";
+
+session_start();
+
+
+$listeStockage = new SplObjectStorage();
+$bd=new StockageDAO(Database::getInstance());
+$listeStockage->addAll($bd->getAllStockages(1));
+$bd->__destruct();
+$bd=new DossierDAO(Database::getInstance());
+$listeStockage->rewind();
+while ($listeStockage->valid()) {
+    $parent = $listeStockage->current()->getMaRacine();
+    $bd->getAllEnfant($parent);
+    $listeStockage->next();
+}
 
 echo $header;
 
     // Afficher les stockages et leurs arborésences -> Ici les stockages sont passé en paramètre depuis l'import d'un fichier
-
-    $test = new StockageDAO();
     $stockage = new SplObjectStorage;
-    $stockage=$test->getAllStockages();
-    var_dump($stockage);
+    $stockage->addAll($listeStockage);
 
     $stockage->rewind();
     while($stockage->valid()) {
@@ -26,13 +39,13 @@ echo $header;
         <h1>'.$stockage->current()->getNom().'</h1>
         <a class="picto-item" href="#" aria-label=" Nom : '.$stockage->current()->getNom().' | '.
         'Taille : '.$stockage->current()->getTaille().' | '.
-        ' Taille maximale : '.$stockage->current()->getTailleMax(). '"><img src="img/icon/infoBulle.png" alt="information supplémentaire"></a>
+        ' Taille maximale : '.$stockage->current()->getTailleMax().' octet"><img src="img/icon/infoBulle.png" alt="information supplémentaire"></a>
         </div>';
         echo '<hr>';
-        echo '<div class="flex-shrink-0 p-3 bg-white">
-        <a class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-            <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-            <span class="fs-5 fw-semibold">'.$stockage->current()->getNom();
+
+        echo '<ul class="list-unstyled ps-0">
+        <li class="mb-1">
+        <button id="button" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">'.$stockage->current()->getNom();
         // Affichage de la racine
         if ($stockage->current()->getMaRacine()->getMesTags() != null) {
             echo ' | Tag : ';
@@ -42,13 +55,15 @@ echo $header;
                 $racineTag->next();
             }
         }
-        echo '</span>
-        </a>
-        <ul class="list-unstyled ps-0">';
+        echo '</button>
+        <div class="collapse show" id="home-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">';
         // affichage de l'arborésence
         affichageContenu($stockage->current()->getMaRacine());
-
-        echo '<hr>';
+        echo '</a></li>
+        </ul>
+        <hr>';
         $stockage->next();
     } 
 
@@ -98,8 +113,11 @@ function affichageContenu($racine, $espace = 0) {
     $enfantsDoss->rewind();
     while($enfantsDoss->valid()){
         echo '<li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'" aria-expanded="false">';
-            for($i=$espace; $i >= 0; $i--){echo'<a style="margin-right: '.strval(16.5).'px;">||</a>';}echo'<img src="img/icon/dossier.png" alt="icone fichier">'.$enfantsDoss->current()->getNom();
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'" aria-expanded="false">';
+        for($i=$espace; $i >= 0; $i--) {
+            echo'<a style="margin-right: '.strval(16.5).'px;">||</a>';
+        }
+        echo'<img src="img/icon/dossier.png" alt="icone fichier">'.$enfantsDoss->current()->getNom();
             
         if ($enfantsDoss->current()->getMesTags() != null) {
             $DossTag = $enfantsDoss->current()->getMesTags();
@@ -112,10 +130,12 @@ function affichageContenu($racine, $espace = 0) {
             echo '</a>';
         }
         echo '</button>
-        <div class="collapse pl-'.$espace.'" id="'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'">
-        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">';
+        <div class="collapse" id="'.str_replace(" ", "",$enfantsDoss->current()->getNom()).'">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">';
         $espace++;
         affichageContenu($enfantsDoss->current(), $espace);
+        echo '</a></li>';
         $enfantsDoss->next();
     }
     // Affichage des sous-fichiers  
