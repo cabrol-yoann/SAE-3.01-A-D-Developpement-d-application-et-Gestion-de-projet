@@ -3,12 +3,17 @@ $header = headerIf();
 
 function headerIf() {
   include_once "../class/Utilisateur.php";
+  include_once "../DAO/Database.php";
+  include_once "../DAO/UtilisateurDAO.php";
   session_start();
   $connexion = '<li><a class="dropdown-item" href="page_Connexion.php">Connexion</a></li>';
   $pseudo = 'Connectez-vous !';
   if (isset($_SESSION['utilisateur'])) {
     $connexion = '<li><a class="dropdown-item" href="../code/deconnexion.php">Deconnexion</a></li>';
-    $pseudo = $_SESSION['utilisateur']->getNom();
+    $bd = new UtilisateurDAO(Database::getInstance());
+    $resultat = $bd->getUtilisateurById($_SESSION['utilisateur']);
+    $pseudo = $resultat->getNom();
+    $bd->__destruct();
   }
     return '
 <!DOCTYPE html>

@@ -8,11 +8,11 @@ $mail = htmlentities($_POST['email']);
 $psw = htmlentities($_POST['password']);
 
 $bd = new UtilisateurDAO(Database::getInstance());
-$id = $bd->getUtilisateurForConnexion($mail, $psw);
-if($id == false)
+$utilisateur = $bd->getUtilisateurForConnexion($mail, $psw);
+if($utilisateur == false)
     header('Location: ../web/page_connexion.php?error=Errorconnexion');
 else {
-    $_SESSION['utilisateur']=$id;
+    $_SESSION['utilisateur']=$utilisateur->getId();
     header('Location: ../web/index.php?error=connexionValide');
 }
 ?>

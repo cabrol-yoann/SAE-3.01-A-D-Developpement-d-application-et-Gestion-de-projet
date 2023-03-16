@@ -12,11 +12,11 @@ if($psw != $psw2)
     header('Location: ../web/pageInscription.php?error="validationMdp"');
 else {
     $bd = new UtilisateurDAO(Database::getInstance());
-    $resultat = $bd->getUtilisateurForInscription($nom,$mail, $psw);
-    if($resultat == false)
+    $utilisateur = $bd->getUtilisateurForInscription($nom,$mail, $psw);
+    if($utilisateur == false)
         header('Location: ../web/pageInscription.php?error=ErrorInscription');
     else {
-        //$_SESSION['utilisateur']=$utilisateur;
+        $_SESSION['utilisateur']=$utilisateur->getId();
         header('Location: ../web/index.php?error=InscriptionValide');
     }
 }

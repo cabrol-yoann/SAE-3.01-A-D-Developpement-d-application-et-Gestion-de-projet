@@ -32,7 +32,7 @@ if (isset($_SESSION['utilisateur'])) {
 
     $listeStockage = new SplObjectStorage();
     $bd=new StockageDAO(Database::getInstance());
-    $listeStockage->addAll($bd->getAllStockages($_SESSION['utilisateur']->getId()));
+    $listeStockage->addAll($bd->getAllStockages($_SESSION['utilisateur']));
     $bd->__destruct();
     $bd=new DossierDAO(Database::getInstance());
     $listeStockage->rewind();
@@ -116,7 +116,7 @@ if (isset($_SESSION['utilisateur'])) {
 else {
     echo $header;
     echo '<div class="alert alert-danger" role="alert">
-    Vous devez être connecté pour accéder à cette page
+    Vous devez être connecté pour avoir des stockages sur cette page
     </div>';
     echo $footer;
     exit();

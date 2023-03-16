@@ -7,6 +7,9 @@
  * @version 1.0
  * @date 10-03-2023
  */
+
+use LDAP\Result;
+
 require_once "Database.php";
 require_once "../class/Utilisateur.php";
 
@@ -48,14 +51,12 @@ Class UtilisateurDAO {
      * @param integer $id identifiant du Utilisateur à récupérer
      */
     public function getUtilisateurById($id) {
-        $stmt = $this->link->prepare("SELECT * FROM _utilisateur WHERE id = :id", [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+        $stmt = $this->link->prepare("SELECT * FROM _utilisateur WHERE id = :id");
         $stmt->bindValue(":id", $id);
-        if(!$stmt->exec())
+        if($stmt->execute()==false)
             return null;
         $result = $stmt->fetch();
-        $newUtilisateur = new Utilisateur($result["id"], $result["nom"], $result["mail"], $result["mdp"], $result["typeUtilisateur"]);
-        var_dump($newUtilisateur);
-        $stmt->close();
+        $newUtilisateur = new Utilisateur($result["id"], $result["nom"], $result["mail"], $result["typeUtilisateur"]);
         return $newUtilisateur;
     }
 
@@ -92,7 +93,12 @@ Class UtilisateurDAO {
         $stmt->bindvalue("nom",$nom);
         $stmt->bindValue("mail",$mail);
         $stmt->bindValue("mdp",$mdp);
-        return $stmt->execute();
+        if($stmt->execute()==true) {
+            $result= $stmt->fetch();
+            $newUtilisateur = new Utilisateur($result["id"], $result["nom"], $result["mail"], null, $result["typeUtilisateur"]);
+            return $newUtilisateur;
+        }
+
     }
 
     /**
