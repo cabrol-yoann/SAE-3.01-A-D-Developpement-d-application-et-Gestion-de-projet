@@ -61,17 +61,17 @@ echo $header;
         </div>
         <div class="col-md-2">
             <a href="#" class="drive-icon" data-toggle="modal" data-target="#icloud-modal">
-                <img src="https://img.icons8.com/color/96/000000/icloud.png" />
-            </a>
-        </div>
-        <div class="col-md-2">
-            <a href="#" class="drive-icon" data-toggle="modal" data-target="#onedrive-modal">
-                <img src="https://img.icons8.com/color/96/000000/microsoft-onedrive-2019.png" />
+                <img src="https://img.icons8.com/fluency/96/null/icloud.png" />
             </a>
         </div>
         <div class="col-md-2">
             <a href="#" class="drive-icon" data-toggle="modal" data-target="#mega-modal">
-                <img src="https://img.icons8.com/color/96/000000/mega-nz.png" />
+                <img src="https://img.icons8.com/external-tal-revivo-color-tal-revivo/96/null/external-mega-a-cloud-storage-and-file-hosting-service-logo-color-tal-revivo.png" />
+            </a>
+        </div>
+        <div class="col-md-2">
+            <a href="#" class="drive-icon" data-toggle="modal" data-target="#onedrive-modal">
+                <img src="https://img.icons8.com/fluency/96/null/microsoft-onedrive-2019.png" />
             </a>
         </div>
     </div>
