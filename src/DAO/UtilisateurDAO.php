@@ -71,12 +71,13 @@ Class UtilisateurDAO {
         $stmt = $this->link->prepare("SELECT id,nom,typeUtilisateur, mail FROM _utilisateur WHERE mail  = :mail AND password = :mdp");
         $stmt->bindValue("mail",$mail);
         $stmt->bindValue("mdp",$mdp);
-        if($stmt->execute() == true) {
-            $result= $stmt->fetch();
-            $newUtilisateur = new Utilisateur($result["id"], $result["nom"], $result["mail"], null, $result["typeUtilisateur"]);
-            return $newUtilisateur;
+        if($stmt->execute() == false) {
+            return false;
         }
-        return false;
+        $result= $stmt->fetch();
+        $newUtilisateur = new Utilisateur($result["id"], $result["nom"], $result["mail"], null, $result["typeUtilisateur"]);
+        return $newUtilisateur;
+        
         
     }
 

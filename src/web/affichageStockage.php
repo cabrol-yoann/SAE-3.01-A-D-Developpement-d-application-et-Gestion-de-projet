@@ -97,16 +97,16 @@ if (isset($_SESSION['utilisateur'])) {
     </form>';
     echo $footer;
 
-    if(isset($_GET['error'])) {
-        if($_GET['error'] == "upload")
+    if(isset($_GET['erreur'])) {
+        if($_GET['erreur'] == "upload")
             echo $pop_up_upload;
-        else if($_GET['error'] == "exist")
+        else if($_GET['erreur'] =="exist")
             echo $pop_up_exist;
-        else if($_GET['error'] == "error")
+        else if($_GET['erreur'] =="error")
             echo $pop_up_error;
-        else if($_GET['error'] == "fichierTropGros")
+        else if($_GET['erreur'] =="fichierTropGros")
             echo $pop_up_size;
-        else if($_GET['error'] == "pasDelisteStockage")
+        else if($_GET['erreur'] =="pasDeStockage")
             echo $pop_up_pasTrouver;
     }
 }

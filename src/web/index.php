@@ -156,6 +156,12 @@ if(isset($_GET['error'])) {
   if($_GET['error']=="connexionValide") {
     echo $pop_up_connexion;
   }
+  if($_GET['error']=="Errorconnexion") {
+    echo $pop_up_errorConnexion;
+  }
+  if($_GET['error']=="ErrorInscription") {
+    echo $pop_up_errorInscription;
+  }
 }
 echo $footer;
 

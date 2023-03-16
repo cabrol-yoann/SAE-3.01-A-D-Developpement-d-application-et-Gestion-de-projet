@@ -9,7 +9,7 @@ $psw = htmlentities($_POST['password']);
 
 $bd = new UtilisateurDAO(Database::getInstance());
 $utilisateur = $bd->getUtilisateurForConnexion($mail, $psw);
-if($utilisateur == false)
+if(!isset($utilisateur))
     header('Location: ../web/page_connexion.php?error=Errorconnexion');
 else {
     $_SESSION['utilisateur']=$utilisateur->getId();
