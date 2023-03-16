@@ -66,7 +66,12 @@ echo $header;
         </div>
         <div class="col-md-2">
             <a href="#" class="drive-icon" data-toggle="modal" data-target="#onedrive-modal">
-                <img src="https://img.icons8.com/color/96/000000/microsoft-onedrive-2019" />
+                <img src="https://img.icons8.com/color/96/000000/microsoft-onedrive-2019.png" />
+            </a>
+        </div>
+        <div class="col-md-2">
+            <a href="#" class="drive-icon" data-toggle="modal" data-target="#mega-modal">
+                <img src="https://img.icons8.com/color/96/000000/mega-nz.png" />
             </a>
         </div>
     </div>
