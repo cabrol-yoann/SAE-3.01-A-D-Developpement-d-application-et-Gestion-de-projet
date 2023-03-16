@@ -16,6 +16,10 @@ include_once "Tag.php";
  * 
  */
 
+ /**
+  * @todo Faire en sorte que les ID des objets soient générés automatiquement et synchronisé avec la base de données
+  */
+
 /**
  * Classe représentant d'un dossier physique la forme d'une classe
  */
@@ -49,12 +53,13 @@ class Dossier extends Archive {
    * @param string $nom        Représentation du nom que va posséder l'objet
    * @param string $chemin     Représentaton du chemin que va posséder l'objet
    */
-  public function __construct($nom, $chemin)
+  public function __construct($id ,$nom, $chemin, $nbFichier=0)
   {
     $this->listeEnfantDossier = new \SplObjectStorage();
     $this->listEnfantFichier = new \SplObjectStorage();
     $this->mesTags = new \SplObjectStorage();
-    parent::__construct($nom, 0, $chemin);        
+    $this->NbFichier = $nbFichier;
+    parent::__construct($nom, 0, $chemin, $id);        
   }
 
   // DESTRUCTEUR
@@ -113,6 +118,24 @@ class Dossier extends Archive {
     return $this->mesTags;
   }
 
+  /**
+   * @brief retourne l'id du dossier père de l'objet Dossier
+   * 
+   * @return int id du dossier père
+   */
+
+  public function getIdPere() {
+    return $this->idPere;
+  }
+
+  /**
+   * @brief Modifie l'attribut idPere de l'objet Dossier
+   * 
+   * @param int $idPere Représentation de l'id du dossier père de l'objet
+   */
+  public function setIdPere($idPere) {
+    $this->idPere = $idPere;
+  }
 
   /**
    * @brief Retourne la valeur de la taille de l'objet Dossier en mettant à jour sa taille
@@ -144,7 +167,7 @@ class Dossier extends Archive {
   public function ajouterEnfantFichier($fichier){
     $this->listEnfantFichier->attach($fichier);
     $this->taille = $this->taille + $fichier->getTaille();
-    $fichier->setChemin($this->getChemin() . "/" . $this->getNom());
+    $fichier->setChemin($this->getChemin() . "/" . $fichier->getNom());
     $this->setNbFichier();
   }
 
@@ -168,7 +191,7 @@ class Dossier extends Archive {
   public function ajouterEnfantDossier($dossier){
     $this->listeEnfantDossier->attach($dossier);
     $this->taille = $this->taille + $dossier->getTaille();
-    $dossier->setChemin($this->chemin . "/" . $this->nom);
+    $dossier->setChemin($this->chemin . "/" . $dossier->getNom());
     $enfant = $dossier->getListeEnfantDossier();
     $enfant->rewind();
     while ($enfant->valid()) { 

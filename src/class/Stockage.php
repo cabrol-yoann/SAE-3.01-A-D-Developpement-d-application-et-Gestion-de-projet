@@ -1,4 +1,7 @@
 <?php
+
+include_once "Archive.php";
+
 /**
  * @file Stockage.php
  * @author cabrol (ycabrol@iutbayonne.univ-pau.fr)
@@ -14,25 +17,19 @@
 /**
  * Classe représentent un espace de stockage physique à partir d'un nom, d'une taille, d'une tailleMax, d'un chemin et d'une restructuration
  */
-class Stockage{
+class Stockage {
  
   // Attributs
   
-   /**
-   * @property int $nom Représentation de l'identifiant que va posséder l'objet
-   */
   public $id;
 
   /**
-   * @property string $nom Représentation du nom que va posséder l'objet
+   * 
    */
-  public $nom; 
-  
-  /**
-   * @property integer $taille Représentation de la taille que va posséder l'objet
-   */
+  public $nom;
+
   public $taille;
-  
+
   /**
    * @property integer $tailleMax Représentation de la tailleMax que va posséder l'objet
    */
@@ -51,7 +48,12 @@ class Stockage{
   /**
    * @property Dossier $maRacine Représentaion de l'enfant de l'objet
    */
-  protected $maRacine;
+  public $maRacine;
+
+  /**
+   * @property int $idUtilisateur ID de l'utilisateur propriétaire du stockage
+   */
+  public $idUtilisateur;
   
   
   // CONSTRUCTEUR
@@ -60,17 +62,23 @@ class Stockage{
    *
    * @param string $nom           Représentation du nom que va posséder l'objet
    * @param integer $tailleMax    Représentation de la tailleMax que va posséder l'objet
+   * @param integer $taille       Représentation de la taille que va posséder l'objet
    * @param string $chemin        Représentation du chemin que va posséder l'objet
    * @param bool $restructurable  Représentation de la restructuration que va posséder l'objet
+   * @param integer $id           Représentation de l'id de l'objet en base de données
+   * @param integer $idUtilisateur ID de l'utilisateur propriétaire du stockage
+   * @param Dossier $maRacine     Représentaion de la racine du stockage (equivalent / sous linux)
    */
-  public function __construct($nom, $chemin, $tailleMax ,$restructurable, $id = null)
+  public function __construct($nom, $taille, $tailleMax, $restructurable, $chemin, $idUtilisateur, $maRacine, $id = null)
   {
     $this->id = $id;
-    $this->restructurable = $restructurable;
     $this->nom = $nom;
-    $this->taille = 0;
+    $this->taille = $taille;
+    $this->tailleMax = $tailleMax;  
+    $this->restructurable = $restructurable;
     $this->chemin = $chemin;
-    $this->tailleMax = $tailleMax;    
+    $this->$idUtilisateur = $idUtilisateur;
+    $this->$maRacine = $maRacine;
   }
   
   /**
@@ -200,7 +208,25 @@ class Stockage{
    *
    * @param Dossier $racine Représentaion de l'enfant de l'objet
    */
-  public function setMaRacine($racine){$this->maRacine = $racine;}
+  public function setMaRacine($racine){
+    $this->maRacine = $racine;}
+
+  /**
+   * @brief Modifie l'utilisateur
+   * @param string $utilisateur
+   */
+  public function setUtilisateur($utilisateur){
+    $this->utilisateur = $utilisateur;
+  }
+
+  /**
+   * @brief Retourne l'utilisateur
+   * @return string
+   */
+  public function getUtilisateur(){
+    return $this->utilisateur;
+  }
+
   
   // MÉTHODE USUELLES
 
@@ -217,7 +243,6 @@ class Stockage{
    */
   public function rechercheMeilleurEmplacement($objetAPlacer, &$meilleurEmplacement = null,  &$trouver = false, &$score = 0) {
 
-    echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le stockage '.$this->getNom();echo'<br>';
     // Recherche de l'emplacement le plus favorable à partir d'un parcour
     // Initialisation des points et du compteur
 
@@ -231,7 +256,6 @@ class Stockage{
     $listeEnfantDossier = $this->getMaRacine()->getListeEnfantDossier();
     //Recherche du meilleur emplacement pour les enfants du dossier courant
     while ($listeEnfantDossier->valid()) { 
-      echo 'recherche d\'un emplacement pour '.$objetAPlacer->getNom().' dans le dossier '.$listeEnfantDossier->current()->getNom();echo '<br>';
       //Recherche du meilleur emplacement pour le dossier courant à partir du tag
       $listTag = $objetAPlacer->getMesTags();
       $listTagEnfant = $listeEnfantDossier->current()->getMesTags();
@@ -241,7 +265,6 @@ class Stockage{
         while ($listTag->valid()) {
         if ($listTag->current()->getTitre() == $listTagEnfant->current()->getTitre()) {
           $point++;
-          echo "Tag trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
         }
         $listTag->next();
         }
@@ -250,14 +273,12 @@ class Stockage{
       //Recherche du meilleur emplacement pour le dossier courant à partir du tag
       if ($listeEnfantDossier->current()->getNom() == $objetAPlacer->getNom()) {
         $point++;
-        echo "Nom trouvé mise du score à <Strong>".$point."</strong>";echo '<br>';
       }
       $listeEnfantDossier->next();
     }
 
     // Enregsitrement du meilleur emplacement trouvé a partir du score
     if ($point > $score) {
-        echo 'Le dossier '.$this->getNom().' a été trouver avec un score de '.$point;echo '<br>';
         $score = $point;
         $meilleurEmplacement = $this;
         $trouver = true ;
@@ -341,12 +362,15 @@ public function Restructuration($ObjetAPlacer,$nomDossierTrouver,$Stockage){
   while ($listeFichierARestructurer->valid()) { 
     //Initialisation de variable
     $restructurationEnCours = true;
-    echo 'Restructuration en cours de '.$listeFichierARestructurer->current()->getNom().' dans '.$this->getNom().' <br>';
     //Recherche de l'espace de stockage pour le fichier en cours de restructuration
     //DebutRecherche est une fonction récursive qui prend en paramètre l'espace de stockage, le fichier à restructurer, un booléen pour savoir si on a trouvé un espace de stockage et le nom de l'espace de stockage trouvé
     $listeFichierARestructurer->current()->meRanger($Stockage,$restructurationEnCours);
     $listeFichierARestructurer->next();
   }
+}
+
+public function afficher(){
+  
 }
 }
 ?>

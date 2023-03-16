@@ -25,8 +25,8 @@ function trierList(&$ObjectStockage){
      * @var bool $modifier savoir si on a modifier la liste
      * @var int $i itérateur de la boucle for
      */
-    $petit = new Stockage("petit","","",true);
-    $sauvegarde = new Stockage("sauvegarde","","",true);
+    $petit = new Stockage("petit","","",true,"",null,null);
+    $sauvegarde = new Stockage("sauvegarde","","",true,"",null,null);
     $key=0;  
 
     //Trie

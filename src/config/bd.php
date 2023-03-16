@@ -1,9 +1,9 @@
 <?php
 return [
-    'host' => 'lakartxela.iutbayonne.univ-pau.fr',
-    'database' => 'aferreira021_bd',
-    'username' => 'aferreira021_bd',
-    'password' => 'aferreira021_bd'
+    'host' => 'mysql-duolcloud5.alwaysdata.net',
+    'database' => 'duolcloud5_bdd',
+    'username' => '304230',
+    'password' => 'duolcloud64600'
 ];
 
 ?>

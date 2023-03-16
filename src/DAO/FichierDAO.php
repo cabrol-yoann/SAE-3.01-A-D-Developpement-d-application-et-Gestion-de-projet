@@ -3,6 +3,8 @@
 
 include_once "Database.php";
 include_once "../class/Fichier.php";
+include_once "TagDAO.php";
+
 /**
  * @file FichierDAO.php
  * @author GOUAUD Romain
@@ -13,24 +15,26 @@ include_once "../class/Fichier.php";
  */
 
 
-class FichierDao extends Database{
+class FichierDao {
 
+    // ATTRIBUTS
     /**
-     * @var string $TABLE Nom de la table fichier
+     * @property PDO $link Représentation de la connexion à la base de données
      */
-    public const TABLE = "FICHIER";
+    protected $link;
 
     /**
      * @brief Constructeur de la classe FichierDAO
      */
-    public function __construct(){
-        parent::__construct();
+    public function __construct(Database $database){
+        $this->link = $database->getConnection();
     }
     /**
      * @brief Destructeur de la classe FichierDAO
      */
     public function __destruct(){
-        parent::__destruct();
+        // Fermeture de la connexion PDO
+        $this->link = null;
     }
 
 
@@ -59,6 +63,23 @@ class FichierDao extends Database{
             $result[$key] = new Fichier($value);
         }
         return $result;
+    }
+
+    public function getAllEnfant($parent) {
+        $query = "SELECT * FROM _fichier WHERE idPere = :id";
+        $stmt = $this->link->prepare($query);
+        $stmt->bindValue(":id", $parent->getId());
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        foreach ($results as $result) {
+            $enfant = new Fichier($result['id'], $result["nom"], $result['taille'] ,$result["chemin"], $result['typeFichier']);
+            $parent->ajouterEnfantFichier($enfant);
+            //recupération des tags
+            $bd=new TagDAO(Database::getInstance());
+            $bd->getTagByIdFichier($enfant);
+            $bd->__destruct();
+        }
+        return;
     }
 
     /**
@@ -116,33 +137,16 @@ class FichierDao extends Database{
     * @return bool Retourne true si l'insertion a réussi, false sinon
     * @details Fonction permettant d'insérer un objet fichier dans la base de données
     */
-    public function insertFichier(Fichier $fichier){
-        $type = $fichier->getType();
-        $nom = $fichier->getNom();
-        $taille = $fichier->getTaille();
-        $chemin = $fichier->getChemin();
-        
-        // Récupération du dernier ID disponible
-        try{
-            $sql = "SELECT MAX(ID) FROM $TABLE";
-            $stmt = $this->link->prepare($sql);
-            $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }catch(PDOException $e){
-            echo $e->getMessage();
-            exit;
-        }
-        $id = $result[0]['MAX(ID)'] + 1;
-
-        try{
-            $sql = "INSERT INTO $this->TABLE (ID, TYPE, NOM, TAILLE, CHEMIN) VALUES (:$id, :$type, :$nom, :$taille, :$chemin)";
-            $stmt = $this->link->prepare($sql);
-            $stmt->execute();
-        }catch(PDOException $e){
-            echo $e->getMessage();
-            return false;
-        }
-        return true;
+    public function insertFichier($fichier){
+        $sql = "INSERT INTO _fichier (nom, taille, chemin, idPere, typeFichier) VALUES ( :nom, :taille, :chemin, :idPere,:typeFichier)";
+        $stmt = $this->link->prepare($sql);
+        $stmt->bindValue(":nom",$fichier->getNom());
+        $stmt->bindValue(":taille",$fichier->getTaille());
+        $stmt->bindValue(":chemin",$fichier->getChemin());
+        $stmt->bindValue(":idPere",$fichier->getIdPere());
+        $stmt->bindValue(":typeFichier",$fichier->getType());
+        $stmt->execute();
+        return;
     }
 
     // UPDATE
