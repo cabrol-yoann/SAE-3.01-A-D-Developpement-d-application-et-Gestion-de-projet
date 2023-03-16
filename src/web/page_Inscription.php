@@ -55,7 +55,7 @@ echo $header;
                     <div class="form-check d-flex justify-content-center mb-5">
                       <input class="form-check-input me-2" type="checkbox" required ="required" id="floatingTerms">
                       <label class="form-check-label" for="floatingTerms">
-                        En vous inscrivant, vous acceptez les <a href="conditionUtilisation.php">Conditions d'utilisation</a>.
+                        En vous inscrivant, vous acceptez les <a href="page_ConditionUtilisation.php">Conditions d'utilisation</a>.
                       </label>
                     </div>
 
