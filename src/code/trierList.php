@@ -6,7 +6,6 @@
  * @details Fonction permettant de trier une liste d'objet
  * @version 2.0
  */
-include_once "baseDeDonneePhysique.php";
 include_once "../class/Dossier.php";
 
 /**

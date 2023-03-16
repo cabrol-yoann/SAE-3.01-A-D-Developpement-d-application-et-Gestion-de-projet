@@ -5,30 +5,53 @@
  * @details Page affichant les stockages et leurs arborésences avec un formulaire pour tester les ajouts
  * @version 4.0
  */
-include_once "../code/baseDeDonneePhysique.php";
+require_once "../api/vendor/autoload.php";
 include_once "pop_up.php";
 include_once "header_footer.php";
+include_once "../class/Fichier.php";
+include_once "../class/Dossier.php";
+include_once "../class/Stockage.php";
+include_once "../class/Archive.php";
 include_once "../DAO/Database.php";
 include_once "../DAO/StockageDAO.php";
 include_once "../DAO/DossierDAO.php";
 
-session_start();
+use Kunnu\Dropbox\DropboxApp;
+use Kunnu\Dropbox\Dropbox;
 
+$_SESSION["appkey"] = "jaaxkhp8722sd6c";
+$_SESSION["appSecret"] = "tm79cqrc8x8uakl";
 
-$listeStockage = new SplObjectStorage();
-$bd=new StockageDAO(Database::getInstance());
-$listeStockage->addAll($bd->getAllStockages(1));
-$bd->__destruct();
-$bd=new DossierDAO(Database::getInstance());
-$listeStockage->rewind();
-while ($listeStockage->valid()) {
-    $parent = $listeStockage->current()->getMaRacine();
-    $bd->getAllEnfant($parent);
-    $listeStockage->next();
-}
+if (isset($_SESSION['utilisateur'])) {
+    
+    if(isset($_SESSION['dropbox_access_token'])) {
+        $app = new DropboxApp($_SESSION["appkey"], $_SESSION["appSecret"], $_SESSION['dropbox_access_token']);
+        $dropbox = new Dropbox($app);
+        parcourirDossier($dropbox, "/");
+    }
 
-echo $header;
+    $listeStockage = new SplObjectStorage();
+    $bd=new StockageDAO(Database::getInstance());
+    $listeStockage->addAll($bd->getAllStockages($_SESSION['utilisateur']->getId()));
+    $bd->__destruct();
+    $bd=new DossierDAO(Database::getInstance());
+    $listeStockage->rewind();
+    if ($listeStockage->count() == 0) {
+        echo $header;
+        echo '<h1>Vous n\'avez pas de stockage</h1>';
+        echo $footer;
+        exit();
+    }
+    else {
+        $listeStockage->rewind();
+        while ($listeStockage->valid()) {
+            $parent = $listeStockage->current()->getMaRacine();
+            $bd->getAllEnfant($parent);
+            $listeStockage->next();
+        }
+    }
 
+    echo $header;
     // Afficher les stockages et leurs arborésences -> Ici les stockages sont passé en paramètre depuis l'import d'un fichier
     $stockage = new SplObjectStorage;
     $stockage->addAll($listeStockage);
@@ -38,7 +61,7 @@ echo $header;
         echo '<div class="pictos">
         <h1>'.$stockage->current()->getNom().'</h1>
         <a class="picto-item" href="#" aria-label=" Nom : '.$stockage->current()->getNom().' | '.
-        'Taille : '.$stockage->current()->getTaille().' | '.
+        'Taille : '.$stockage->current()->getTaille().' octet | '.
         ' Taille maximale : '.$stockage->current()->getTailleMax().' octet"><img src="img/icon/infoBulle.png" alt="information supplémentaire"></a>
         </div>';
         echo '<hr>';
@@ -75,9 +98,7 @@ echo $header;
         <input type="text" name="tag" hint="Donner vos tags">
         <input type="submit" value="Télécharger le fichier" name="submit">
     </form>';
-   echo $footer;
-
-
+    echo $footer;
 
     if(isset($_GET['error'])) {
         if($_GET['error'] == "upload")
@@ -91,6 +112,15 @@ echo $header;
         else if($_GET['error'] == "pasDeStockage")
             echo $pop_up_pasTrouver;
     }
+}
+else {
+    echo $header;
+    echo '<div class="alert alert-danger" role="alert">
+    Vous devez être connecté pour accéder à cette page
+    </div>';
+    echo $footer;
+    exit();
+}
 
 /**
  * @brief Affichage de l'arborésence d'un stockage
@@ -151,4 +181,60 @@ function affichageContenu($racine, $espace = 0) {
     </div>
     </li>';
 }
+
+function parcourirDossier($dropbox, $cheminDossier) {
+    $stockage = new Stockage('dropbox', 0, 2000000000, true, '', 1, NULL);
+    $listFolderContents = $dropbox->listFolder($cheminDossier);
+    foreach ($listFolderContents->getItems() as $key => $value) {
+        $stockage->setMaRacine(new Dossier(0, '/', '', 0));
+        if ($value->getTag() == "folder") {
+            $stockage->getMaRacine()->ajouterEnfantDossier($dossier = new Dossier($value->getID(), $value->getName(), $value->getPathLower(), 0));
+            //on ajoute les enfants au dossier
+            $enfantDossier=$stockage->getMaRacine()->getListeEnfantDossier();
+            $enfantDossier->rewind();
+            while($enfantDossier->valid()){
+                getAllEnfant($dropbox, $enfantDossier->current());
+                $enfantDossier->next();
+            }
+        } else {
+            $typeFichierExplode = explode(".", $value->getName());
+            $extension = array_pop($typeFichierExplode);
+            $stockage->getMaRacine()->ajouterEnfantFichier($fichier = new Fichier($value->getID(), $value->getName(), $value->getSize(), $value->getPathLower(), $extension));
+        }
+    }
+    $bd = new StockageDAO(Database::getInstance());
+    $bd->addStockage($stockage);
+    $bd->__destruct();
+    $bd = new DossierDAO(Database::getInstance());
+    $bd->addDossierRacine($stockage->getMaRacine());
+    $bd->__destruct();
+}
+
+
+function getAllEnfant($dropbox, $parent) {
+    $listFolderContents = $dropbox->listFolder($parent->getChemin());
+    foreach ($listFolderContents->getItems() as $key => $value) {
+        if ($value->getTag() == "folder") {
+            $parent->ajouterEnfantDossier($dossier = new Dossier($value->getID(), $value->getName(), $value->getPathLower(), 0));
+            //on regarde les enfants du dossier
+            $dossierEnfant=$parent->getListeEnfantDossier();
+            $dossierEnfant->rewind();
+            while($dossier->valid()){
+                getAllEnfant($dossierEnfant->current());
+                $bd = new DossierDAO(Database::getInstance());
+                $bd->addDossier($dossier->current());
+                $bd->__destruct();
+                $dossier->next();
+            }
+        } else {
+            $typeFichierExplode = explode(".", $value->getName());
+            $extension = array_pop($typeFichierExplode);
+            $parent->ajouterEnfantFichier(new Fichier($value->getID(), $value->getName(), $value->getSize(), $value->getPathLower(), $extension));
+            $bd = new FichierDAO(Database::getInstance());
+            $bd->insertFichier($parent->getListeEnfantFichier()->current());
+            $bd->__destruct();
+        }
+    }
+}
+
 ?>

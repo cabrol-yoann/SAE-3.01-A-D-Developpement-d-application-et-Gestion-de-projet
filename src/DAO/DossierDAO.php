@@ -113,8 +113,7 @@ require_once "TagDAO.php";
             foreach ($results as $result) {
                 $parent->ajouterEnfantFichier(new Dossier($result["nom"], $result["chemin"], $result["ID_dossier"]));
             }
-            return $dossiers;
-            }
+        }
 
               /**
              * Fonction qui va ajouter un dossier à la BDD
@@ -122,11 +121,24 @@ require_once "TagDAO.php";
              * @param Dossier $dossier dossier à ajouter à la BDD
              */
             public function addDossier(Dossier $dossier) {
-                $query = "INSERT INTO Dossier (nom, chemin, racine, ID_pere, ID_tag) VALUES (:nom, :chemin, :racine, null, null)";
+                $query = "INSERT INTO _dossier (nom, taille, chemin, idPere, Racine, nbFichier) VALUES (:nom, :taille, :chemin, :idPere, false, :nbFichier)";
                 $stmt = $this->link->prepare($query);
                 $stmt->bindValue(":nom", $dossier->getNom());
+                $stmt->bindValue(":taille", $dossier->getTaille());
                 $stmt->bindValue(":chemin", $dossier->getChemin());
-                $stmt->bindValue(":racine", 'false');
+                $stmt->bindValue(":idPere", $dossier->getIdPere());
+                $stmt->bindValue(":nbFichier", $dossier->getNbFichier());
+                $stmt->execute();
+            }
+
+            public function addDossierRacine($dossier) {
+                $query = "INSERT INTO _dossier (nom, taille, chemin, idPere, Racine, nbFichier) VALUES (:nom, :taille, :chemin, :idPere, true, :nbFichier)";
+                $stmt = $this->link->prepare($query);
+                $stmt->bindValue(":nom", $dossier->getNom());
+                $stmt->bindValue(":taille", $dossier->getTaille());
+                $stmt->bindValue(":chemin", $dossier->getChemin());
+                $stmt->bindValue(":idPere", $dossier->getIdPere());
+                $stmt->bindValue(":nbFichier", $dossier->getNbFichier());
                 $stmt->execute();
             }
 

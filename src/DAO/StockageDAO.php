@@ -90,13 +90,17 @@
          *
          * @param Stockage $Stockage Stockage à ajouter à la BDD
          */
-        public function addStockage(Stockage $Stockage) {
-            $query = "INSERT INTO Stockage (nom, taille, chemin_acces, type, restructurable, nom_utilisateur, ID_dossier, ID_utilisateur, tailleMax) VALUES (:nom, 0, :chemin, null, :restruct, null, null, null, :tailleMax)";
+        public function addStockage(Stockage $Stockage, $idUtilisateur) {
+            $query = "INSERT INTO _stockage (id, nom, taille, tailleMax, typeStockage, restructurable, chemin, id_utilisateur, dossierRacine) VALUES (:id, :nom, :taille, :tailleMax, :chemin, null, :restruct, :chemin, :idUtilisateur, :dossierRacine)";
             $stmt = $this->link->prepare($query);
+            $stmt->bindValue(":id", $Stockage->getId());
             $stmt->bindValue(":nom", $Stockage->getNom());
-            $stmt->bindValue(":chemin", $Stockage->getChemin());
-            $stmt->bindValue(":restruct", 'false');
+            $stmt->bindValue(":taille", $Stockage->getTaille());
             $stmt->bindValue(":tailleMax", $Stockage->getTailleMax());
+            $stmt->bindValue(":restruct", 'false');
+            $stmt->bindValue(":chemin", $Stockage->getChemin());
+            $stmt->bindValue(":idUtilisateur", $idUtilisateur);
+            $stmt->bindValue(":dossierRacine", $Stockage->getMaRacine()->getId());
             $stmt->execute();
         }
 
@@ -105,7 +109,7 @@
          *
          * @param Stockage $Stockage Stockage à mettre à jour sur la BDD
          */
-        public function updateStockage(Stockage $Stockage) {
+        public function updateStockage($Stockage) {
             //$Stockage->setId($this->getConnection()->lastInsertId());
             $str = ($Stockage->getRestructurable()) ? 'true' : 'false';
             $query = "UPDATE Stockage SET nom = :nom, chemin_acces = :chemin, restructurable = :restruct, tailleMax = :tailleMax  WHERE ID_Stockage = :id";
